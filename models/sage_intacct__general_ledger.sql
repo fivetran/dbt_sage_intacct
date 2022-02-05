@@ -8,7 +8,7 @@ gl_account as (
     from {{ var('gl_account')}} 
 ),
 
-enhanced_general_ledger as (
+general_ledger as (
 
     select 
 
@@ -58,7 +58,15 @@ enhanced_general_ledger as (
     from gl_detail
     left join gl_account
     on gl_detail.account_no = gl_account.account_no 
+),
+
+general_ledger_enhanced as (
+    select *,
+    case when classification in ('Asset', 'Liability', 'Equity')
+        then 'balance_sheet'
+        else 'income_statement'
+            end as financial_statement_helper
+from general_ledger
 )
 
-select * 
-from enhanced_general_ledger
+select * from general_ledger_enhanced
