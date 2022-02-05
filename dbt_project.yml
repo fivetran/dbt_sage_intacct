@@ -1,0 +1,65 @@
+config-version: 2
+
+name: 'sage_intacct'
+version: '0.1.0'
+
+require-dbt-version: [">=1.0.0", "<2.0.0"]
+
+models:
+  sage_intacct:
+    +materialized: table
+    +schema: sage_intacct
+    intermediate:
+      +materialized: ephemeral
+
+
+vars:
+  sage_intacct:
+    gl_detail: "{{ ref('stg_sage_intacct__gl_detail') }}"
+    gl_batch: "{{ ref('stg_sage_intacct__gl_batch') }}"
+    gl_entry: "{{ ref('stg_sage_intacct__gl_entry') }}"
+    customer: "{{ ref('stg_sage_intacct__customer') }}"
+    contact: "{{ ref('stg_sage_intacct__contact') }}"
+    user_info: "{{ ref('stg_sage_intacct__user_info') }}"
+    vendor: "{{ ref('stg_sage_intacct__vendor') }}"
+    gl_account: "{{ ref('stg_sage_intacct__gl_account') }}"
+    ap_bill_item: "{{ ref('stg_sage_intacct__ap_bill_item') }}"
+    ap_bill: "{{ ref('stg_sage_intacct__ap_bill') }}"
+    location: "{{ ref('stg_sage_intacct__location') }}"
+    ar_invoice_item: "{{ ref('stg_sage_intacct__ar_invoice_item') }}"
+    ar_invoice: "{{ ref('stg_sage_intacct__ar_invoice') }}"
+    gl_acct_grp: "{{ ref('stg_sage_intacct__gl_acct_grp') }}"
+    ar_payment_item: "{{ ref('stg_sage_intacct__ar_payment_item') }}"
+    gl_acct_grp_member: "{{ ref('stg_sage_intacct__gl_acct_grp_member') }}"
+    ar_payment: "{{ ref('stg_sage_intacct__ar_payment') }}"
+    acct_range: "{{ ref('stg_sage_intacct__acct_range') }}"
+    vendor_visibility: "{{ ref('stg_sage_intacct__vendor_visibility') }}"
+    item: "{{ ref('stg_sage_intacct__item') }}"
+    ap_bill_batch: "{{ ref('stg_sage_intacct__ap_bill_batch') }}"
+    ar_invoice_payment: "{{ ref('stg_sage_intacct__ar_invoice_payment') }}"
+    department: "{{ ref('stg_sage_intacct__department') }}"
+    location_entity: "{{ ref('stg_sage_intacct__location_entity') }}"
+    activity_log: "{{ ref('stg_sage_intacct__activity_log') }}"
+    employee: "{{ ref('stg_sage_intacct__employee') }}"
+    journal: "{{ ref('stg_sage_intacct__journal') }}"
+    ap_payment: "{{ ref('stg_sage_intacct__ap_payment') }}"
+    ap_payment_item: "{{ ref('stg_sage_intacct__ap_payment_item') }}"
+    ap_pymt: "{{ ref('stg_sage_intacct__ap_pymt') }}"
+    item_gl_group: "{{ ref('stg_sage_intacct__item_gl_group') }}"
+    checking_account: "{{ ref('stg_sage_intacct__checking_account') }}"
+    ap_bill_payment: "{{ ref('stg_sage_intacct__ap_bill_payment') }}"
+    company: "{{ ref('stg_sage_intacct__company') }}"
+    ar_adjustment_item: "{{ ref('stg_sage_intacct__ar_adjustment_item') }}"
+    ap_pymt_detail: "{{ ref('stg_sage_intacct__ap_pymt_detail') }}"
+    user_rights: "{{ ref('stg_sage_intacct__user_rights') }}"
+    ar_adjustment: "{{ ref('stg_sage_intacct__ar_adjustment') }}"
+    so_document: "{{ ref('stg_sage_intacct__so_document') }}"
+    so_document_entry: "{{ ref('stg_sage_intacct__so_document_entry') }}"
+
+
+analysis-paths: ["analysis"] # do we need?
+
+clean-targets:
+- target
+- dbt_modules
+- dbt_packages
