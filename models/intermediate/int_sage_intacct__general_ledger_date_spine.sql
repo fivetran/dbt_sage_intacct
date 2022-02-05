@@ -51,7 +51,15 @@ date_spine as (
 
 final as (
     select distinct
-
+        general_ledger.account_no,
+        general_ledger.title,
+        general_ledger.category,
+        general_ledger.classification,
+        general_ledger.financial_statement_helper,
+        date_spine.date_year,
+        date_spine.period_first_day,
+        date_spine.period_last_day,
+        date_spine.period_index
     from general_ledger
     cross join date_spine
 
