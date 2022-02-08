@@ -10,7 +10,7 @@ models:
     +materialized: table
     +schema: sage_intacct
     intermediate:
-      +materialized: ephemeral
+      +materialized: table # change to ephemeral later
 
 
 vars:

@@ -2,4 +2,6 @@ packages:
 # - package: fivetran/sage_intacct_source
 #   version: [">=0.1.0", "<0.2.0"]
 
-  - local: /dbt_sage_intacct_source
+  - local: ../dbt_sage_intacct_source
+
+  

@@ -1,20 +1,20 @@
 with general_ledger_by_period as (
     select *
-    from {{ ref('sage_intacct__general_ledger_by_period') }}
-    where financial_statement_helper = 'balance_sheet'
-),
+    from {{ref('sage_intacct__general_ledger_by_period')}}
+    where financial_statement_helper = 'income_statement'
+
+), 
 
 final as (
-    select 
+    select
         period_first_day as date,
         account_no,
         account_title,
         category,
         classification,
-        period_ending_amount as amount
+        period_net_amount as amount
     from general_ledger_by_period
 )
 
-select 
-*
+select *
 from final

@@ -1,11 +1,11 @@
 with gl_detail as (
     select * 
-    from {{ var('gl_detail') }} 
+    from {{ ref('stg_sage_intacct__gl_detail') }} 
 ),
 
 gl_account as (
     select * 
-    from {{ var('gl_account')}} 
+    from {{ ref('stg_sage_intacct__gl_account') }} 
 ),
 
 general_ledger as (
@@ -24,9 +24,9 @@ general_ledger as (
     gld.credit_amount,
     gld.debit_amount,
     gld.department_id,
-    gld.department_title
+    gld.department_title,
     gld.description,
-    gld.docnumber,
+    gld.doc_number,
     gld.entry_date,
     gld.entry_state,
     gld.entry_description,
@@ -54,10 +54,9 @@ general_ledger as (
         when gla.category in ('Revenue - Sales','Dividend Income','Deferred Revenue - Current','Revenue - Other','Other Income','Revenue - Services','Revenue - Products') then 'Revenue'
     end as classification 
 
-
-    from gl_detail
-    left join gl_account
-    on gl_detail.account_no = gl_account.account_no 
+    from gl_detail gld
+    left join gl_account gla
+    on gld.account_no = gla.account_no 
 ),
 
 general_ledger_enhanced as (

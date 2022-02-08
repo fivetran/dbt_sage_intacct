@@ -1,0 +1,9 @@
+
+version: 2
+
+models:
+  # - name: int_sage_intacct__general_ledger_date_spine
+  #   description: x
+  # - name: int_sage_intacct__general_ledger_balances
+  #   description: x
+  - name: sage_intacct__general_ledger
