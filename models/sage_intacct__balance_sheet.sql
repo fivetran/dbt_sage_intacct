@@ -11,7 +11,7 @@ final as (
         account_title,
         category,
         classification,
-        period_ending_amount as amount
+        period_ending_amount as amounts
     from general_ledger_by_period
 )
 
