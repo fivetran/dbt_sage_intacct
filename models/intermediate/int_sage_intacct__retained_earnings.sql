@@ -64,7 +64,7 @@ final as (
         account_title,
         category,
         classification,
-        financial_statement_helper,
+        account_type,
         date_year,
         period_first_day,
         period_last_day,

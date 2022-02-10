@@ -1,7 +1,7 @@
 with general_ledger_by_period as (
     select *
     from {{ref('sage_intacct__general_ledger_by_period')}}
-    where financial_statement_helper = 'income_statement'
+    where account_type = 'income_statement'
 
 ), 
 
