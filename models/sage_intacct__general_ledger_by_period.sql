@@ -1,22 +1,20 @@
 with general_ledger_balances as (
     select *
     from {{ref('int_sage_intacct__general_ledger_balances')}}
-),
-
-retained_earnings as (
-    select *
-    from {{ref('int_sage_intacct__retained_earnings')}}
-),
-
-final as (
-    select *
-    from general_ledger_balances
-
-    union all 
-
-    select *
-    from retained_earnings
 )
 
-select *
-from final
+    select 
+        account_no,
+        account_title,
+        category,
+        classification,
+        account_type,
+        date_year, 
+        period_first_day,
+        period_last_day,
+        round(period_net_amount,2) as period_net_amount,
+        round(period_beg_amount,2) as period_beg_amount,
+        round(period_ending_amount,2) as period_ending_amount
+
+
+from general_ledger_balances
