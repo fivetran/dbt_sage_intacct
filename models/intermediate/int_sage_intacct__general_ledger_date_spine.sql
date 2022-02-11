@@ -68,9 +68,9 @@ final as (
     select distinct
         general_ledger.account_no,
         general_ledger.account_title,
+        general_ledger.account_type,
         general_ledger.category,
         general_ledger.classification,
-        general_ledger.financial_statement_helper,
         date_spine.date_year,
         date_spine.period_first_day,
         date_spine.period_last_day,

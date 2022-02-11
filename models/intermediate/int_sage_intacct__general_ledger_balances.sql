@@ -16,7 +16,7 @@ account_no,
 account_title,
 category,
 classification,
-financial_statement_helper,
+account_type,
 date_trunc(entry_date,month) as date_month,
 date_trunc(entry_date,year) as date_year,
 sum(amount) as period_amount
@@ -28,21 +28,21 @@ group by 1,2,3,4,5,6,7
 gl_cumulative_balances as (
     select 
     *,
-    case when financial_statement_helper = 'balance_sheet'
+    case when account_type = 'balancesheet'
         then sum(period_amount) over (partition by account_no order by date_month, account_no rows unbounded preceding)
         else 0 
-        end as cumulative_amount
+        end as cumulative_amount -- 2. this is saying sum(amount) for all up to x date
     from gl_period_balances
 ),
 
 gl_beginning_balance as (
     select 
     *,
-    case when financial_statement_helper = 'balance_sheet'
-        then (cumulative_amount - period_amount)
+    case when account_type = 'balancesheet'
+        then (cumulative_amount - period_amount) -- 3. therefore, beg amount is dif bw cumulative and net
         else 0 
         end as period_beg_amount,
-    period_amount as period_net_amount, 
+    period_amount as period_net_amount,  -- 1. period amount becomes net amount bc in the previous cte, period_amount was just summing per month which is net
     cumulative_amount as period_ending_amount
 
     from gl_cumulative_balances
@@ -54,7 +54,7 @@ gl_patch as (
         coalesce(gl_beginning_balance.account_title, gl_accounting_periods.account_title) as account_title,
         coalesce(gl_beginning_balance.category, gl_accounting_periods.category) as category,
         coalesce(gl_beginning_balance.classification, gl_accounting_periods.classification) as classification,
-        coalesce(gl_beginning_balance.financial_statement_helper, gl_accounting_periods.financial_statement_helper) as financial_statement_helper,
+        coalesce(gl_beginning_balance.account_type, gl_accounting_periods.account_type) as account_type,
         coalesce(gl_beginning_balance.date_year, gl_accounting_periods.date_year) as date_year,
         gl_accounting_periods.period_first_day,
         gl_accounting_periods.period_last_day,
@@ -78,7 +78,7 @@ gl_patch as (
             and gl_beginning_balance.date_year = gl_accounting_periods.date_year
 ),
 
-gl_value_partion as (
+gl_value_partition as (
     select
         *,
         sum(case when period_ending_amount_starter is null 
@@ -95,8 +95,8 @@ final as (
         account_title,
         category,
         classification,
-        financial_statement_helper,
-        date_year, -- why not date_month?
+        account_type,
+        date_year, 
         period_first_day,
         period_last_day,
         coalesce(period_net_amount,0) as period_net_amount,
@@ -104,7 +104,7 @@ final as (
             first_value(period_ending_amount_starter) over (partition by gl_partition order by period_last_day rows unbounded preceding)) as period_beg_amount,
         coalesce(period_ending_amount_starter,
             first_value(period_ending_amount_starter) over (partition by gl_partition order by period_last_day rows unbounded preceding)) as period_ending_amount
-    from gl_value_partion
+    from gl_value_partition
 )
 
 select 
