@@ -10,9 +10,11 @@ final as (
         period_first_day as date,
         account_no,
         account_title,
+        book_id,
         category,
         classification,
-        period_net_amount as amount
+        entry_state,
+        round(period_net_amount,2) as amount 
     from general_ledger_by_period
 )
 
