@@ -7,9 +7,10 @@ with general_ledger_by_period as (
 
 final as (
     select
-        period_first_day as date,
+        date_trunc(period_first_day,month) as date,
         account_no,
         account_title,
+        account_type,
         book_id,
         category,
         classification,
