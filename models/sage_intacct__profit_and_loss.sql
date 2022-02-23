@@ -15,7 +15,7 @@ final as (
         category,
         classification,
         entry_state,
-        round(period_net_amount,2) as amount 
+        round(cast(period_net_amount as {{ dbt_utils.type_numeric() }}),2) as amount
     from general_ledger_by_period
 )
 
