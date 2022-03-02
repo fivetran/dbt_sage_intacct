@@ -26,6 +26,7 @@ ap_bill_enhanced as (
     ap_bill_item.bill_item_id,
     cast(null as string) as invoice_id,
     cast(null as string) as invoice_item_id,
+    ap_bill_item.account_no,
     ap_bill_item.account_title,
     ap_bill_item.amount,
     ap_bill_item.class_id,
@@ -50,19 +51,15 @@ ap_bill_enhanced as (
     ap_bill_item.vendor_name,
     ap_bill_item.when_created,
     ap_bill_item.when_modified,
-    ap_bill_item.project_name,
-    ap_bill_item.project_id,
-    cast(null as string) as warehouse_id,
-    cast(null as string) as warehouse_name,
 	ap_bill.due_in_days,
     ap_bill.total_due,
     ap_bill.total_entered,
     ap_bill.total_paid,
+    ap_bill.record_id,
     count(*) over (partition by ap_bill_item.bill_id) as number_of_items
 
     from ap_bill_item
-    -- left join gl_detail
-    --     on ap_bill.record_id = gl_detail.record_id
+    
     left join ap_bill
         on ap_bill_item.bill_id = ap_bill.bill_id
 ),
@@ -74,6 +71,7 @@ ar_invoice_enhanced as (
     cast(null as string) as bill_item_id,
     ar_invoice_item.invoice_id,
     ar_invoice_item.invoice_item_id,
+    ar_invoice_item.account_no,
     ar_invoice_item.account_title,
     ar_invoice_item.amount,
     ar_invoice_item.class_id,
@@ -98,14 +96,11 @@ ar_invoice_enhanced as (
     ar_invoice_item.vendor_name,
     ar_invoice_item.when_created,
     ar_invoice_item.when_modified,
-    cast(null as string) as project_name,
-    cast(null as string) as project_id,
-    ar_invoice_item.warehouse_id,
-    ar_invoice_item.warehouse_name,
     ar_invoice.due_in_days,
     ar_invoice.total_due,
     ar_invoice.total_entered,
     ar_invoice.total_paid,
+    ar_invoice.record_id,
     count(*) over (partition by ar_invoice_item.invoice_id) as number_of_items
 
     from ar_invoice_item
@@ -126,11 +121,42 @@ ap_ar_enhanced as (
 
 select 
 
-    *, 
+    coalesce(bill_id, invoice_id) as document_id,
+	coalesce(bill_item_id, invoice_item_id) as document_line_id,
     case 
         when bill_id is not null then 'bill' 
         when invoice_id is not null then 'invoice'
-    end as document_type
+        end as document_type,
+	entry_date,
+	entry_description,
+	amount,
+	due_in_days,
+	item_id,
+	item_name,
+	line_no,
+	line_item, 
+	customer_id,
+	customer_name,
+	department_id,
+	department_name,
+	location_id,
+	location_name,
+	vendor_id,
+	vendor_name,
+	account_no,
+	account_title,
+	class_id,
+	class_name,
+	when_created,
+	when_modified,
+	total_due,
+	total_entered,
+	total_paid,
+	number_of_items,
+	total_item_paid,
+	offset_gl_account_no,
+	offset_gl_account_title,
+	record_id
 
 from ap_ar_enhanced
 
