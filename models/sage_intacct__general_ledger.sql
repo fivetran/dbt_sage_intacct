@@ -23,7 +23,7 @@ general_ledger as (
     gld.department_title,
     gld.description,
     gld.doc_number,
-    gld.entry_date,
+    gld.entry_date_at,
     gld.entry_state,
     gld.entry_description,
     gld.line_no,
