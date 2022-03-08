@@ -2,7 +2,7 @@ with spine as (
 
     {% if execute %}
     {% set first_date_query %}
-        select  min( entry_date ) as min_date from {{ ref('sage_intacct__general_ledger') }}
+        select  min( entry_date_at ) as min_date from {{ ref('sage_intacct__general_ledger') }}
     {% endset %}
     {% set first_date = run_query(first_date_query).columns[0][0]|string %}
     
@@ -19,7 +19,7 @@ with spine as (
 
     {% if execute %}
     {% set last_date_query %}
-        select  max( entry_date ) as max_date from {{ ref('sage_intacct__general_ledger') }}
+        select  max( entry_date_at ) as max_date from {{ ref('sage_intacct__general_ledger') }}
     {% endset %}
 
     {% set current_date_query %}

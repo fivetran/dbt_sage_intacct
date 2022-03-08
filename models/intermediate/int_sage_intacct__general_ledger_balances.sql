@@ -17,8 +17,8 @@ category,
 classification,
 entry_state,
 account_type,
-date_trunc(entry_date,month) as date_month,
-date_trunc(entry_date,year) as date_year,
+date_trunc(entry_date_at,month) as date_month,
+date_trunc(entry_date_at,year) as date_year,
 sum(amount) as period_amount
 
 from general_ledger
