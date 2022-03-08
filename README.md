@@ -24,7 +24,7 @@ Include in your `packages.yml`
 
 ```yaml
 packages:
-  - package: fivetran/Sage Intacct
+  - package: fivetran/sage_intacct
     version: [">=0.1.0", "<0.2.0"]
 ```
 
@@ -42,26 +42,7 @@ vars:
     sage_intacct_database: your_database_name
     sage_intacct_schema: your_schema_name
 ```
-This package allows users to add additional columns to the final model tables. 
-Columns passed through must be present in the downstream source tables. See 
-below for an example of how the passthrough columns should be configured within your `dbt_project.yml` file.
 
-```yml
-# dbt_project.yml
-
-...
-vars:
-#   add pass through columns
-```
-
-
-```yml
-# dbt_project.yml
-
-...
-vars:
-  
-```
 
 ### Changing the Build Schema
 By default this package will build the Sage Intacct staging models within a schema titled (<target_schema> + `_stg_sage_intacct`) and the Sage Intacct final models with a schema titled (<target_schema> + `_sage_intacct`) in your target database. If this is not where you would like your modeled Sage Intacct data to be written to, add the following configuration to your `dbt_project.yml` file:
