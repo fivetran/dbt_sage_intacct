@@ -24,8 +24,8 @@ ap_bill_enhanced as (
 
     ap_bill_item.bill_id,
     ap_bill_item.bill_item_id,
-    cast(null as string) as invoice_id,
-    cast(null as string) as invoice_item_id,
+    cast(null as {{ dbt_utils.type_string() }}) as invoice_id,
+    cast(null as {{ dbt_utils.type_string() }}) as invoice_item_id,
     ap_bill_item.account_no,
     ap_bill_item.account_title,
     ap_bill_item.amount,

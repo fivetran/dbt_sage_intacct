@@ -12,7 +12,7 @@ general_ledger as (
 
     select 
 
-    gld.record_no,
+    gld.gl_detail_id,
     gld.account_no,
     gld.account_title,
     round(cast(gld.amount as {{ dbt_utils.type_numeric() }}),2) as amount,
