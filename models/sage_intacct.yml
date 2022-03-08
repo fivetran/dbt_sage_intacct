@@ -2,8 +2,17 @@
 version: 2
 
 models:
-  # - name: int_sage_intacct__general_ledger_date_spine
-  #   description: x
-  # - name: int_sage_intacct__general_ledger_balances
-  #   description: x
+  - name: int_sage_intacct__general_ledger_date_spine
+    description: x
+  - name: int_sage_intacct__general_ledger_balances
+    description: x
   - name: sage_intacct__general_ledger
+    description: x
+  - name: sage_intacct__ap_ar_enhanced
+    description: x
+  - name: sage_intacct__general_ledger_by_period
+    description: x
+  - name: sage_intacct__profit_and_loss
+    description: x
+  - name: sage_intacct__balance_sheet
+    description: x
