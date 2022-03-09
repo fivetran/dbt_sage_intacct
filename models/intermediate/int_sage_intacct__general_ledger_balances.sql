@@ -17,8 +17,8 @@ category,
 classification,
 entry_state,
 account_type,
-{{ dbt_utils.date_trunc("month", "entry_date_at") }} as date_month, 
-{{ dbt_utils.date_trunc("year", "entry_date_at") }} as date_year, 
+cast ({{ dbt_utils.date_trunc("month", "entry_date_at") }} as date) as date_month, 
+cast ({{ dbt_utils.date_trunc("year", "entry_date_at") }} as date) as date_year, 
 sum(amount) as period_amount
 
 from general_ledger

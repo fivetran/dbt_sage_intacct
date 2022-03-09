@@ -122,7 +122,7 @@ ap_ar_enhanced as (
 select 
 
     coalesce(bill_id, invoice_id) as document_id,
-	coalesce(bill_item_id, invoice_item_id) as document_line_id,
+	coalesce(bill_item_id, invoice_item_id) as document_item_id,
     case 
         when bill_id is not null then 'bill' 
         when invoice_id is not null then 'invoice'

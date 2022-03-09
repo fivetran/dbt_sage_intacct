@@ -23,17 +23,152 @@ models:
       All transactions for each bill or invoice with their associated accounting period and due dates. 
       Includes additional detail regarding the customer, location, department, vendor, and account. 
       Lastly, contains fields like the line number and total number of items in the overall bill or invoice.
+    columns:
+      - name: document_id
+        description: Invoice or bill id
+      - name: document_item_id
+        description: Unique key identifying the document item id
+        tests:
+          - unique
+          - not_null
+      - name: document_type
+        description: Whether the document is a bill or invoice
+      - name: entry_date_at
+        description: Entry date
+      - name: entry_description
+        description: Description of entry
+      - name: amount
+        description: Value of the document item
+      - name: due_in_days
+        description: Days until due
+      - name: item_id
+        description: Item ID
+      - name: item_name
+        description: Item name
+      - name: line_no
+        description: Line number of the item out of the overall document
+      - name: line_item
+        description: True or false
+      - name: customer_id
+        description: ID of customer
+      - name: customer_name
+        description: Name of customer
+      - name: department_id
+        description: ID of department
+      - name: department_name
+        description: Name of department
+      - name: location_id
+        description: ID of location
+      - name: location_name
+        description: Name of location
+      - name: vendor_id
+        description: ID of vendor
+      - name: vendor_name
+        description: Name of vendor
+      - name: account_no
+        description: ID of account
+      - name: account_title
+        description: Name of account
+      - name: class_id
+        description: ID of class
+      - name: class_name
+        description: Name of class
+      - name: created_at
+        description: Creation date as entered by user
+      - name: modified_at
+        description: Modified date
+      - name: total_due
+        description: Total amount due
+      - name: total_entered
+        description: Total amount entered
+      - name: total_paid
+        description: Total amount paid
+      - name: number_of_items
+        description: Total number of items
+      - name: total_item_paid
+        description: Total item paid
+      - name: offset_gl_account_no
+        description: Offsetting account no from GL_ACCOUNT
+      - name: offset_gl_account_title
+        description: Offsetting account title from GL_ACCOUNT
+      - name: record_id
+        description: ID of invoice or bill. Maps to GL_DETAIL.RECORDID, which has all the records belonging to that invoice.
 
   - name: sage_intacct__general_ledger_by_period
     description: >
       Table containing the beginning balance, ending balance, and net change of the dollar amount for each month and for each account, 
       category, and classification. This table can be used to generate a balance sheet and profit & loss (income statement) for your business based 
       on your customer accounting period.
+    columns:
+      - name: account_no
+        description:
+      - name: account_title
+        description:
+      - name: book_id
+        description:
+      - name: category
+        description:
+      - name: classification
+        description:
+      - name: entry_state
+        description:
+      - name: account_type
+        description:
+      - name: date_year
+        description:
+      - name: period_first_day
+        description:
+      - name: period_last_day
+        description:
+      - name: period_net_amount
+        description:
+      - name: period_beg_amount
+        description:
+      - name: period_ending_amount
+        description:
 
   - name: sage_intacct__profit_and_loss
     description: >
       Records amounts by account, category, and classification for all profit & loss (income statement) type transactions.
+    columns:
+      - name: date
+        description: 
+      - name: account_no
+        description: 
+      - name: account_title
+        description: 
+      - name: account_type
+        description: 
+      - name: book_id
+        description: 
+      - name: category
+        description: 
+      - name: classification
+        description: 
+      - name: entry_state
+        description: 
+      - name: amount      
+        description: 
 
   - name: sage_intacct__balance_sheet
     description: >
       Records amounts by account, category, and classification for all balance_sheet type transactions.
+    columns:
+      - name: date
+        description: 
+      - name: account_no
+        description: 
+      - name: account_title
+        description: 
+      - name: account_type
+        description: 
+      - name: book_id
+        description: 
+      - name: category
+        description: 
+      - name: classification
+        description: 
+      - name: entry_state
+        description: 
+      - name: amount
+        description: 
