@@ -7,7 +7,7 @@ with general_ledger_by_period as (
 
 final as (
     select
-        dbt_utils.date_trunc("month", "period_first_day") as date,
+        cast ({{ dbt_utils.date_trunc("month", "period_first_day") }} as date) as date, 
         account_no,
         account_title,
         account_type,
