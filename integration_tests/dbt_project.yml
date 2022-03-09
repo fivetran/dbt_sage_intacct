@@ -99,7 +99,7 @@ seeds:
           # recordtype: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
           # state: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
           # totalpaid: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
-          totalselected: "{{ 'int64' if target.name == 'bigquery' else 'bigint' }}"
+          totalselected: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
           # vendorid: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
           # vendorname: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
           # warehouseid: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
