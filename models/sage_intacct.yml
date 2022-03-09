@@ -94,6 +94,82 @@ models:
       - name: record_id
         description: ID of invoice or bill. Maps to GL_DETAIL.RECORDID, which has all the records belonging to that invoice.
 
+  - name: sage_intacct__general_ledger
+    description: >
+      Records all transactions from Sage general ledger. Additionally adds category, classification, and account type.
+    columns:
+      - name: gl_detail_id
+        description: Unique identifier of the gl_detail entry.
+        tests:
+          - unique
+          - not_null
+      - name: account_no
+        description: ID of the account
+      - name: account_title
+        description: Name of the account
+      - name: amount
+        description: Value of transaction
+      - name: batch_date
+        description: When transaction was batched
+      - name: book_id
+        description: ID of the book 
+      - name: credit_amount
+        description: If credit, the value
+      - name: debit_amount
+        description: If debit, the value
+      - name: description
+        description: Description of the transaction
+      - name: doc_number
+        description: Document number
+      - name: customer_id
+        description: ID of the customer
+      - name: customer_name
+        description: Name of the customer
+      - name: entry_date_at
+        description: Timestamp of entry
+      - name: entry_state
+        description: State of entry
+      - name: entry_description
+        description: Description of entry
+      - name: line_no
+        description: The number of each line item of the transaction 
+      - name: record_id
+        description: ID of record, which corresponds to the bill or invoice ID.
+      - name: record_type
+        description: Type of record, for example AP Bill
+      - name: total_due
+        description: Value of amount due
+      - name: total_entered
+        description: Value entered
+      - name: total_paid
+        description: Value paid
+      - name: tr_type
+        description: Transaction type
+      - name: trx_amount
+        description: Transaction amount
+      - name: trx_credit_amount
+        description: If credit, transaction amount
+      - name: trx_debit_amount
+        description: If debit, transaction amount
+      - name: vendor_id
+        description: Id of vendor
+      - name: vendor_name
+        description: Name of vendor
+      - name: created_at
+        description: Creation date as entered by user
+      - name: due_at
+        description: When transaction is due
+      - name: modified_at
+        description: When transaction is modified
+      - name: paid_at
+        description: When transaction was paid
+      - name: category
+        description: Accounting category, like Cost of Sales Revenue
+      - name: classification
+        description: Accounting classification, like Revenue
+      - name: account_type
+        description: Income statement or balance sheet
+
   - name: sage_intacct__general_ledger_by_period
     description: >
       Table containing the beginning balance, ending balance, and net change of the dollar amount for each month and for each account, 
@@ -101,74 +177,74 @@ models:
       on your customer accounting period.
     columns:
       - name: account_no
-        description:
+        description: ID of the account
       - name: account_title
-        description:
+        description: Name of account
       - name: book_id
-        description:
+        description: ID of the book 
       - name: category
-        description:
+        description: Accounting category, like Cost of Sales Revenue
       - name: classification
-        description:
+        description: Accounting classification, like Revenue
       - name: entry_state
-        description:
+        description: State of entry
       - name: account_type
-        description:
+        description: Income statement or balance sheet
       - name: date_year
-        description:
+        description: Year of entry year
       - name: period_first_day
-        description:
+        description: The beginning month of the entry date
       - name: period_last_day
-        description:
+        description: The last day of the month of the entry date
       - name: period_net_amount
-        description:
+        description: The net amount of the period of all balance-sheet transactions
       - name: period_beg_amount
-        description:
+        description: The amount at the beginning of the period, otherwise the difference between period_ending_amount and period_net_amount
       - name: period_ending_amount
-        description:
+        description: The cumulative amount at the end of the period
 
   - name: sage_intacct__profit_and_loss
     description: >
       Records amounts by account, category, and classification for all profit & loss (income statement) type transactions.
     columns:
       - name: date
-        description: 
+        description: The month of the entry date
       - name: account_no
-        description: 
+        description: ID of the account
       - name: account_title
-        description: 
+        description: Name of the account
       - name: account_type
-        description: 
+        description: Income statement or balance sheet
       - name: book_id
-        description: 
+        description: ID of the book 
       - name: category
-        description: 
+        description: Accounting category, like Cost of Sales Revenue
       - name: classification
-        description: 
+        description: Accounting classification, like Revenue
       - name: entry_state
-        description: 
+        description: State of entry
       - name: amount      
-        description: 
+        description: Total amount for that month, for income statement transactions. The period net change
 
   - name: sage_intacct__balance_sheet
     description: >
       Records amounts by account, category, and classification for all balance_sheet type transactions.
     columns:
       - name: date
-        description: 
+        description: The month of the entry date
       - name: account_no
-        description: 
+        description: ID of the account
       - name: account_title
-        description: 
+        description: Name of the account
       - name: account_type
-        description: 
+        description: Income statement or balance sheet
       - name: book_id
-        description: 
+        description: ID of the book 
       - name: category
-        description: 
+        description: Accounting category, like Cost of Sales Revenue
       - name: classification
-        description: 
+        description: Accounting classification, like Revenue
       - name: entry_state
-        description: 
-      - name: amount
-        description: 
+        description: State of entry
+      - name: amount      
+        description: Total amount for that month, for balance sheet transactions. The total ending period balance

@@ -31,7 +31,7 @@ gl_cumulative_balances as (
     case when account_type = 'balancesheet'
         then sum(period_amount) over (partition by account_no, book_id, entry_state order by date_month, account_no rows unbounded preceding)
         else 0 
-        end as cumulative_amount -- 2. this is saying sum(amount) for all up to x date
+        end as cumulative_amount 
     from gl_period_balances
 ),
 
@@ -39,10 +39,10 @@ gl_beginning_balance as (
     select 
     *,
     case when account_type = 'balancesheet'
-        then (cumulative_amount - period_amount) -- 3. therefore, beg amount is dif bw cumulative and net
+        then (cumulative_amount - period_amount) 
         else 0 
         end as period_beg_amount,
-    period_amount as period_net_amount,  -- 1. period amount becomes net amount bc in the previous cte, period_amount was just summing per month which is net
+    period_amount as period_net_amount, 
     cumulative_amount as period_ending_amount
 
     from gl_cumulative_balances
