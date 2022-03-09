@@ -14,9 +14,6 @@ models:
   - name: int_sage_intacct__account_classifications
     description: >
       Ties each account type with its category, along with its overall classification
-  - name: sage_intacct__general_ledger
-    description: >
-      Records each transaction in the Sage general ledger, and ties each account to its corresponding category, classification, and account type. 
 
   - name: sage_intacct__ap_ar_enhanced
     description: >

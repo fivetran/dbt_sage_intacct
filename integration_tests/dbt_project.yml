@@ -39,7 +39,6 @@ seeds:
         +column_types:
           recordkey: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
           recordno: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
-          # _fivetran_synced: "{{  }}" 
           accountkey: "{{ 'int64' if target.name == 'bigquery' else 'bigint' }}"
           accountno: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
           accounttitle: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
@@ -54,7 +53,6 @@ seeds:
           customername: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
           departmentid: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
           departmentname: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
-          # entry_date: "{{  }}"
           entrydescription: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
           exchange_rate: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
           itemid: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
@@ -70,13 +68,10 @@ seeds:
           totalselected: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
           vendorid: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
           vendorname: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
-          # whencreated: "{{  }}"
-          # whenmodified: "{{  }}"
           projectname: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
           projectid: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}" 
       sage_intacct__ar_invoice_item:
         +column_types:
-          # _fivetran_synced: 
           accountkey: "{{ 'int64' if target.name == 'bigquery' else 'bigint' }}"
           accountno: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
           accounttitle: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
@@ -90,7 +85,6 @@ seeds:
           customername: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
           departmentid: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
           departmentname: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
-          # entry_date: 
           entrydescription: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
           exchange_rate: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
           itemid: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
@@ -110,9 +104,6 @@ seeds:
           vendorname: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
           warehouseid: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
           warehousename: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
-          # whencreated: 
-          # whenmodified: 
-      
 
 clean-targets:
     - target
