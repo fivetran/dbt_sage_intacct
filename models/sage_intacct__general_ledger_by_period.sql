@@ -6,7 +6,7 @@ with general_ledger_balances as (
     select 
         account_no,
         account_title,
-        {# book_id, #}
+        book_id,
         category,
         classification,
         entry_state,
