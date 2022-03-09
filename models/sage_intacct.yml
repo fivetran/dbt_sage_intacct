@@ -3,16 +3,37 @@ version: 2
 
 models:
   - name: int_sage_intacct__general_ledger_date_spine
-    description: x
+    description: >
+      Creates a date spine by month with the first date being the minimum entry date from the general ledger
+      model and the last date being one month after the last entry date from the general ledger model.
   - name: int_sage_intacct__general_ledger_balances
-    description: x
+    description: >
+      Aggregates general ledger account level transactions per month into a period_beginning_balance, period_ending_balance, and period_net_change 
+      through the int_sage_intacct__general_ledger_date_spine model. Further, balances are only applied to balance
+      sheet accounts. Income statement accounts do not have a persisting balance, rather a period net change. Please note, a period equates to one month.
+  - name: int_sage_intacct__account_classifications
+    description: >
+      Ties each account type with its category, along with its overall classification
   - name: sage_intacct__general_ledger
-    description: x
+    description: >
+      Records each transaction in the Sage general ledger, and ties each account to its corresponding category, classification, and account type. 
+
   - name: sage_intacct__ap_ar_enhanced
-    description: x
+    description: >
+      All transactions for each bill or invoice with their associated accounting period and due dates. 
+      Includes additional detail regarding the customer, location, department, vendor, and account. 
+      Lastly, contains fields like the line number and total number of items in the overall bill or invoice.
+
   - name: sage_intacct__general_ledger_by_period
-    description: x
+    description: >
+      Table containing the beginning balance, ending balance, and net change of the dollar amount for each month and for each account, 
+      category, and classification. This table can be used to generate a balance sheet and profit & loss (income statement) for your business based 
+      on your customer accounting period.
+
   - name: sage_intacct__profit_and_loss
-    description: x
+    description: >
+      Records amounts by account, category, and classification for all profit & loss (income statement) type transactions.
+
   - name: sage_intacct__balance_sheet
-    description: x
+    description: >
+      Records amounts by account, category, and classification for all balance_sheet type transactions.
