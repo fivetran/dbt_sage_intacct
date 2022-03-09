@@ -28,6 +28,7 @@ jobs:
             . venv/bin/activate
             echo `pwd`
             cd integration_tests
+            dbt clean
             dbt deps
             dbt seed --target redshift --full-refresh
             dbt run --target redshift --full-refresh
