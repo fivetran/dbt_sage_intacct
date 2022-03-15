@@ -106,7 +106,7 @@ models:
         description: Name of the account
       - name: amount
         description: Value of transaction
-      - name: batch_date
+      - name: batch_date ## Is this still included in the final model?
         description: When transaction was batched
       - name: book_id
         description: ID of the book 
@@ -167,7 +167,7 @@ models:
       - name: account_type
         description: Income statement or balance sheet
 
-  - name: sage_intacct__general_ledger_by_period
+  - name: sage_intacct__general_ledger_by_period ## Are there any tests you think we could apply here?
     description: >
       Table containing the beginning balance, ending balance, and net change of the dollar amount for each month and for each account, 
       category, and classification. This table can be used to generate a balance sheet and profit & loss (income statement) for your business based 
@@ -200,7 +200,7 @@ models:
       - name: period_ending_amount
         description: The cumulative amount at the end of the period
 
-  - name: sage_intacct__profit_and_loss
+  - name: sage_intacct__profit_and_loss ## Are there any tests you think we could apply here?
     description: >
       Records amounts by account, category, and classification for all profit & loss (income statement) type transactions.
     columns:
@@ -223,7 +223,7 @@ models:
       - name: amount      
         description: Total amount for that month, for income statement transactions. The period net change
 
-  - name: sage_intacct__balance_sheet
+  - name: sage_intacct__balance_sheet ## Are there any tests you think we could apply here?
     description: >
       Records amounts by account, category, and classification for all balance_sheet type transactions.
     columns:

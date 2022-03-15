@@ -6,7 +6,7 @@ with general_ledger_by_period as (
 
 final as (
     select 
-        cast ({{ dbt_utils.date_trunc("month", "period_first_day") }} as date) as date,
+        cast ({{ dbt_utils.date_trunc("month", "period_first_day") }} as date) as date, -- Date could possibly be a reserved word. We should update the naming for this field
         account_no,
         account_title,
         account_type,

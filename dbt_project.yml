@@ -10,7 +10,7 @@ models:
     +materialized: table
     +schema: sage_intacct
     intermediate:
-      +materialized: table 
+      +materialized: table #do these need to be tables? Can they be ephemeral or views? Or would that impact performance?
 
 vars:
   sage_intacct:
@@ -24,6 +24,7 @@ vars:
 
 analysis-paths: ["analysis"]
 
+## The clean-targets is not needed
 clean-targets:
 - target
 - dbt_modules

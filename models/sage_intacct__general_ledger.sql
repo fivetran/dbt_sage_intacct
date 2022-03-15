@@ -45,6 +45,7 @@ general_ledger as (
     gla.category,
     gla.classification,
     gla.account_type 
+    -- Same as other comment, do we want to bring through the passthrough columns from account in this model?
 
     from gl_detail gld
     left join gl_account gla

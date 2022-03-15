@@ -4,18 +4,20 @@ config-version: 2
 
 profile: 'integration_tests'
 
-models: 
-  sage_intacct:
-    +materialized: table
-    intermediate:
-      +materialized: table
+## Why are we defining the models config here? I am pretty sure we can remove
+models:  
+  sage_intacct: 
+    +materialized: table 
+    intermediate:  
+      +materialized: table 
 
-  sage_intacct_source:
-    +materialized: table
-    tmp:
-      +materialized: view
+  sage_intacct_source: 
+    +materialized: table 
+    tmp: 
+      +materialized: view 
 
 vars:
+  ## You actually do not need to define the sage_intact models here. You can remove and just keep the source
   sage_intacct:
     gl_detail:                    "{{ ref('stg_sage_intacct__gl_detail') }}"
     gl_account:                   "{{ ref('stg_sage_intacct__gl_account') }}"
@@ -105,9 +107,10 @@ seeds:
           warehouseid: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
           warehousename: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
 
-clean-targets:
-    - target
-    - dbt_modules
+## We can remove this since the customers dbt_project takes precedence 
+clean-targets: 
+    - target 
+    - dbt_modules 
 
 dispatch:
   - macro_namespace: dbt_utils

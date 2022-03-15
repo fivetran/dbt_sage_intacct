@@ -1,4 +1,5 @@
 packages:
+### TO BE UPDATED BEFORE RELEASE
 # - package: fivetran/sage_intacct_source
 #   version: [">=0.1.0", "<0.2.0"]
 
