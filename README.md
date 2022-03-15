@@ -1,7 +1,7 @@
 [![Apache License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 # Sage Intacct ([docs]( ))
 
-This package models Sage Intacct data from [Fivetran's connector](https://fivetran.com/docs/applications/sage_intacct). It uses data in the format described by [this ERD](https://fivetran.com/docs/applications/sage_intacct-#schemainformation).
+This package models Sage Intacct data from [Fivetran's connector](https://fivetran.com/docs/applications/sage_intacct). It uses data in the format described by [this ERD](https://fivetran.com/docs/applications/sage-intacct#schemainformation).
 
 The main focus of this package is to enable users to insights into their Sage Intacct data that can be used for financial reporting and analysis. This is achieved by the following:
 - Creating the general ledger, balance sheet, and profile & loss statement on a month by month grain
