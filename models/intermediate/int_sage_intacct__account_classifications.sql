@@ -11,16 +11,12 @@ with gl_account as (
     account_type,
     category,
     closing_account_title,
-    
-    -- Do we also want to bring through the passthrough columns from the staging model here?
-    
-    -- Refer to my comment in the PR about possible idea for customizing this.
     case
-        when category in {{ var('sage_intacct_category_assets') }} then 'Asset'
-        when category in ('Partners Equity','Retained Earnings','Dividend Paid') then 'Equity'
-        when category in ('Advertising and Promotion Expense','Other Operating Expense','Cost of Sales Revenue', 'Professional Services Expense','Cost of Services Revenue','Payroll Expense','Payroll Taxes','Travel Expense','Cost of Goods Sold','Other Expenses','Compensation Expense','Federal Tax','Depreciation Expense') then 'Expense'
-        when category in ('Accounts Payable','Other Current Liabilities','Accrued Liabilities','Note Payable - Current','Deferred Taxes Liabilities - Long Term','Note Payable - Long Term','Other Liabilities','Deferred Revenue - Current') then 'Liability'
-        when category in ('Revenue','Revenue - Sales','Dividend Income','Revenue - Other','Other Income','Revenue - Services','Revenue - Products') then 'Revenue'
+        when category in {{ var('sage_intacct_category_asset') }} then 'Asset'
+        when category in {{ var('sage_intacct_category_equity') }} then 'Equity'
+        when category in {{ var('sage_intacct_category_expense') }} then 'Expense'
+        when category in {{ var('sage_intacct_category_liability') }} then 'Liability'
+        when category in {{ var('sage_intacct_category_revenue') }} then 'Revenue'
         when (normal_balance = 'credit' and account_type = 'balancesheet' and category not in ('Partners Equity','Retained Earnings','Dividend Paid')) then 'Liability'
         when (normal_balance = 'debit' and account_type = 'balancesheet') then 'Asset'
         when (normal_balance = 'credit' and account_type = 'incomestatement') then 'Revenue'
