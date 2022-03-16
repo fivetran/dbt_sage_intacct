@@ -45,7 +45,6 @@ with gl_detail as (
     gla.category,
     gla.classification,
     gla.account_type 
-    -- Same as other comment, do we want to bring through the passthrough columns from account in this model?
 
     --The below script allows for pass through columns.
     {% if var('sage_account_pass_through_columns') %} 
