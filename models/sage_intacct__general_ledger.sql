@@ -1,14 +1,14 @@
 with gl_detail as (
+
     select * 
     from {{ ref('stg_sage_intacct__gl_detail') }} 
-),
 
-gl_account as (
+), gl_account as (
+
     select * 
     from {{ ref('int_sage_intacct__account_classifications') }} 
-),
 
-general_ledger as (
+), general_ledger as (
 
     select 
 
@@ -47,9 +47,17 @@ general_ledger as (
     gla.account_type 
     -- Same as other comment, do we want to bring through the passthrough columns from account in this model?
 
+    --The below script allows for pass through columns.
+    {% if var('sage_account_pass_through_columns') %} 
+    ,
+    {{ var('sage_account_pass_through_columns') | join (", ")}}
+
+    {% endif %}
+
     from gl_detail gld
     left join gl_account gla
     on gld.account_no = gla.account_no 
 )
 
-select * from general_ledger
+select * 
+from general_ledger

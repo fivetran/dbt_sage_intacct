@@ -1,24 +1,24 @@
 with ap_bill as (
+    
     select * 
     from {{ ref('stg_sage_intacct__ap_bill') }} 
-),
 
-ap_bill_item as (
+), ap_bill_item as (
+
     select * 
     from {{ ref('stg_sage_intacct__ap_bill_item') }} 
-),
 
-ar_invoice as (
+), ar_invoice as (
+    
     select * 
     from {{ ref('stg_sage_intacct__ar_invoice') }} 
-),
 
-ar_invoice_item as (
+), ar_invoice_item as (
+    
     select * 
     from {{ ref('stg_sage_intacct__ar_invoice_item') }} 
-),
 
-ap_bill_enhanced as (
+), ap_bill_enhanced as (
 
     select
 
@@ -62,11 +62,11 @@ ap_bill_enhanced as (
     
     left join ap_bill
         on ap_bill_item.bill_id = ap_bill.bill_id
-),
 
-ar_invoice_enhanced as (
+), ar_invoice_enhanced as (
 
     select 
+    
     cast(null as {{ dbt_utils.type_string() }}) as bill_id,
     cast(null as {{ dbt_utils.type_string() }}) as bill_item_id,
     ar_invoice_item.invoice_id,
@@ -107,9 +107,7 @@ ar_invoice_enhanced as (
     left join ar_invoice
         on ar_invoice_item.invoice_id = ar_invoice.invoice_id
 
-),
-
-ap_ar_enhanced as (
+), ap_ar_enhanced as (
 
     select * 
     from ap_bill_enhanced
@@ -117,16 +115,16 @@ ap_ar_enhanced as (
     select * 
     from ar_invoice_enhanced
 
-)
+), final as (
 
-select 
+    select 
 
     coalesce(bill_id, invoice_id) as document_id,
 	coalesce(bill_item_id, invoice_item_id) as document_item_id,
     case 
         when bill_id is not null then 'bill' 
         when invoice_id is not null then 'invoice'
-        end as document_type,
+    end as document_type,
 	entry_date_at,
 	entry_description,
 	amount,
@@ -159,4 +157,8 @@ select
 	record_id
 
 from ap_ar_enhanced
+)
+
+select *
+from final
 

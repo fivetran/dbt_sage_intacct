@@ -2,5 +2,4 @@ target/
 dbt_modules/
 logs/
 dbt_packages/
-# Good to always add .DS_Store just in case
 .DS_Store

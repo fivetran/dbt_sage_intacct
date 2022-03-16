@@ -10,7 +10,7 @@ models:
     +materialized: table
     +schema: sage_intacct
     intermediate:
-      +materialized: table #do these need to be tables? Can they be ephemeral or views? Or would that impact performance?
+      +materialized: view 
 
 vars:
   sage_intacct:
@@ -20,12 +20,8 @@ vars:
     ap_bill: "{{ ref('stg_sage_intacct__ap_bill') }}"
     ar_invoice_item: "{{ ref('stg_sage_intacct__ar_invoice_item') }}"
     ar_invoice: "{{ ref('stg_sage_intacct__ar_invoice') }}"
+    
+    sage_account_pass_through_columns: [] 
 
 
 analysis-paths: ["analysis"]
-
-## The clean-targets is not needed
-clean-targets:
-- target
-- dbt_modules
-- dbt_packages

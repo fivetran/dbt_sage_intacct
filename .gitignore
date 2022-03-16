@@ -1,1 +1,5 @@
-## Why do we not have anything in the gitignore?
+target/
+dbt_modules/
+logs/
+dbt_packages/
+.DS_Store
