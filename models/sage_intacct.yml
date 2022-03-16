@@ -174,6 +174,7 @@ models:
       - dbt_utils.unique_combination_of_columns:
           combination_of_columns:
             - account_no
+            - account_title
             - book_id
             - entry_state
             - period_first_day
@@ -213,9 +214,10 @@ models:
       - dbt_utils.unique_combination_of_columns:
           combination_of_columns:
             - account_no
+            - account_title
             - book_id
             - entry_state
-            - date
+            - period_date
     columns:
       - name: period_date
         description: The month of the entry date
@@ -243,9 +245,10 @@ models:
       - dbt_utils.unique_combination_of_columns:
           combination_of_columns:
             - account_no
+            - account_title
             - book_id
             - entry_state
-            - date
+            - period_date
     columns:
       - name: period_date
         description: The month of the entry date
