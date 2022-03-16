@@ -39,7 +39,7 @@ with general_ledger as (
     
     from gl_period_balances
 
-), mgl_beginning_balance as (
+), gl_beginning_balance as (
     
     select 
     
