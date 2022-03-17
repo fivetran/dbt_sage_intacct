@@ -12,6 +12,7 @@ with general_ledger_balances as (
     book_id,
     category,
     classification,
+    currency,
     entry_state,
     account_type,
     date_year, 

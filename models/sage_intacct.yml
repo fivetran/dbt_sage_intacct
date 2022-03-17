@@ -50,6 +50,8 @@ models:
         description: ID of customer
       - name: customer_name
         description: Name of customer
+      - name: currency
+        description: Currency of item
       - name: department_id
         description: ID of department
       - name: department_name
@@ -112,6 +114,8 @@ models:
         description: If credit, the value
       - name: debit_amount
         description: If debit, the value
+      - name: currency
+        description: Currency of transaction
       - name: description
         description: Description of the transaction
       - name: doc_number
@@ -190,6 +194,8 @@ models:
         description: Accounting category, like Cost of Sales Revenue
       - name: classification
         description: Accounting classification, like Revenue
+      - name: currency
+        description: Currency of transaction
       - name: entry_state
         description: State of entry
       - name: account_type
@@ -233,6 +239,8 @@ models:
         description: Accounting category, like Cost of Sales Revenue
       - name: classification
         description: Accounting classification, like Revenue
+      - name: currency
+        description: Currency of transaction
       - name: entry_state
         description: State of entry
       - name: amount      
@@ -264,6 +272,8 @@ models:
         description: Accounting category, like Cost of Sales Revenue
       - name: classification
         description: Accounting classification, like Revenue
+      - name: currency
+        description: Currency of transaction
       - name: entry_state
         description: State of entry
       - name: amount      

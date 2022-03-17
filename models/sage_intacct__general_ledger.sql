@@ -23,6 +23,7 @@ with gl_detail as (
     gld.doc_number,
     gld.customer_id,
     gld.customer_name,
+    gld.currency,
     gld.entry_date_at,
     gld.entry_state,
     gld.entry_description,
