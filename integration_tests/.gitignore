@@ -1,5 +1,6 @@
 target/
 dbt_modules/
 logs/
-dbt_packages/
 .DS_Store
+integration_test/.DS_Store
+dbt_packages/
