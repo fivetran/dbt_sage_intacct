@@ -6,6 +6,9 @@ This package models Sage Intacct data from [Fivetran's connector](https://fivetr
 The main focus of this package is to enable users to insights into their Sage Intacct data that can be used for financial reporting and analysis. This is achieved by the following:
 - Creating the general ledger, balance sheet, and profile & loss statement on a month by month grain
 - Creating an enhanced AR and AP model 
+## Compatibility
+
+> Please be aware that the [dbt_sage_intacct](https://github.com/fivetran/dbt_sage_intacct) and [dbt_sage_intacct_source](https://github.com/fivetran/dbt_sage_intacct_source) packages were developed with single-currency company data. As such, the package models will not reflect accurate totals if your account has multi-currency enabled. If multi-currency functionality is desired, we welcome discussion to support this in a future version. 
 
 ## Models
 This package contains transformation models, designed to work simultaneously with our [Sage Intacct source package](https://github.com/fivetran/dbt_sage_intacct_source). A dependency on the source package is declared in this package's `packages.yml` file, so it will automatically download when you run `dbt deps`. The primary outputs of this package are described below. Intermediate models are used to create these output models.
