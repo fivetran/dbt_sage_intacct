@@ -1,6 +1,6 @@
 with gl_account as (
     select *
-    from {{ref('stg_sage_intacct__gl_account')}}
+    from {{ ref('stg_sage_intacct__gl_account') }}
 ), 
 
 final as (

@@ -5,7 +5,7 @@ with general_ledger as (
 
 gl_accounting_periods as (
     select *
-    from {{ref('int_sage_intacct__general_ledger_date_spine')}}
+    from {{ ref('int_sage_intacct__general_ledger_date_spine') }}
 ), 
 
 gl_period_balances as (    
