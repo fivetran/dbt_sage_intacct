@@ -58,7 +58,7 @@ vars:
     sage_account_pass_through_columns: ['new_custom_field', 'custom_field_2']
 ```
 ### Custom Account Classification
-Accounts roll up into different accounting classes based on their category. The categories are brought in from the `gl_account` table. We created a variable for each accounting class that can be modified to include different categories based on your business. This is configured within `dbt_project.yml` file with the default as follows:
+Accounts roll up into different accounting classes based on their category. The categories are brought in from the `gl_account` table. We created a variable for each accounting class (`Asset`, `Liability`, `Equity`, `Revenue`, `Expense`) that can be modified to include different categories based on your business. You can modify the variables within your root `dbt_project.yml` file. The default values for the respective variables are as follows:
 
 
 ```yml
