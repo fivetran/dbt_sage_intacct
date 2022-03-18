@@ -23,7 +23,7 @@ gl_period_balances as (
         sum(amount) as period_amount
     from general_ledger
     
-    {{ dbt_utils.group_by(9) }} 
+    {{ dbt_utils.group_by(10) }} 
 
 ), 
 
