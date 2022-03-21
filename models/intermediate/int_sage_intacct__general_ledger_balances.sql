@@ -80,6 +80,7 @@ gl_patch as (
 
     left join gl_beginning_balance
         on gl_beginning_balance.account_no = gl_accounting_periods.account_no
+            and gl_beginning_balance.account_title = gl_accounting_periods.account_title
             and gl_beginning_balance.date_month = gl_accounting_periods.period_first_day
             and gl_beginning_balance.book_id = gl_accounting_periods.book_id
             and gl_beginning_balance.entry_state = gl_accounting_periods.entry_state
