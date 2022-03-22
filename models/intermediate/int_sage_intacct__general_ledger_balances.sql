@@ -31,7 +31,7 @@ gl_cumulative_balances as (
     select 
         *,
         case
-            when account_type = 'balancesheet' then sum(period_amount) over (partition by account_no, book_id, entry_state order by date_month, account_no rows unbounded preceding)
+            when account_type = 'balancesheet' then sum(period_amount) over (partition by account_no, account_title, book_id, entry_state order by date_month, account_no rows unbounded preceding)
             else 0 
         end as cumulative_amount   
     from gl_period_balances
@@ -90,7 +90,7 @@ gl_patch as (
 gl_value_partition as (
     select
         *,
-        sum(case when period_ending_amount_starter is null then 0 else 1 end) over (order by account_no, book_id, entry_state, period_last_day rows unbounded preceding) as gl_partition
+        sum(case when period_ending_amount_starter is null then 0 else 1 end) over (order by account_no, account_title, book_id, entry_state, period_last_day rows unbounded preceding) as gl_partition
     from gl_patch
 
 ), 
