@@ -50,6 +50,8 @@ models:
         description: ID of customer
       - name: customer_name
         description: Name of customer
+      - name: currency
+        description: Currency of item
       - name: department_id
         description: ID of department
       - name: department_name
@@ -106,14 +108,14 @@ models:
         description: Name of the account
       - name: amount
         description: Value of transaction
-      - name: batch_date
-        description: When transaction was batched
       - name: book_id
         description: ID of the book 
       - name: credit_amount
         description: If credit, the value
       - name: debit_amount
         description: If debit, the value
+      - name: currency
+        description: Currency of transaction
       - name: description
         description: Description of the transaction
       - name: doc_number
@@ -167,11 +169,20 @@ models:
       - name: account_type
         description: Income statement or balance sheet
 
-  - name: sage_intacct__general_ledger_by_period
+  - name: sage_intacct__general_ledger_by_period 
     description: >
       Table containing the beginning balance, ending balance, and net change of the dollar amount for each month and for each account, 
       category, and classification. This table can be used to generate a balance sheet and profit & loss (income statement) for your business based 
       on your customer accounting period.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - account_no
+            - account_title
+            - book_id
+            - entry_state
+            - period_first_day
+            - date_year
     columns:
       - name: account_no
         description: ID of the account
@@ -183,6 +194,8 @@ models:
         description: Accounting category, like Cost of Sales Revenue
       - name: classification
         description: Accounting classification, like Revenue
+      - name: currency
+        description: Currency of transaction
       - name: entry_state
         description: State of entry
       - name: account_type
@@ -200,11 +213,19 @@ models:
       - name: period_ending_amount
         description: The cumulative amount at the end of the period
 
-  - name: sage_intacct__profit_and_loss
+  - name: sage_intacct__profit_and_loss 
     description: >
       Records amounts by account, category, and classification for all profit & loss (income statement) type transactions.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - account_no
+            - account_title
+            - book_id
+            - entry_state
+            - period_date
     columns:
-      - name: date
+      - name: period_date
         description: The month of the entry date
       - name: account_no
         description: ID of the account
@@ -218,16 +239,26 @@ models:
         description: Accounting category, like Cost of Sales Revenue
       - name: classification
         description: Accounting classification, like Revenue
+      - name: currency
+        description: Currency of transaction
       - name: entry_state
         description: State of entry
       - name: amount      
         description: Total amount for that month, for income statement transactions. The period net change
 
-  - name: sage_intacct__balance_sheet
+  - name: sage_intacct__balance_sheet 
     description: >
       Records amounts by account, category, and classification for all balance_sheet type transactions.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - account_no
+            - account_title
+            - book_id
+            - entry_state
+            - period_date
     columns:
-      - name: date
+      - name: period_date
         description: The month of the entry date
       - name: account_no
         description: ID of the account
@@ -241,6 +272,8 @@ models:
         description: Accounting category, like Cost of Sales Revenue
       - name: classification
         description: Accounting classification, like Revenue
+      - name: currency
+        description: Currency of transaction
       - name: entry_state
         description: State of entry
       - name: amount      

@@ -72,6 +72,7 @@ final as (
         general_ledger.book_id,
         general_ledger.category,
         general_ledger.classification,
+        general_ledger.currency,
         general_ledger.entry_state,
         date_spine.date_year,
         date_spine.period_first_day,

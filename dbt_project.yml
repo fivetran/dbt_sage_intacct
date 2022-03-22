@@ -10,7 +10,7 @@ models:
     +materialized: table
     +schema: sage_intacct
     intermediate:
-      +materialized: table 
+      +materialized: view 
 
 vars:
   sage_intacct:
@@ -21,10 +21,13 @@ vars:
     ar_invoice_item: "{{ ref('stg_sage_intacct__ar_invoice_item') }}"
     ar_invoice: "{{ ref('stg_sage_intacct__ar_invoice') }}"
 
+    sage_account_pass_through_columns: [] 
+
+    sage_intacct_category_asset: ('Inventory','Fixed Assets','Other Current Assets','Cash and Cash Equivalents','Intercompany Receivable','Accounts Receivable','Deposits and Prepayments','Goodwill','Intangible Assets','Short-Term Investments','Inventory','Accumulated Depreciation','Other Assets','Unrealized Currency Gain/Loss','Patents','Investment in Subsidiary','Escrows and Reserves','Long Term Investments')
+    sage_intacct_category_equity: ('Partners Equity','Retained Earnings','Dividend Paid')
+    sage_intacct_category_expense: ('Advertising and Promotion Expense','Other Operating Expense','Cost of Sales Revenue', 'Professional Services Expense','Cost of Services Revenue','Payroll Expense','Payroll Taxes','Travel Expense','Cost of Goods Sold','Other Expenses','Compensation Expense','Federal Tax','Depreciation Expense')
+    sage_intacct_category_liability: ('Accounts Payable','Other Current Liabilities','Accrued Liabilities','Note Payable - Current','Deferred Taxes Liabilities - Long Term','Note Payable - Long Term','Other Liabilities','Deferred Revenue - Current')
+    sage_intacct_category_revenue: ('Revenue','Revenue - Sales','Dividend Income','Revenue - Other','Other Income','Revenue - Services','Revenue - Products')
+
 
 analysis-paths: ["analysis"]
-
-clean-targets:
-- target
-- dbt_modules
-- dbt_packages
