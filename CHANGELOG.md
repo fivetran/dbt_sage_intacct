@@ -10,3 +10,4 @@ The main focus of this package is to provide users with insights into their Sage
 - Creating an enhanced AR and AP model 
 
 Currently the package supports Postgres, Redshift, BigQuery, Databricks and Snowflake. Additionally, this package is designed to work with dbt versions [">=1.0.0", "<2.0.0"].
+
