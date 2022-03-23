@@ -3,7 +3,7 @@
 
 This package models Sage Intacct data from [Fivetran's connector](https://fivetran.com/docs/applications/sage_intacct). It uses data in the format described by [this ERD](https://fivetran.com/docs/applications/sage-intacct#schemainformation).
 
-The main focus of this package is to enable users to insights into their Sage Intacct data that can be used for financial reporting and analysis. This is achieved by the following:
+The main focus of this package is to provide users with insights into their Sage Intacct data that can be used for financial reporting and analysis. This is achieved by the following:
 - Creating the general ledger, balance sheet, and profile & loss statement on a month by month grain
 - Creating an enhanced AR and AP model 
 ## Compatibility
