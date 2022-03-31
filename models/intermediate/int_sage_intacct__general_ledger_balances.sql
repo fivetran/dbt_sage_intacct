@@ -8,7 +8,7 @@ gl_accounting_periods as (
     from  {{ ref('int_sage_intacct__general_ledger_date_spine') }}
 ),
 
-gl_period_balances as (
+gl_period_balances_is as (
 select 
     account_no,
     account_title,
@@ -24,7 +24,34 @@ select
     cast({{ dbt_utils.date_trunc("year", "entry_date_at") }} as date) as date_year, 
     sum(amount) as period_amount
 from general_ledger
+where account_type = 'incomestatement'
 {{ dbt_utils.group_by(9 + var('profit_and_loss_pass_through_columns')|length) }}
+
+), gl_period_balances_bs as (
+    select 
+        account_no,
+        account_title,
+        book_id,
+        category,
+        classification,
+        entry_state,
+        account_type,
+        {% if var('profit_and_loss_pass_through_columns') %}
+            '0' as {{ var('profit_and_loss_pass_through_columns') | join (", '0' as ")}} ,
+        {% endif %}
+        cast({{ dbt_utils.date_trunc("month", "entry_date_at") }} as date) as date_month, 
+        cast({{ dbt_utils.date_trunc("year", "entry_date_at") }} as date) as date_year, 
+        sum(amount) as period_amount
+    from general_ledger
+    where account_type = 'balancesheet'
+    {{ dbt_utils.group_by(9 + var('profit_and_loss_pass_through_columns')|length) }}
+
+), gl_period_balances as (
+    select *
+    from gl_period_balances_bs
+    union all
+    select *
+    from gl_period_balances_is
 ),
 
 gl_cumulative_balances as (

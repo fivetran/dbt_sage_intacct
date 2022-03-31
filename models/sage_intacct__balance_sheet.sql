@@ -11,7 +11,6 @@ with general_ledger_by_period as (
         period_ending_amount
     from {{ ref('sage_intacct__general_ledger_by_period') }}
     where account_type = 'balancesheet'
-    {{ dbt_utils.group_by(9) }}
 ),
 general_ledger_by_period_retained_earnings_tmp as (
     select
