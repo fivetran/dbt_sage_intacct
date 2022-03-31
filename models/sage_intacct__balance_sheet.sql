@@ -10,7 +10,8 @@ with general_ledger_by_period as (
         entry_state,
         period_ending_amount,
     from {{ ref('sage_intacct__general_ledger_by_period') }}
-    where account_type = 'balancesheet' and account_title != 'Retained Earnings'
+    where account_type = 'balancesheet'
+    {{ dbt_utils.group_by(9) }}
 ),
 general_ledger_by_period_retained_earnings_tmp as (
     select
@@ -28,7 +29,7 @@ general_ledger_by_period_retained_earnings_tmp as (
     group by 1
     
 ),
-general_ledger_by_period_retained_earnings_tmp as (
+general_ledger_by_period_retained_earnings as (
     select
         period_first_day,
         'Adj. Net Income' as account_no,
@@ -62,13 +63,6 @@ final as (
     from general_ledger_by_period_retained_earnings
 )
 
-select 
-    extract(year from date) as year,
-    date as month,
-    classification as account_classification,
-    category as account_category,
-    account_no as account_number,
-    account_title,
-    amount
+select *
 from final
 
