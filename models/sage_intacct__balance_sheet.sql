@@ -64,7 +64,7 @@ final as (
 
 select 
     extract(year from date) as year,
-    date as month,
+    cast(date as date) as month,
     classification as account_classification,
     category as account_category,
     account_no as account_number,
