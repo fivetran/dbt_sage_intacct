@@ -5,6 +5,6 @@ packages:
   # - local: ../dbt_sage_intacct_source
 
   - git: "https://{{env_var('DBT_ENV_SECRET_GIT_CREDENTIAL')}}@github.com/GetAleph/dbt_sage_intacct_source"
-    revision: feature/gl/passthroughColumns
+    revision: main
 
   
