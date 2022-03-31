@@ -16,6 +16,9 @@ general_ledger as (
     gld.account_no,
     gld.account_title,
     round(cast(gld.amount as {{ dbt_utils.type_numeric() }}),2) as amount,
+    {% if var('gl_pass_through_columns') %}
+        gld.{{ var('gl_pass_through_columns') | join (", ")}} ,
+    {% endif %}
     gld.book_id,
     gld.credit_amount,
     gld.debit_amount,

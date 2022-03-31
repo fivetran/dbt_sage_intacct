@@ -4,6 +4,7 @@ packages:
 
   # - local: ../dbt_sage_intacct_source
 
-- git: https://github.com/fivetran/dbt_sage_intacct_source.git
+  - git: "https://{{env_var('DBT_ENV_SECRET_GIT_CREDENTIAL')}}@github.com/GetAleph/dbt_sage_intacct_source"
+    revision: main
 
   
