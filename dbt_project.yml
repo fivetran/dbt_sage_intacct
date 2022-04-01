@@ -16,7 +16,6 @@ vars:
   account_pass_through_columns: []
   profit_and_loss_pass_through_columns: []
   gl_pass_through_columns: []
-  sage_intacct__using_invoices: false
   
   sage_intacct:
     gl_detail: "{{ ref('stg_sage_intacct__gl_detail') }}"
