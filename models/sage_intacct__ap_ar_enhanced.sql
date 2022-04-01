@@ -3,20 +3,22 @@ with ap_bill as (
     from {{ ref('stg_sage_intacct__ap_bill') }} 
 ),
 
-ap_bill_item as (
-    select * 
-    from {{ ref('stg_sage_intacct__ap_bill_item') }} 
-),
+    ap_bill_item as (
+        select * 
+        from {{ ref('stg_sage_intacct__ap_bill_item') }} 
+    ),
 
-ar_invoice as (
-    select * 
-    from {{ ref('stg_sage_intacct__ar_invoice') }} 
-),
+{% if var('sage_intacct__using_invoices', True) %}
+    ar_invoice as (
+        select * 
+        from {{ ref('stg_sage_intacct__ar_invoice') }} 
+    ),
 
-ar_invoice_item as (
-    select * 
-    from {{ ref('stg_sage_intacct__ar_invoice_item') }} 
-),
+    ar_invoice_item as (
+        select * 
+        from {{ ref('stg_sage_intacct__ar_invoice_item') }} 
+    ),
+{% endif %}
 
 ap_bill_enhanced as (
 
@@ -64,58 +66,61 @@ ap_bill_enhanced as (
         on ap_bill_item.bill_id = ap_bill.bill_id
 ),
 
-ar_invoice_enhanced as (
+{% if var('sage_intacct__using_invoices', True) %}
+    ar_invoice_enhanced as (
 
-    select 
-    cast(null as {{ dbt_utils.type_string() }}) as bill_id,
-    cast(null as {{ dbt_utils.type_string() }}) as bill_item_id,
-    ar_invoice_item.invoice_id,
-    ar_invoice_item.invoice_item_id,
-    ar_invoice_item.account_no,
-    ar_invoice_item.account_title,
-    ar_invoice_item.amount,
-    ar_invoice_item.class_id,
-    ar_invoice_item.class_name,
-    ar_invoice_item.currency,
-    ar_invoice_item.customer_id,
-    ar_invoice_item.customer_name,
-    ar_invoice_item.department_id,
-    ar_invoice_item.department_name,
-    ar_invoice_item.entry_date_at,
-    ar_invoice_item.entry_description,
-    ar_invoice_item.item_id,
-    ar_invoice_item.item_name,
-    ar_invoice_item.line_no,
-    ar_invoice_item.line_item,
-    ar_invoice_item.location_id,
-    ar_invoice_item.location_name,
-    ar_invoice_item.offset_gl_account_no,
-    ar_invoice_item.offset_gl_account_title,
-    ar_invoice_item.total_item_paid,
-    ar_invoice_item.vendor_id,
-    ar_invoice_item.vendor_name,
-    ar_invoice_item.created_at,
-    ar_invoice_item.modified_at,
-    ar_invoice.due_in_days,
-    ar_invoice.total_due,
-    ar_invoice.total_entered,
-    ar_invoice.total_paid,
-    ar_invoice.record_id,
-    count(*) over (partition by ar_invoice_item.invoice_id) as number_of_items
+        select 
+        cast(null as {{ dbt_utils.type_string() }}) as bill_id,
+        cast(null as {{ dbt_utils.type_string() }}) as bill_item_id,
+        ar_invoice_item.invoice_id,
+        ar_invoice_item.invoice_item_id,
+        ar_invoice_item.account_no,
+        ar_invoice_item.account_title,
+        ar_invoice_item.amount,
+        ar_invoice_item.class_id,
+        ar_invoice_item.class_name,
+        ar_invoice_item.currency,
+        ar_invoice_item.customer_id,
+        ar_invoice_item.customer_name,
+        ar_invoice_item.department_id,
+        ar_invoice_item.department_name,
+        ar_invoice_item.entry_date_at,
+        ar_invoice_item.entry_description,
+        ar_invoice_item.item_id,
+        ar_invoice_item.item_name,
+        ar_invoice_item.line_no,
+        ar_invoice_item.line_item,
+        ar_invoice_item.location_id,
+        ar_invoice_item.location_name,
+        ar_invoice_item.offset_gl_account_no,
+        ar_invoice_item.offset_gl_account_title,
+        ar_invoice_item.total_item_paid,
+        ar_invoice_item.vendor_id,
+        ar_invoice_item.vendor_name,
+        ar_invoice_item.created_at,
+        ar_invoice_item.modified_at,
+        ar_invoice.due_in_days,
+        ar_invoice.total_due,
+        ar_invoice.total_entered,
+        ar_invoice.total_paid,
+        ar_invoice.record_id,
+        count(*) over (partition by ar_invoice_item.invoice_id) as number_of_items
 
-    from ar_invoice_item
-    left join ar_invoice
-        on ar_invoice_item.invoice_id = ar_invoice.invoice_id
-
-),
+        from ar_invoice_item
+        left join ar_invoice
+            on ar_invoice_item.invoice_id = ar_invoice.invoice_id
+    ),
+{% endif %}
 
 ap_ar_enhanced as (
 
     select * 
     from ap_bill_enhanced
-    union all
-    select * 
-    from ar_invoice_enhanced
+    {% if var('sage_intacct__using_invoices', True) %}
+        union all
+        select * 
+        from ar_invoice_enhanced
+    {% endif %}
 
 )
 
