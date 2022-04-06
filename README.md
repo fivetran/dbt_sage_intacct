@@ -43,6 +43,21 @@ vars:
     sage_intacct_schema: your_schema_name
 ```
 
+### Disabling and Enabling Models
+
+When setting up your Sage Intacct (Sage) connection in Fivetran, it is possible that not every table this package expects will be synced. This can occur because you either don't use that functionality in Sage or have actively decided to not sync some tables. In order to disable the relevant functionality in the package, you will need to add the relevant variables.
+
+By default, all variables are assumed to be `true`. You only need to add variables for the tables you would like to disable:
+
+```yml
+# dbt_project.yml
+
+config-version: 2
+
+vars:
+    sage_intacct__using_invoices: false                 # default is true
+```
+
 
 ### Changing the Build Schema
 By default this package will build the Sage Intacct staging models within a schema titled (<target_schema> + `_stg_sage_intacct`) and the Sage Intacct final models with a schema titled (<target_schema> + `_sage_intacct`) in your target database. If this is not where you would like your modeled Sage Intacct data to be written to, add the following configuration to your `dbt_project.yml` file:
