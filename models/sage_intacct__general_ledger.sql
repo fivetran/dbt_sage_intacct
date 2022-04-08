@@ -48,6 +48,13 @@ general_ledger as (
     gla.category,
     gla.classification,
     gla.account_type 
+  
+    --The below script allows for pass through columns.
+    {% if var('sage_account_pass_through_columns') %} 
+    ,
+    {{ var('sage_account_pass_through_columns') | join (", ")}}
+
+    {% endif %}
 
     from gl_detail gld
     left join gl_account gla

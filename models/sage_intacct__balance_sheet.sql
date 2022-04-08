@@ -45,15 +45,17 @@ general_ledger_by_period_retained_earnings as (
     order by period_first_day
 ),
 
+
 final as (
     select 
-        cast ({{ dbt_utils.date_trunc("month", "period_first_day") }} as date) as date,
+        cast ({{ dbt_utils.date_trunc("month", "period_first_day") }} as date) as period_date, 
         account_no,
         account_title,
         account_type,
         book_id,
         category,
         classification,
+        currency,
         entry_state,
         round(cast(period_ending_amount as {{ dbt_utils.type_numeric() }}),2) as amount
     from general_ledger_by_period
@@ -62,13 +64,7 @@ final as (
     from general_ledger_by_period_retained_earnings
 )
 
-select 
-    extract(year from date) as year,
-    cast(date as date) as month,
-    classification as account_classification,
-    category as account_category,
-    account_no as account_number,
-    account_title,
-    amount
+
+select *
 from final
 

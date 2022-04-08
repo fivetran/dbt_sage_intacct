@@ -1,19 +1,19 @@
 with general_ledger_by_period as (
     select *
-    from {{ref('sage_intacct__general_ledger_by_period')}}
+    from {{ ref('sage_intacct__general_ledger_by_period') }}
     where account_type = 'incomestatement'
-
 ), 
 
 final as (
     select
-        cast ({{ dbt_utils.date_trunc("month", "period_first_day") }} as date) as date, 
+        cast ({{ dbt_utils.date_trunc("month", "period_first_day") }} as date) as period_date,
         account_no,
         account_title,
         account_type,
         book_id,
         category,
         classification,
+        currency,
         entry_state,
         {% if var('profit_and_loss_pass_through_columns') %}
             {{ var('profit_and_loss_pass_through_columns') | join (", ")}} ,
