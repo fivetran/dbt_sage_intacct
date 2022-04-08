@@ -21,12 +21,13 @@ select
     {% if var('profit_and_loss_pass_through_columns') %}
         {{ var('profit_and_loss_pass_through_columns') | join (", ")}} ,
     {% endif %}
+    currency,
     cast({{ dbt_utils.date_trunc("month", "entry_date_at") }} as date) as date_month, 
     cast({{ dbt_utils.date_trunc("year", "entry_date_at") }} as date) as date_year, 
     sum(amount) as period_amount
 from general_ledger
 where account_type = 'incomestatement'
-{{ dbt_utils.group_by(9 + var('profit_and_loss_pass_through_columns')|length) }}
+{{ dbt_utils.group_by(10 + var('profit_and_loss_pass_through_columns')|length) }}
 
 ), gl_period_balances_bs as (
     select 
@@ -41,13 +42,12 @@ where account_type = 'incomestatement'
         currency,
         entry_state,
         account_type,
-
         cast({{ dbt_utils.date_trunc("month", "entry_date_at") }} as date) as date_month, 
         cast({{ dbt_utils.date_trunc("year", "entry_date_at") }} as date) as date_year, 
         sum(amount) as period_amount
     from general_ledger
     where account_type = 'balancesheet'
-    {{ dbt_utils.group_by(9 + var('profit_and_loss_pass_through_columns')|length) }}
+    {{ dbt_utils.group_by(10 + var('profit_and_loss_pass_through_columns')|length) }}
 
 ), gl_period_balances as (
     select *
