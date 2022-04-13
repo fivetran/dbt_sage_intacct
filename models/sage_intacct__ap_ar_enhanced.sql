@@ -1,5 +1,10 @@
+
+
+
+with
+
 {% if var('sage_intacct__using_bills', True) %}
-with ap_bill as (
+ap_bill as (
     select * 
     from {{ ref('stg_sage_intacct__ap_bill') }} 
 ), 
@@ -117,10 +122,10 @@ ap_ar_enhanced as (
     {% if var('sage_intacct__using_bills', True) %}
     select * 
     from ap_bill_enhanced
-    {& endif %}
+    {% endif %}
 
     
-    {% if {{ fivetran_utils.enabled_vars_one_true(vars=["sage_intacct__using_bills", "sage_intacct__using_invoices"]) }} = true %}
+    {% if fivetran_utils.enabled_vars(vars=["sage_intacct__using_bills", "sage_intacct__using_invoices"]) %}
     union all
     {% endif %}
 
@@ -134,11 +139,27 @@ ap_ar_enhanced as (
 
 final as (
     select 
-        coalesce(bill_id, invoice_id) as document_id,
-        coalesce(bill_item_id, invoice_item_id) as document_item_id,
+        coalesce(
+                {% if var('sage_intacct__using_bills', True) %} bill_id {% endif %}
+                
+                {% if fivetran_utils.enabled_vars(vars=["sage_intacct__using_bills", "sage_intacct__using_invoices"]) %}
+                ,
+                {% endif %}
+                
+                {% if var('sage_intacct__using_invoices', True) %} invoice_id {% endif %}
+        ) as document_id,
+        coalesce(
+                {% if var('sage_intacct__using_bills', True) %} bill_item_id {% endif %}
+                
+                {% if fivetran_utils.enabled_vars(vars=["sage_intacct__using_bills", "sage_intacct__using_invoices"]) %}
+                , 
+                {% endif %}
+
+                {% if var('sage_intacct__using_invoices', True) %}  invoice_item_id {% endif %} 
+        ) as document_item_id,
         case 
-            when bill_id is not null then 'bill' 
-            when invoice_id is not null then 'invoice'
+            {% if var('sage_intacct__using_bills', True) %} when bill_id is not null then 'bill' {% endif %} 
+            {% if var('sage_intacct__using_invoices', True) %} when invoice_id is not null then 'invoice' {% endif %} 
         end as document_type,
         entry_date_at,
         entry_description,
