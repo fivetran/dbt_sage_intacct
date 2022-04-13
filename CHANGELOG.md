@@ -1,3 +1,4 @@
+
 # dbt_sage_intacct v0.1.0
 
 ## 🎉 Initial Release of the Fivetran Sage Intacct Ads dbt package 🎉
