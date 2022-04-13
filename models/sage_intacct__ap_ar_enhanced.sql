@@ -1,5 +1,6 @@
 
 
+{{ config(enabled=fivetran_utils.enabled_vars_one_true(vars=["sage_intacct__using_bills", "sage_intacct__using_invoices"])) }}
 
 with
 
