@@ -1,7 +1,7 @@
 config-version: 2
 
 name: 'sage_intacct'
-version: '0.1.0'
+version: '0.2.0'
 
 require-dbt-version: [">=1.0.0", "<2.0.0"]
 
@@ -13,9 +13,9 @@ models:
       +materialized: view 
 
 vars:
-  account_pass_through_columns: []
   profit_and_loss_pass_through_columns: []
-  gl_pass_through_columns: []
+  sage_account_pass_through_columns: []
+  sage_gl_pass_through_columns: []
   
   sage_intacct:
     gl_detail: "{{ ref('stg_sage_intacct__gl_detail') }}"
