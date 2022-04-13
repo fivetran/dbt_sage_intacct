@@ -1,26 +1,28 @@
+{% if var('sage_intacct__using_bills', True) %}
 with ap_bill as (
     select * 
     from {{ ref('stg_sage_intacct__ap_bill') }} 
 ), 
 
-
 ap_bill_item as (
     select * 
     from {{ ref('stg_sage_intacct__ap_bill_item') }} 
 ),
-
-{% if var('sage_intacct__using_invoices', True) %}
-    ar_invoice as (
-        select * 
-        from {{ ref('stg_sage_intacct__ar_invoice') }} 
-    ),
-
-    ar_invoice_item as (
-        select * 
-        from {{ ref('stg_sage_intacct__ar_invoice_item') }} 
-    ),
 {% endif %}
 
+{% if var('sage_intacct__using_invoices', True) %}
+ar_invoice as (
+    select * 
+    from {{ ref('stg_sage_intacct__ar_invoice') }} 
+),
+
+ar_invoice_item as (
+    select * 
+    from {{ ref('stg_sage_intacct__ar_invoice_item') }} 
+),
+{% endif %}
+
+{% if var('sage_intacct__using_bills', True) %}
 ap_bill_enhanced as (
     select
         ap_bill_item.bill_id,
@@ -63,11 +65,11 @@ ap_bill_enhanced as (
     left join ap_bill
         on ap_bill_item.bill_id = ap_bill.bill_id
 ), 
-
+{% endif %}
 
 {% if var('sage_intacct__using_invoices', True) %}
     ar_invoice_enhanced as (
-      select 
+    select 
         cast(null as {{ dbt_utils.type_string() }}) as bill_id,
         cast(null as {{ dbt_utils.type_string() }}) as bill_item_id,
         ar_invoice_item.invoice_id,
@@ -112,13 +114,21 @@ ap_bill_enhanced as (
 
 
 ap_ar_enhanced as (
+    {% if var('sage_intacct__using_bills', True) %}
     select * 
     from ap_bill_enhanced
-    {% if var('sage_intacct__using_invoices', True) %}
-        union all
-        select * 
-        from ar_invoice_enhanced
+    {& endif %}
+
+    
+    {% if {{ fivetran_utils.enabled_vars_one_true(vars=["sage_intacct__using_bills", "sage_intacct__using_invoices"]) }} = true %}
+    union all
     {% endif %}
+
+    {% if var('sage_intacct__using_invoices', True) %}
+    select * 
+    from ar_invoice_enhanced
+    {% endif %}
+
 ), 
 
 
