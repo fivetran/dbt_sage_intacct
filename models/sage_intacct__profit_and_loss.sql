@@ -14,15 +14,7 @@ final as (
         category,
         classification,
         currency,
-        entry_state
-
-        {% if var('sage_account_pass_through_columns') %} 
-        , 
-        {{ var('sage_account_pass_through_columns') | join (", ")}}
-
-        {% endif %}
-        
-        ,
+        entry_state,
         round(cast(period_net_amount as {{ dbt_utils.type_numeric() }}),2) as amount
     from general_ledger_by_period
 )
