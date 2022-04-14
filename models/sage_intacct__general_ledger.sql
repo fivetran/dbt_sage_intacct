@@ -16,12 +16,10 @@ general_ledger as (
     gld.account_no,
     gld.account_title,
     round(cast(gld.amount as {{ dbt_utils.type_numeric() }}),2) as amount,
-    {% if var('gl_pass_through_columns') %}
-        gld.{{ var('gl_pass_through_columns') | join (", ")}} ,
-    {% endif %}
     gld.book_id,
     gld.credit_amount,
     gld.debit_amount,
+    gld.currency,
     gld.description,
     gld.doc_number,
     gld.customer_id,
@@ -48,11 +46,17 @@ general_ledger as (
     gla.category,
     gla.classification,
     gla.account_type 
-  
+
     --The below script allows for pass through columns.
     {% if var('sage_account_pass_through_columns') %} 
     ,
-    {{ var('sage_account_pass_through_columns') | join (", ")}}
+    gla.{{ var('sage_account_pass_through_columns') | join (", ")}}
+
+    {% endif %}
+
+    {% if var('sage_gl_pass_through_columns') %}
+    ,     
+    gld.{{ var('sage_gl_pass_through_columns') | join (", ")}} 
 
     {% endif %}
 

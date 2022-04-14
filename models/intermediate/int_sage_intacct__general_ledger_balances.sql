@@ -10,51 +10,79 @@ gl_accounting_periods as (
 
 
 gl_period_balances_is as (
-select 
-    account_no,
-    account_title,
-    book_id,
-    category,
-    classification,
-    entry_state,
-    account_type,
-    {% if var('profit_and_loss_pass_through_columns') %}
-        {{ var('profit_and_loss_pass_through_columns') | join (", ")}} ,
-    {% endif %}
-    currency,
-    cast({{ dbt_utils.date_trunc("month", "entry_date_at") }} as date) as date_month, 
-    cast({{ dbt_utils.date_trunc("year", "entry_date_at") }} as date) as date_year, 
-    sum(amount) as period_amount
-from general_ledger
-where account_type = 'incomestatement'
-{{ dbt_utils.group_by(10 + var('profit_and_loss_pass_through_columns')|length) }}
-
-), gl_period_balances_bs as (
     select 
         account_no,
         account_title,
         book_id,
         category,
         classification,
-        {% if var('profit_and_loss_pass_through_columns') %}
-            '0' as {{ var('profit_and_loss_pass_through_columns') | join (", '0' as ")}} ,
+        currency, 
+        entry_state,
+        account_type,
+        cast({{ dbt_utils.date_trunc("month", "entry_date_at") }} as date) as date_month, 
+        cast({{ dbt_utils.date_trunc("year", "entry_date_at") }} as date) as date_year
+
+        {% if var('sage_account_pass_through_columns') %} 
+        , 
+        {{ var('sage_account_pass_through_columns') | join (", ")}}
+
         {% endif %}
+
+        {% if var('sage_gl_pass_through_columns') %}
+        ,     
+        {{ var('sage_gl_pass_through_columns') | join (", ")}} 
+        
+        {% endif %}
+        , 
+        sum(amount) as period_amount
+    from general_ledger
+    where account_type = 'incomestatement'
+    
+    {{ dbt_utils.group_by(10 + var('sage_account_pass_through_columns')|length + var('sage_gl_pass_through_columns')|length) }}
+
+), 
+
+gl_period_balances_bs as (
+    select 
+        account_no,
+        account_title,
+        book_id,
+        category,
+        classification,
         currency,
         entry_state,
         account_type,
         cast({{ dbt_utils.date_trunc("month", "entry_date_at") }} as date) as date_month, 
-        cast({{ dbt_utils.date_trunc("year", "entry_date_at") }} as date) as date_year, 
+        cast({{ dbt_utils.date_trunc("year", "entry_date_at") }} as date) as date_year
+        {% if var('sage_account_pass_through_columns') %} 
+        , 
+        {{ var('sage_account_pass_through_columns') | join (", ")}}
+
+        {% endif %}
+
+        {% if var('sage_gl_pass_through_columns') %}
+        ,     
+        {{ var('sage_gl_pass_through_columns') | join (", ")}} 
+        
+        {% endif %}
+        ,
         sum(amount) as period_amount
     from general_ledger
     where account_type = 'balancesheet'
-    {{ dbt_utils.group_by(10 + var('profit_and_loss_pass_through_columns')|length) }}
+    
+    {{ dbt_utils.group_by(10 + var('sage_account_pass_through_columns')|length + var('sage_gl_pass_through_columns')|length) }}
 
-), gl_period_balances as (
+), 
+
+gl_period_balances as (
     select *
     from gl_period_balances_bs
+
     union all
+
     select *
     from gl_period_balances_is
+
 ),
 
 gl_cumulative_balances as (
@@ -91,10 +119,20 @@ gl_patch as (
         coalesce(gl_beginning_balance.currency, gl_accounting_periods.currency) as currency,
         coalesce(gl_beginning_balance.entry_state, gl_accounting_periods.entry_state) as entry_state,
         coalesce(gl_beginning_balance.account_type, gl_accounting_periods.account_type) as account_type,
-        coalesce(gl_beginning_balance.date_year, gl_accounting_periods.date_year) as date_year,
-        {% if var('profit_and_loss_pass_through_columns') %}
-            gl_beginning_balance.{{ var('profit_and_loss_pass_through_columns') | join (", gl_beginning_balance.")}} ,
+        coalesce(gl_beginning_balance.date_year, gl_accounting_periods.date_year) as date_year
+
+        {% if var('sage_account_pass_through_columns') %} 
+        , 
+        {{ var('sage_account_pass_through_columns') | join (", gl_beginning_balance.")}}
+
         {% endif %}
+
+        {% if var('sage_gl_pass_through_columns') %}
+        ,     
+        {{ var('sage_gl_pass_through_columns') | join (", gl_beginning_balance.")}} 
+        
+        {% endif %}
+        ,
         gl_accounting_periods.period_first_day,
         gl_accounting_periods.period_last_day,
         gl_accounting_periods.period_index,
@@ -141,14 +179,23 @@ final as (
         entry_state,
         period_first_day,
         period_last_day,
-        {% if var('profit_and_loss_pass_through_columns') %}
-            {{ var('profit_and_loss_pass_through_columns') | join (", ")}},
-        {% endif %}
         coalesce(period_net_amount,0) as period_net_amount,
         coalesce(period_beg_amount_starter,
             first_value(period_ending_amount_starter) over (partition by gl_partition order by period_last_day rows unbounded preceding)) as period_beg_amount,
         coalesce(period_ending_amount_starter,
             first_value(period_ending_amount_starter) over (partition by gl_partition order by period_last_day rows unbounded preceding)) as period_ending_amount
+        {% if var('sage_account_pass_through_columns') %} 
+        , 
+        {{ var('sage_account_pass_through_columns') | join (", ")}}
+
+        {% endif %}
+
+        {% if var('sage_gl_pass_through_columns') %}
+        ,     
+        {{ var('sage_gl_pass_through_columns') | join (", ")}} 
+        
+        {% endif %}
+        
     from gl_value_partition
 )
 

@@ -165,6 +165,7 @@ final as (
         entry_date_at,
         entry_description,
         amount,
+        currency,
         due_in_days,
         item_id,
         item_name,

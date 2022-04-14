@@ -15,10 +15,20 @@ final as (
         account_type,
         date_year, 
         period_first_day,
-        period_last_day,
-        {% if var('profit_and_loss_pass_through_columns') %}
-            {{ var('profit_and_loss_pass_through_columns') | join (", ")}} ,
+        period_last_day
+
+        {% if var('sage_account_pass_through_columns') %} 
+        , 
+        {{ var('sage_account_pass_through_columns') | join (", ")}}
+
         {% endif %}
+
+        {% if var('sage_gl_pass_through_columns') %}
+        ,     
+        {{ var('sage_gl_pass_through_columns') | join (", ")}} 
+        
+        {% endif %}
+        ,
         round(cast(period_net_amount as {{ dbt_utils.type_numeric() }}),2) as period_net_amount,
         round(cast(period_beg_amount as {{ dbt_utils.type_numeric() }}),2) as period_beg_amount,
         round(cast(period_ending_amount as {{ dbt_utils.type_numeric() }}),2) as period_ending_amount
