@@ -44,6 +44,7 @@ general_ledger_by_period_retained_earnings as (
         'P' as entry_state,
         sum(period_net_amount) over (
             order by period_first_day
+            rows between unbounded preceding and current row
         ) as amount
     from general_ledger_by_period_retained_earnings_tmp
     order by period_first_day
