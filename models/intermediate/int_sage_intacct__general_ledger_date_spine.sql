@@ -37,7 +37,7 @@ with spine as (
         {% set last_date_adjust = "cast('" ~ last_date[0:10] ~ "' as date)" %}
 
     {% else %}
-        {% set last_date_adjust = "'" ~ last_date[0:10] ~ "'" %}
+        {% set last_date_adjust = "'9999-01-01'" %}
 
     {% endif %}
     {% endif %}
