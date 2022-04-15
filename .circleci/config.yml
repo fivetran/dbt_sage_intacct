@@ -33,6 +33,8 @@ jobs:
             dbt seed --target redshift --full-refresh
             dbt run --target redshift --full-refresh
             dbt test --target redshift
+            dbt run --vars '{sage_intacct__using_invoices: false, sage_intacct__using_bills: false}' --full-refresh --target redshift
+            dbt test --target redshift
       - run:
           name: "Run Tests - Postgres"
           command: |
@@ -42,6 +44,8 @@ jobs:
             dbt deps
             dbt seed --target postgres --full-refresh
             dbt run --target postgres --full-refresh
+            dbt test --target postgres
+            dbt run --vars '{sage_intacct__using_invoices: false, sage_intacct__using_bills: false}' --full-refresh --target postgres
             dbt test --target postgres
       - run:
           name: "Run Tests - Spark"
@@ -53,6 +57,8 @@ jobs:
             dbt seed --target spark --full-refresh
             dbt run --target spark --full-refresh
             dbt test --target spark
+            dbt run --vars '{sage_intacct__using_invoices: false, sage_intacct__using_bills: false}' --full-refresh --target spark
+            dbt test --target spark
       - run:
           name: "Run Tests - Snowflake"
           command: |
@@ -62,6 +68,8 @@ jobs:
             dbt deps
             dbt seed --target snowflake --full-refresh
             dbt run --target snowflake --full-refresh
+            dbt test --target snowflake
+            dbt run --vars '{sage_intacct__using_invoices: false, sage_intacct__using_bills: false}' --full-refresh --target snowflake
             dbt test --target snowflake
       - run:
           name: "Run Tests - BigQuery"
@@ -75,4 +83,6 @@ jobs:
             dbt deps
             dbt seed --target bigquery --full-refresh
             dbt run --target bigquery --full-refresh
+            dbt test --target bigquery
+            dbt run --vars '{sage_intacct__using_invoices: false, sage_intacct__using_bills: false}' --full-refresh --target bigquery
             dbt test --target bigquery
