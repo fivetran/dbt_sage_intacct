@@ -1,6 +1,7 @@
 # dbt_sage_intacct v0.2.0
 ## 🚨 Breaking Changes 🚨
-- Allow for more pass-through columns and add enabled/disabled configs for the AP Bill and AR Invoice tables which may not be present in the customer schema. Finally, introduce a new account field called Retained Earnings to ensure Balance Sheets round out.
+- Allow for pass-through columns from the  `gl_detail` and `gl_account` source tables. In the gl_detail staging model, added additional fields and enabled/disabled configs for the AP Bill and AR Invoice tables which may not be present in the customer schema. 
+- Introduces a new account field called Retained Earnings to ensure Balance Sheets round out.
 
 ([#6](https://github.com/fivetran/dbt_sage_intacct/issues/6))
 ([#7](https://github.com/fivetran/dbt_sage_intacct/issues/7))
