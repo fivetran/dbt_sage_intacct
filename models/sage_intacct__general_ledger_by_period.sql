@@ -17,11 +17,11 @@ general_ledger_by_period as (
         currency,
         entry_state
 
-        -- {% if var('sage_account_pass_through_columns') %} 
-        -- , 
-        -- {{ var('sage_account_pass_through_columns') | join (", ")}}
+        {% if var('sage_account_pass_through_columns') %} 
+        , 
+        {{ var('sage_account_pass_through_columns') | join (", ")}}
 
-        -- {% endif %}
+        {% endif %}
         ,
         round(cast(period_net_amount as {{ dbt_utils.type_numeric() }}),2) as period_net_amount,
         round(cast(period_beg_amount as {{ dbt_utils.type_numeric() }}),2) as period_beg_amount,
@@ -33,7 +33,16 @@ general_ledger_by_period_retained_earnings_tmp as (
     select
         period_first_day,
         period_last_day,
-        date_year, 
+        date_year
+
+
+        {% if var('sage_account_pass_through_columns') %} 
+        , 
+        {{ var('sage_account_pass_through_columns') | join (", null as")}}
+
+        {% endif %}
+        ,
+        
         'Adj. Net Income' as account_no,
         'Retained Earnings' as account_title,
         'balancesheet' as account_type,
@@ -47,7 +56,7 @@ general_ledger_by_period_retained_earnings_tmp as (
         sum(period_ending_amount) as period_ending_amount
     from general_ledger_by_period
     where account_type = 'incomestatement'
-    group by 1,2,3
+    {{ dbt_utils.group_by(3 + var('sage_account_pass_through_columns')|length) }}
 ),
 
 general_ledger_by_period_retained_earnings as (
@@ -62,7 +71,14 @@ general_ledger_by_period_retained_earnings as (
         'Retained Earnings' as category,
         'Equity' as classification,
         'currency' as currency,
-        'P' as entry_state,
+        'P' as entry_state
+
+        {% if var('sage_account_pass_through_columns') %} 
+        , 
+        {{ var('sage_account_pass_through_columns') | join (", null as")}}
+
+        {% endif %}
+        ,
         null as period_net_amount,
         null as period_beg_amount,
         sum(period_net_amount) over (
