@@ -46,7 +46,7 @@ vars:
     sage_intacct_schema: your_schema_name
 ```
 ### Passthrough Columns
-This package allows users to add additional columns to the `stg_sage_intacct__gl_account` table. 
+This package allows users to add additional columns to the `stg_sage_intacct__gl_account` and `stg_sage_intacct__gl_detail` table. 
 Columns passed through must be present in the upstream source tables. See below for an example of how the passthrough columns should be configured within your `dbt_project.yml` file.
 
 ```yml
@@ -55,9 +55,26 @@ Columns passed through must be present in the upstream source tables. See below 
 ...
 vars:
   sage_account_pass_through_columns: ['new_custom_field', 'custom_field_2']
+  sage_gl_pass_through_columns: ['custom_field_3', 'custom_field_4']
 ```
 ### Custom Account Classification
 Accounts roll up into different accounting classes based on their category. The categories are brought in from the `gl_account` table. We created a variable for each accounting class (`Asset`, `Liability`, `Equity`, `Revenue`, `Expense`) that can be modified to include different categories based on your business. You can modify the variables within your root `dbt_project.yml` file. The default values for the respective variables are as follows:
+
+### Disabling and Enabling Models
+
+When setting up your Sage Intacct (Sage) connection in Fivetran, it is possible that not every table this package expects will be synced. This can occur because you either don't use that functionality in Sage or have actively decided to not sync some tables. In order to disable the relevant functionality in the package, you will need to add the relevant variables.
+
+By default, all variables are assumed to be `true`. You only need to add variables for the tables you would like to disable:
+
+```yml
+# dbt_project.yml
+
+config-version: 2
+
+vars:
+    sage_intacct__using_invoices: false                 # default is true
+    sage_intacct__using_bills: false                    # default is true
+```
 
 
 ```yml

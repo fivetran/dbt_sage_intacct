@@ -1,4 +1,11 @@
-with ap_bill as (
+
+
+{{ config(enabled=fivetran_utils.enabled_vars_one_true(vars=["sage_intacct__using_bills", "sage_intacct__using_invoices"])) }}
+
+with
+
+{% if var('sage_intacct__using_bills', True) %}
+ap_bill as (
     select * 
     from {{ ref('stg_sage_intacct__ap_bill') }} 
 ), 
@@ -6,18 +13,22 @@ with ap_bill as (
 ap_bill_item as (
     select * 
     from {{ ref('stg_sage_intacct__ap_bill_item') }} 
-), 
+),
+{% endif %}
 
-ar_invoice as (    
+{% if var('sage_intacct__using_invoices', True) %}
+ar_invoice as (
     select * 
     from {{ ref('stg_sage_intacct__ar_invoice') }} 
-), 
+),
 
 ar_invoice_item as (
     select * 
     from {{ ref('stg_sage_intacct__ar_invoice_item') }} 
-), 
+),
+{% endif %}
 
+{% if var('sage_intacct__using_bills', True) %}
 ap_bill_enhanced as (
     select
         ap_bill_item.bill_id,
@@ -60,8 +71,10 @@ ap_bill_enhanced as (
     left join ap_bill
         on ap_bill_item.bill_id = ap_bill.bill_id
 ), 
+{% endif %}
 
-ar_invoice_enhanced as (
+{% if var('sage_intacct__using_invoices', True) %}
+    ar_invoice_enhanced as (
     select 
         cast(null as {{ dbt_utils.type_string() }}) as bill_id,
         cast(null as {{ dbt_utils.type_string() }}) as bill_item_id,
@@ -97,34 +110,62 @@ ar_invoice_enhanced as (
         ar_invoice.total_entered,
         ar_invoice.total_paid,
         ar_invoice.record_id,
-        count(*) over (partition by ar_invoice_item.invoice_id) as number_of_items  
-    from ar_invoice_item
-    
-    left join ar_invoice
-        on ar_invoice_item.invoice_id = ar_invoice.invoice_id
-), 
+        count(*) over (partition by ar_invoice_item.invoice_id) as number_of_items
+
+        from ar_invoice_item
+        left join ar_invoice
+            on ar_invoice_item.invoice_id = ar_invoice.invoice_id
+    ),
+{% endif %}
+
 
 ap_ar_enhanced as (
+    {% if var('sage_intacct__using_bills', True) %}
     select * 
     from ap_bill_enhanced
+    {% endif %}
 
+    
+    {% if fivetran_utils.enabled_vars(vars=["sage_intacct__using_bills", "sage_intacct__using_invoices"]) %}
     union all
+    {% endif %}
 
+    {% if var('sage_intacct__using_invoices', True) %}
     select * 
     from ar_invoice_enhanced
+    {% endif %}
+
 ), 
+
 
 final as (
     select 
-        coalesce(bill_id, invoice_id) as document_id,
-        coalesce(bill_item_id, invoice_item_id) as document_item_id,
+        coalesce(
+                {% if var('sage_intacct__using_bills', True) %} bill_id {% endif %}
+                
+                {% if fivetran_utils.enabled_vars(vars=["sage_intacct__using_bills", "sage_intacct__using_invoices"]) %}
+                ,
+                {% endif %}
+                
+                {% if var('sage_intacct__using_invoices', True) %} invoice_id {% endif %}
+        ) as document_id,
+        coalesce(
+                {% if var('sage_intacct__using_bills', True) %} bill_item_id {% endif %}
+                
+                {% if fivetran_utils.enabled_vars(vars=["sage_intacct__using_bills", "sage_intacct__using_invoices"]) %}
+                , 
+                {% endif %}
+
+                {% if var('sage_intacct__using_invoices', True) %}  invoice_item_id {% endif %} 
+        ) as document_item_id,
         case 
-            when bill_id is not null then 'bill' 
-            when invoice_id is not null then 'invoice'
+            {% if var('sage_intacct__using_bills', True) %} when bill_id is not null then 'bill' {% endif %} 
+            {% if var('sage_intacct__using_invoices', True) %} when invoice_id is not null then 'invoice' {% endif %} 
         end as document_type,
         entry_date_at,
         entry_description,
         amount,
+        currency,
         due_in_days,
         item_id,
         item_name,
