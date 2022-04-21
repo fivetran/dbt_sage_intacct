@@ -1,5 +1,5 @@
 # dbt_sage_intacct v0.1.1
-## 🚨 Breaking Changes 🚨
+## Updates
 - Allow for pass-through columns from the  `gl_detail` and `gl_account` source tables. In the gl_detail staging model, added additional fields and enabled/disabled configs for the AP Bill and AR Invoice tables which may not be present in the customer schema.
 
 ([#6](https://github.com/fivetran/dbt_sage_intacct/issues/6))
