@@ -6,7 +6,7 @@ with general_ledger_by_period as (
 
 retained_earnings as (
     select *
-    from {{ ref ('int_sage_intacct__retained_earnings') }}
+    from {{ ref('int_sage_intacct__retained_earnings') }}
 ),
 
 combine_retained_earnings as (
