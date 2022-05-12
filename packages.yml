@@ -1,3 +1,6 @@
 packages:
-- package: fivetran/sage_intacct_source
-  version: [">=0.1.0", "<0.2.0"]
+# - package: fivetran/sage_intacct_source
+#   version: [">=0.1.0", "<0.2.0"]
+  - git: https://github.com/fivetran/dbt_sage_intacct_source.git
+    revision: bugix/account-deletes-removal
+    warn-unpinned: false
