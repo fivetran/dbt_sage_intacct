@@ -14,6 +14,9 @@ models:
   - name: int_sage_intacct__account_classifications
     description: >
       Ties each account type with its category, along with its overall classification
+  - name: int_sage_intacct__retained_earnings
+    description: >
+      Creates and calculates an Adjusted Net Income account that rolls up Net Income into the Retained Earnings category and helps tie out the Balance Sheet.
 
   - name: sage_intacct__ap_ar_enhanced
     description: >
