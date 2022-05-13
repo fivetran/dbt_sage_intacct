@@ -28,7 +28,7 @@ Include in your `packages.yml`
 ```yaml
 packages:
   - package: fivetran/sage_intacct
-    version: [">=0.2.0", "<0.3.0"]
+    version: [">=0.1.0", "<0.2.0"]
 ```
 
 ## Configuration
