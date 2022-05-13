@@ -1,8 +1,6 @@
 # dbt_sage_intacct v0.2.0
 ## Fix balance sheet not tying out
-- The amounts in the balance sheet model were not tying out. We have added an additional `Adj. Net Income` account to include for a net income adjustment as part of the Retained Earnings category. 
-
-([#8](https://github.com/fivetran/dbt_sage_intacct/issues/8))
+- The amounts in the balance sheet model were not tying out. We have added an additional `Adj. Net Income` account to include for a net income adjustment as part of the Retained Earnings category.  ([#8](https://github.com/fivetran/dbt_sage_intacct/issues/8))
 ## Contributors
 Thank you @santi95 for raising these to our attention! ([#9](https://github.com/fivetran/dbt_sage_intacct/pull/9))
 
