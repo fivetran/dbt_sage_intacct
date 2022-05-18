@@ -1,7 +1,7 @@
 # dbt_sage_intacct v0.2.0
 ## 🎉 Documentation and Feature Updates
 - Updated README documentation updates for easier navigation and setup of the dbt package
-- Added `[package]_[source_table_name]_identifier` variables to allow for easier flexibility of the package to refer to source tables with different names.
+- Added `sage_intacct_[source_table_name]_identifier` variables to allow for easier flexibility of the package to refer to source tables with different names.
 # dbt_sage_intacct v0.1.2
 ## Fix balance sheet not tying out
 - The amounts in the balance sheet model were not tying out. We have added an additional `Adj. Net Income` account to include for a net income adjustment as part of the Retained Earnings category.  ([#8](https://github.com/fivetran/dbt_sage_intacct/issues/8))
