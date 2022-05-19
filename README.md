@@ -15,7 +15,7 @@
 
 # Sage Intacct Transformation dbt Package ([Docs](https://fivetran.github.io/dbt_sage_intacct/))
 # 📣 What does this dbt package do?
-- Produces modeled tables that leverage Sage Intacct data from [Fivetran's connector](https://fivetran.com/docs/applications/sage_intacct) in the format described by [this ERD](https://fivetran.com/docs/applications/sage_intacct#schemainformation) and builds off the output of our [Sage Intacct source package](https://github.com/fivetran/dbt_sage_intacct_source).
+- Produces modeled tables that leverage Sage Intacct data from [Fivetran's connector](https://fivetran.com/docs/applications/sage-intacct) in the format described by [this ERD](https://fivetran.com/docs/applications/sage-intacct#schemainformation) and builds off the output of our [Sage Intacct source package](https://github.com/fivetran/dbt_sage_intacct_source).
 - The main focus of this package is to provide users with insights into their Sage Intacct data that can be used for financial reporting and analysis. This is achieved by the following:
    - Creating the general ledger, balance sheet, and profile & loss statement on a month by month grain
    - Creating an enhanced AR and AP model 
