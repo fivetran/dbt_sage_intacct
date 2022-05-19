@@ -5,7 +5,7 @@ config-version: 2
 profile: 'integration_tests'
 
 vars:
-  sage_intacct_schema: 'sage_intacct_integration_tests'
+  sage_intacct_schema: 'sage_intacct_integration_tests_1'
   sage_intacct_source:
     sage_intacct_gl_detail_identifier:                    "sage_intacct__gl_detail"
     sage_intacct_gl_account_identifier:                   "sage_intacct__gl_account"
