@@ -31,10 +31,6 @@ The following table provides a detailed list of all models materialized within t
 | [sage_intacct__profit_and_loss](https://github.com/fivetran/dbt_sage_intacct/blob/master/models/sage_intacct__profit_and_loss.sql)       | Total amounts by period per account, category, and classification for all profit & loss transactions. 
 | [sage_intacct__ap_ar_enhanced](https://github.com/fivetran/dbt_sage_intacct/blob/master/models/sage_intacct__ap_ar_enhanced.sql) | All transactions for each bill or invoice with their associated accounting period and due dates. Includes additional detail regarding the customer, location, department, vendor, and account. Lastly, contains fields like the line number and total number of items in the overall bill or invoice.
 
-## Compatibility
-
-> Please be aware that the [dbt_sage_intacct](https://github.com/fivetran/dbt_sage_intacct) and [dbt_sage_intacct_source](https://github.com/fivetran/dbt_sage_intacct_source) packages were developed with single-currency company data. As such, the package models will not reflect accurate totals if your account has multi-currency enabled. If multi-currency functionality is desired, we welcome discussion to support this in a future version. 
-
 # 🎯 How do I use the dbt package?
 
 ## Step 1: Prerequisites
@@ -42,6 +38,10 @@ To use this dbt package, you must have the following:
 
 - At least one Fivetran Sage Intacct connector syncing data into your destination.
 - A **BigQuery**, **Snowflake**, **Redshift**, **Databricks**, or **PostgreSQL** destination.
+
+### Compatibility
+
+> Please be aware that the [dbt_sage_intacct](https://github.com/fivetran/dbt_sage_intacct) and [dbt_sage_intacct_source](https://github.com/fivetran/dbt_sage_intacct_source) packages were developed with single-currency company data. As such, the package models will not reflect accurate totals if your account has multi-currency enabled. If multi-currency functionality is desired, we welcome discussion to support this in a future version. 
 
 ## Step 2: Install the package
 Include the following sage_intacct_source package version in your `packages.yml` file:
