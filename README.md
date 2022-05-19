@@ -21,7 +21,7 @@
 - Creating an enhanced AR and AP model 
 
 The following table provides a detailed list of all models materialized within this package by default. 
-> TIP: See more details about these models in the package's [dbt docs site](https://fivetran.github.io/dbt_sage_intacct/#!/overview?g_v=1&g_e=seeds).
+> TIP: See more details about these models in the package's [dbt docs site](https://fivetran.github.io/dbt_sage_intacct/#!/overview?).
 
 | **model**                | **description**                                                                                                                                |
 | ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------- |
