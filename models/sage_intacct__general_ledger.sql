@@ -15,7 +15,7 @@ general_ledger as (
     gld.gl_detail_id,
     gld.account_no,
     gld.account_title,
-    round(cast(gld.amount as {{ dbt_utils.type_numeric() }}),2) as amount,
+    round(cast(gld.amount as {{ dbt.type_numeric() }}),2) as amount,
     gld.book_id,
     gld.credit_amount,
     gld.debit_amount,

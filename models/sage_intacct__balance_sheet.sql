@@ -31,7 +31,7 @@ combine_retained_earnings as (
 
 final as (
     select 
-        cast ({{ dbt_utils.date_trunc("month", "period_first_day") }} as date) as period_date, 
+        cast ({{ dbt.date_trunc("month", "period_first_day") }} as date) as period_date, 
         account_no,
         account_title,
         account_type,
@@ -40,7 +40,7 @@ final as (
         classification,
         currency,
         entry_state,
-        round(cast(amount as {{ dbt_utils.type_numeric() }}),2) as amount
+        round(cast(amount as {{ dbt.type_numeric() }}),2) as amount
     from combine_retained_earnings
 )
 
