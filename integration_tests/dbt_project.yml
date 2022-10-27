@@ -1,5 +1,5 @@
 name: 'sage_intacct_integration_tests_1'
-version: '0.1.2'
+version: '0.2.0'
 config-version: 2
 
 profile: 'integration_tests'
@@ -12,7 +12,7 @@ vars:
     ap_bill:                      "{{ ref('sage_intacct__ap_bill') }}"
     ar_invoice_item:              "{{ ref('sage_intacct__ar_invoice_item') }}"
     ar_invoice:                   "{{ ref('sage_intacct__ar_invoice') }}"
-    
+
 seeds:
     +quote_columns: "{{ true if target.type == 'redshift' else false }}"
     sage_intacct_integration_tests:
