@@ -5,13 +5,12 @@ config-version: 2
 profile: 'integration_tests'
 
 vars:
-  sage_intacct_source:
-    gl_detail:                    "{{ ref('sage_intacct__gl_detail') }}"
-    gl_account:                   "{{ ref('sage_intacct__gl_account') }}"
-    ap_bill_item:                 "{{ ref('sage_intacct__ap_bill_item') }}"
-    ap_bill:                      "{{ ref('sage_intacct__ap_bill') }}"
-    ar_invoice_item:              "{{ ref('sage_intacct__ar_invoice_item') }}"
-    ar_invoice:                   "{{ ref('sage_intacct__ar_invoice') }}"
+sage_intacct_gl_detail_identifier: "sage_intacct_gl_detail"
+sage_intacct_gl_account_identifier: "sage_intacct_gl_account"
+sage_intacct_ap_bill_identifier: "sage_intacct_ap_bill"
+sage_intacct_ap_bill_item_identifier: "sage_intacct_ap_bill_item"
+sage_intacct_ar_invoice_identifier: "sage_intacct_ar_invoice"
+sage_intacct_ar_invoice_item_identifier: "sage_intacct_ar_invoice_item"
 
 seeds:
     +quote_columns: "{{ true if target.type == 'redshift' else false }}"
