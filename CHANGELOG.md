@@ -1,7 +1,7 @@
 # dbt_sage_intacct v0.2.0
 
 ## 🚨 Breaking Changes 🚨:
-[PR #number](link) includes the following breaking changes:
+[PR #13](https://github.com/fivetran/dbt_sage_intacct/pull/13) includes the following breaking changes:
 - Dispatch update for dbt-utils to dbt-core cross-db macros migration. Specifically `{{ dbt_utils.<macro> }}` have been updated to `{{ dbt.<macro> }}` for the below macros:
     - `any_value`
     - `bool_or`
