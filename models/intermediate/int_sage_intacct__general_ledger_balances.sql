@@ -19,8 +19,8 @@ gl_period_balances_is as (
         currency, 
         entry_state,
         account_type,
-        cast({{ dbt_utils.date_trunc("month", "entry_date_at") }} as date) as date_month, 
-        cast({{ dbt_utils.date_trunc("year", "entry_date_at") }} as date) as date_year
+        cast({{ dbt.date_trunc("month", "entry_date_at") }} as date) as date_month, 
+        cast({{ dbt.date_trunc("year", "entry_date_at") }} as date) as date_year
 
         {% if var('sage_account_pass_through_columns') %} 
         , 
@@ -46,8 +46,8 @@ gl_period_balances_bs as (
         currency,
         entry_state,
         account_type,
-        cast({{ dbt_utils.date_trunc("month", "entry_date_at") }} as date) as date_month, 
-        cast({{ dbt_utils.date_trunc("year", "entry_date_at") }} as date) as date_year
+        cast({{ dbt.date_trunc("month", "entry_date_at") }} as date) as date_month, 
+        cast({{ dbt.date_trunc("year", "entry_date_at") }} as date) as date_year
 
         {% if var('sage_account_pass_through_columns') %} 
         , 

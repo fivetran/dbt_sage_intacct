@@ -24,9 +24,9 @@ final as (
 
         {% endif %}
         ,
-        round(cast(period_net_amount as {{ dbt_utils.type_numeric() }}),2) as period_net_amount,
-        round(cast(period_beg_amount as {{ dbt_utils.type_numeric() }}),2) as period_beg_amount,
-        round(cast(period_ending_amount as {{ dbt_utils.type_numeric() }}),2) as period_ending_amount
+        round(cast(period_net_amount as {{ dbt.type_numeric() }}),2) as period_net_amount,
+        round(cast(period_beg_amount as {{ dbt.type_numeric() }}),2) as period_beg_amount,
+        round(cast(period_ending_amount as {{ dbt.type_numeric() }}),2) as period_ending_amount
     from general_ledger_balances
 )
 
