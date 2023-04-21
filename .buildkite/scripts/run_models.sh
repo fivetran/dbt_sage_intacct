@@ -21,3 +21,4 @@ dbt run --target "$db" --full-refresh
 dbt test --target "$db"
 dbt run --vars '{sage_intacct__using_invoices: false, sage_intacct__using_bills: false}' --full-refresh --target "$db"
 dbt test --target "$db"
+dbt run-operation fivetran_utils.drop_schemas_automation --target "$db"
