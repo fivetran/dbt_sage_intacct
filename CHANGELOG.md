@@ -1,9 +1,9 @@
 # dbt_sage_intacct v0.UPDATE.UPDATE
 
  ## Under the Hood:
-
 - Incorporated the new `fivetran_utils.drop_schemas_automation` macro into the end of each Buildkite integration test job.
 - Updated the pull request [templates](/.github).
+
 # dbt_sage_intacct v0.2.0
 
 ## 🚨 Breaking Changes 🚨:
