@@ -54,8 +54,11 @@ Include the following sage_intacct package version in your `packages.yml` file:
 ```yaml
 packages:
   - package: fivetran/sage_intacct
-    version: [">=0.2.0", "<0.3.0"]
+    version: [">=0.2.0", "<0.3.0"] # we recommend using ranges to capture non-breaking changes automatically
 ```
+
+Do NOT include the `sage_intacct_source` package in this file. The transformation package itself has a dependency on it and will install the source package as well.
+
 ## Step 3: Define database and schema variables
 By default, this package runs using your destination and the `sage_intacct` schema. If this is not where your Sage Intacct data is (for example, if your Sage Intacct schema is named `sage_intacct_fivetran`), add the following configuration to your root `dbt_project.yml` file:
 
