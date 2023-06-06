@@ -148,7 +148,7 @@ final as (
                 {% endif %}
                 
                 {% if var('sage_intacct__using_invoices', True) %} invoice_id {% endif %}
-        ) as document_id,
+        ,null) as document_id,
         coalesce(
                 {% if var('sage_intacct__using_bills', True) %} bill_item_id {% endif %}
                 
@@ -157,7 +157,7 @@ final as (
                 {% endif %}
 
                 {% if var('sage_intacct__using_invoices', True) %}  invoice_item_id {% endif %} 
-        ) as document_item_id,
+        ,null) as document_item_id,
         case 
             {% if var('sage_intacct__using_bills', True) %} when bill_id is not null then 'bill' {% endif %} 
             {% if var('sage_intacct__using_invoices', True) %} when invoice_id is not null then 'invoice' {% endif %} 
