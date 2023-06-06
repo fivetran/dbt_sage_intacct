@@ -1,8 +1,11 @@
-# dbt_sage_intacct v0.UPDATE.UPDATE
+# dbt_sage_intacct v0.2.1
+
+## Add Null to Coalesce clause:
+- The variables `sage_intacct__using_bills` and `sage_intacct__using_invoices` are used in coalesce statements in the `sage_intacct__ap_ar_enhanced` model. In the case where 1 is true and the other is false, the model fails for some warehouses. This is because in some warehouses like Snowflake, the coalesce clause is unable to only take 1 argument. Therefore, as a fix, this PR explicitly adds a null as a third argument. That way, for this scenario, there will still be 2 arguments. ([PR #17](https://github.com/fivetran/dbt_sage_intacct/pull/17))
 
  ## Under the Hood:
 - Incorporated the new `fivetran_utils.drop_schemas_automation` macro into the end of each Buildkite integration test job.
-- Updated the pull request [templates](/.github).
+- Updated the pull request [templates](/.github). ([PR #15](https://github.com/fivetran/dbt_sage_intacct/pull/15))
 
 # dbt_sage_intacct v0.2.0
 
