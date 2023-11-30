@@ -186,6 +186,7 @@ models:
             - entry_state
             - period_first_day
             - date_year
+            - currency
     columns:
       - name: account_no
         description: ID of the account
@@ -227,6 +228,7 @@ models:
             - book_id
             - entry_state
             - period_date
+            - currency
     columns:
       - name: period_date
         description: The month of the entry date
@@ -260,6 +262,7 @@ models:
             - book_id
             - entry_state
             - period_date
+            - currency
     columns:
       - name: period_date
         description: The month of the entry date

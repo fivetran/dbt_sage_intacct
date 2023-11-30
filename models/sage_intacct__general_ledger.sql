@@ -1,6 +1,6 @@
 with gl_detail as (
     select * 
-    from {{ ref('stg_sage_intacct__gl_detail') }} 
+    from {{ ref('int_sage_intacct__active_gl_detail') }} 
 ),
 
 gl_account as (
@@ -62,7 +62,8 @@ general_ledger as (
 
     from gl_detail gld
     left join gl_account gla
-    on gld.account_no = gla.account_no 
+        on gld.account_no = gla.account_no 
 )
 
-select * from general_ledger
+select * 
+from general_ledger

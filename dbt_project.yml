@@ -1,6 +1,6 @@
 config-version: 2
 name: 'sage_intacct'
-version: '0.2.2'
+version: '0.3.0'
 require-dbt-version: [">=1.3.0", "<2.0.0"]
 models:
   sage_intacct:
@@ -13,6 +13,7 @@ vars:
   sage_gl_pass_through_columns: []
   sage_intacct:
     gl_detail: "{{ ref('stg_sage_intacct__gl_detail') }}"
+    gl_batch: "{{ ref('stg_sage_intacct__gl_batch') }}"
     gl_account: "{{ ref('stg_sage_intacct__gl_account') }}"
     ap_bill_item: "{{ ref('stg_sage_intacct__ap_bill_item') }}"
     ap_bill: "{{ ref('stg_sage_intacct__ap_bill') }}"
