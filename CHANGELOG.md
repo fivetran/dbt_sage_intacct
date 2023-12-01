@@ -7,7 +7,7 @@
 
 ## Bug Fixes
 - Added a new `int_sage_intacct__active_gl_detail` model. This model properly filters out any soft deleted GL Detail records by joining on the GL Batch staging model which contains the reference to if the transaction was deleted or not.
-- While this package was developed to only support a single currency, there were reports where the downstream transformation logic would operate unexpectedly if the underlying data had multiple currencies. While this package still does not fully support multi-currency, a bugfix was applied in the `int_sage_intacct__general_ledger_balances` model to properly join on the `currency` field so duplicates would not be introduced in the end models.
+- While this package still does not fully support multi-currency, a bugfix was applied in the `int_sage_intacct__general_ledger_balances` model to properly join on the `currency` field so duplicates would not be introduced in the end models.
 - In addition to the above, the following combination of column uniqueness tests were updated to take `currency` into consideration:
     - `sage_intacct__general_ledger_by_period`
     - `sage_intacct__profit_and_loss`
