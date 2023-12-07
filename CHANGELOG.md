@@ -1,3 +1,22 @@
+# dbt_sage_intacct v0.3.0
+
+[PR #19](https://github.com/fivetran/dbt_sage_intacct/pull/19) includes the following updates.
+
+## 🚨 Breaking Changes 🚨 (within the upstream dbt_sage_intacct_source package):
+- Removal of the `_fivetran_deleted` field from the upstream `stg_sage_intacct__gl_detail` table due to this field being deprecated within the connector. The relevant information is now available within the `gl_batch` source table. For more details please refer to the relevant [dbt_sage_intacct_source v0.3.0 release](https://github.com/fivetran/dbt_sage_intacct_source/releases/tag/v0.3.0).
+
+## Bug Fixes
+- Added a new `int_sage_intacct__active_gl_detail` model. This model properly filters out any soft deleted GL Detail records by joining on the GL Batch staging model which contains the reference to if the transaction was deleted or not. Please note that this may result in fewer transactions in your downstream models due the removal of deleted transactions.
+- While this package still does not fully support multi-currency, a bugfix was applied in the `int_sage_intacct__general_ledger_balances` model to properly join on the `currency` field so duplicates would not be introduced in the end models.
+- In addition to the above, the following combination of column uniqueness tests were updated to take `currency` into consideration:
+    - `sage_intacct__general_ledger_by_period`
+    - `sage_intacct__profit_and_loss`
+    - `sage_intacct__balance_sheet`
+
+## Under the Hood
+- Updated Maintainer PR Template
+- Included auto-releaser GitHub Actions workflow to automate future releases
+
 # dbt_sage_intacct v0.2.2
 
 ## Add Null to Coalesce clause:

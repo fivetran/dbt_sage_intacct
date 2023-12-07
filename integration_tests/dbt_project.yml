@@ -1,17 +1,18 @@
 name: 'sage_intacct_integration_tests'
-version: '0.2.2'
+version: '0.3.0'
 config-version: 2
 
 profile: 'integration_tests'
 
 vars:
   sage_intacct_gl_detail_identifier: "sage_intacct__gl_detail"
+  sage_intacct_gl_batch_identifier: "sage_intacct__gl_batch"
   sage_intacct_gl_account_identifier: "sage_intacct__gl_account"
   sage_intacct_ap_bill_identifier: "sage_intacct__ap_bill"
   sage_intacct_ap_bill_item_identifier: "sage_intacct__ap_bill_item"
   sage_intacct_ar_invoice_identifier: "sage_intacct__ar_invoice"
   sage_intacct_ar_invoice_item_identifier: "sage_intacct__ar_invoice_item"
-  sage_intacct_schema: sage_intacct_integration_tests_1
+  sage_intacct_schema: sage_intacct_integration_tests_3
 
 seeds:
     +quote_columns: "{{ true if target.type == 'redshift' else false }}"

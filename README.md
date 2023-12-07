@@ -54,7 +54,7 @@ Include the following sage_intacct package version in your `packages.yml` file:
 ```yaml
 packages:
   - package: fivetran/sage_intacct
-    version: [">=0.2.0", "<0.3.0"] # we recommend using ranges to capture non-breaking changes automatically
+    version: [">=0.3.0", "<0.4.0"] # we recommend using ranges to capture non-breaking changes automatically
 ```
 
 Do NOT include the `sage_intacct_source` package in this file. The transformation package itself has a dependency on it and will install the source package as well.
@@ -69,8 +69,6 @@ vars:
 ```
 
 ## (Optional) Step 4: Additional configurations
-
-<details><summary>Expand for configurations</summary>
 
 ### Passthrough Columns
 This package allows users to add additional columns to the `stg_sage_intacct__gl_account` and `stg_sage_intacct__gl_detail` table. 
@@ -136,8 +134,6 @@ vars:
     sage_intacct_<default_source_table_name>_identifier: your_table_name 
 ```
 
-</details>
-
 ## (Optional) Step 5: Orchestrate your models with Fivetran Transformations for dbt Core™  
 <details><summary>Expand for more details</summary>
 
@@ -152,7 +148,7 @@ This dbt package is dependent on the following dbt packages. Please be aware tha
 ```yml
 packages:
     - package: fivetran/sage_intacct_source
-      version: [">=0.2.0", "<0.3.0"]
+      version: [">=0.3.0", "<0.4.0"]
 
     - package: fivetran/fivetran_utils
       version: [">=0.4.0", "<0.5.0"]
