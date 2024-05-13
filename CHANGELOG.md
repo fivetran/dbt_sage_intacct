@@ -1,5 +1,5 @@
 # dbt_sage_intacct v0.3.0
-[PR #](https://github.com/fivetran/dbt_sage_intacct/pull/) includes the following updates.
+[PR #22](https://github.com/fivetran/dbt_sage_intacct/pull/22) includes the following updates.
 
 ## Bug Fixes
 - The `account_no` field in the `sage_intacct__ap_ar_enhanced` end model is now consistently set to `{{ dbt.type_string() }}`. This ensures compatibility within the union all operation, preventing datatype conflicts between the fields within the upstream invoice_item and bill_item tables.
