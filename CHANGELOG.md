@@ -1,4 +1,4 @@
-# dbt_sage_intacct v0.3.0
+# dbt_sage_intacct v0.3.1
 [PR #22](https://github.com/fivetran/dbt_sage_intacct/pull/22) includes the following updates.
 
 ## Bug Fixes
