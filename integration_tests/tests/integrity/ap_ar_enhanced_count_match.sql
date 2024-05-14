@@ -4,6 +4,8 @@
     enabled=var('fivetran_validation_tests_enabled', false)
 ) }}
 
+-- These validations are assuming the variables `sage_intacct__using_bills` and `sage_intacct__using_invoices` are set to `true`.
+
 with ap_source as (
     select
         bill_id,

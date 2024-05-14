@@ -1,11 +1,12 @@
-# dbt_sage_intacct v0.3.1
+# dbt_sage_intacct v0.4.0
 [PR #22](https://github.com/fivetran/dbt_sage_intacct/pull/22) includes the following updates.
 
-## Bug Fixes
-- The `account_no` field in the `sage_intacct__ap_ar_enhanced` end model is now consistently set to `{{ dbt.type_string() }}`. This ensures compatibility within the union all operation, preventing datatype conflicts between the fields within the upstream invoice_item and bill_item tables.
+## 🚨 Breaking Changes: Bug Fixes 🚨
+- The `account_no` and `offset_gl_account_no` fields in the `sage_intacct__ap_ar_enhanced` end model are now consistently casted as strings using `{{ dbt.type_string() }}`. This ensures compatibility within the union all operation, preventing datatype conflicts between the fields within the upstream `invoice_item` and `bill_item` tables.
 
 ## Under the Hood
-- Addition of integrity and consistency validation tests within integration tests for the `sage_intacct_ap_ar_enhanced` model.
+- Addition of integrity and consistency validation tests within integration tests for the `sage_intacct__ap_ar_enhanced` model.
+- Updates to the `accountno` and `amount` seed datatypes within the integration tests to more closely resemble the datatype of those fields in the Sage Intacct connector.
 
 # dbt_sage_intacct v0.3.0
 

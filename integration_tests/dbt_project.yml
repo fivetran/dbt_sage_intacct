@@ -1,5 +1,5 @@
 name: 'sage_intacct_integration_tests'
-version: '0.3.1'
+version: '0.4.0'
 config-version: 2
 
 profile: 'integration_tests'
@@ -12,9 +12,9 @@ vars:
   sage_intacct_ap_bill_item_identifier: "sage_intacct__ap_bill_item"
   sage_intacct_ar_invoice_identifier: "sage_intacct__ar_invoice"
   sage_intacct_ar_invoice_item_identifier: "sage_intacct__ar_invoice_item"
-  sage_intacct_schema: sage_intacct_integration_tests_3
+  sage_intacct_schema: sage_intacct_integration_tests_4
 
-  ## For validation testing. To be commented out before release.
+  # ## For validation testing. To be commented out before release.
   # sage_intacct_database: <see_corresponding_height_ticket>
   # sage_intacct_schema: <see_corresponding_height_ticket>
 
