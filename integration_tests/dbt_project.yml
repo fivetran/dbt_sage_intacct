@@ -17,6 +17,8 @@ vars:
   # ## For validation testing. To be commented out before release.
   # sage_intacct_database: <see_corresponding_height_ticket>
   # sage_intacct_schema: <see_corresponding_height_ticket>
+  # fivetran_consistency_ap_ar_enhanced_exclusion_documents: () ## -- Variable for filtering out documents if inconsistency is expected. 
+  # fivetran_integrity_ap_ar_enhanced_exclusion_documents: () ## -- Variable for filtering out documents if inconsistency is expected. 
 
 models:
   +schema: "sage_intacct_{{ var('directed_schema','dev') }}"
