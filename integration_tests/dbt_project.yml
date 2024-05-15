@@ -1,5 +1,5 @@
 name: 'sage_intacct_integration_tests'
-version: '0.3.0'
+version: '0.4.0'
 config-version: 2
 
 profile: 'integration_tests'
@@ -12,7 +12,16 @@ vars:
   sage_intacct_ap_bill_item_identifier: "sage_intacct__ap_bill_item"
   sage_intacct_ar_invoice_identifier: "sage_intacct__ar_invoice"
   sage_intacct_ar_invoice_item_identifier: "sage_intacct__ar_invoice_item"
-  sage_intacct_schema: sage_intacct_integration_tests_3
+  sage_intacct_schema: sage_intacct_integration_tests_4
+
+  # ## For validation testing. To be commented out before release.
+  # sage_intacct_database: <see_corresponding_height_ticket>
+  # sage_intacct_schema: <see_corresponding_height_ticket>
+  # fivetran_consistency_ap_ar_enhanced_exclusion_documents: () ## -- Variable for filtering out documents if inconsistency is expected. 
+  # fivetran_integrity_ap_ar_enhanced_exclusion_documents: () ## -- Variable for filtering out documents if inconsistency is expected. 
+
+models:
+  +schema: "sage_intacct_{{ var('directed_schema','dev') }}"
 
 seeds:
     +quote_columns: "{{ true if target.type == 'redshift' else false }}"
@@ -22,9 +31,7 @@ seeds:
           recordkey: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
           recordno: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
           accountkey: "{{ 'int64' if target.name == 'bigquery' else 'bigint' }}"
-          accountno: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
           accounttitle: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
-          amount: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
           basecurr: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
           baselocation: "{{ 'int64' if target.name == 'bigquery' else 'bigint' }}"
           classid: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
@@ -46,7 +53,6 @@ seeds:
           offsetglaccounttitle: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
           recordtype: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
           state: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
-          totalpaid: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
           totalselected: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
           vendorid: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
           vendorname: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
@@ -57,7 +63,6 @@ seeds:
           accountkey: "{{ 'int64' if target.name == 'bigquery' else 'bigint' }}"
           accountno: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
           accounttitle: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
-          amount: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
           basecurr: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
           baselocation: "{{ 'int64' if target.name == 'bigquery' else 'bigint' }}"
           classid: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
@@ -80,7 +85,6 @@ seeds:
           recordno: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
           recordtype: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
           state: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
-          totalpaid: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
           totalselected: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
           vendorid: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
           vendorname: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
