@@ -54,7 +54,7 @@ Include the following sage_intacct package version in your `packages.yml` file:
 ```yaml
 packages:
   - package: fivetran/sage_intacct
-    version: [">=0.4.0", "<0.5.0"] # we recommend using ranges to capture non-breaking changes automatically
+    version: [">=0.5.0", "<0.6.0"] # we recommend using ranges to capture non-breaking changes automatically
 ```
 
 Do NOT include the `sage_intacct_source` package in this file. The transformation package itself has a dependency on it and will install the source package as well.
