@@ -1,51 +1,44 @@
 with spine as (
 
-    {% if execute %}
+    {% if execute and flags.WHICH in ('run', 'build') %}
+
     {% set first_date_query %}
-        select  min( entry_date_at ) as min_date from {{ ref('sage_intacct__general_ledger') }}
+        select 
+            coalesce(
+                min(cast(entry_date_at as date)), 
+                cast({{ dbt.dateadd("month", -1, "current_date") }} as date)
+                ) as min_date 
+        from {{ ref('sage_intacct__general_ledger') }}
     {% endset %}
-    {% set first_date = run_query(first_date_query).columns[0][0]|string %}
-    
-        {% if target.type == 'postgres' %}
-            {% set first_date_adjust = "cast('" ~ first_date[0:10] ~ "' as date)" %}
 
-        {% else %}
-            {% set first_date_adjust = "'" ~ first_date[0:10] ~ "'" %}
-
-        {% endif %}
-
-    {% else %} {% set first_date_adjust = "'2015-01-01'" %}
-    {% endif %}
-
-    {% if execute %}
     {% set last_date_query %}
-        select  max( entry_date_at ) as max_date from {{ ref('sage_intacct__general_ledger') }}
+        select 
+            coalesce(
+                max(cast(entry_date_at as date)), 
+                cast(current_date as date)
+                ) as max_date 
+        from {{ ref('sage_intacct__general_ledger') }}
     {% endset %}
-
-    {% set current_date_query %}
-        select current_date
-    {% endset %}
-
-    {% if run_query(current_date_query).columns[0][0]|string < run_query(last_date_query).columns[0][0]|string %}
-
-    {% set last_date = run_query(last_date_query).columns[0][0]|string %}
-
-    {% else %} {% set last_date = run_query(current_date_query).columns[0][0]|string %}
-    {% endif %}
-        
-    {% if target.type == 'postgres' %}
-        {% set last_date_adjust = "cast('" ~ last_date[0:10] ~ "' as date)" %}
-
+    
     {% else %}
-        {% set last_date_adjust = "'" ~ last_date[0:10] ~ "'" %}
+
+    {%- set first_date_query%}
+        select cast({{ dbt.dateadd("month", -1, "current_date") }} as date)
+    {% endset -%}
+
+    {% set last_date_query %}
+        select cast({{ dbt.current_timestamp() }} as date)
+    {% endset -%}
 
     {% endif %}
-    {% endif %}
+
+    {%- set first_date = dbt_utils.get_single_value(first_date_query) %}
+    {%- set last_date = dbt_utils.get_single_value(last_date_query) %}
 
     {{ dbt_utils.date_spine(
         datepart="month",
-        start_date=first_date_adjust,
-        end_date=dbt.dateadd("month", 1, last_date_adjust)
+        start_date="cast('" ~ first_date ~ "' as date)",
+        end_date=dbt.dateadd("month", 1, "cast('" ~ last_date  ~ "' as date)")
         )
     }}
 ),
