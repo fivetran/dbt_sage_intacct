@@ -2,10 +2,10 @@
 [PR #24](https://github.com/fivetran/dbt_sage_intacct/pull/24) includes the following updates.
 
 # Bug Fixes
-- Updated the `int_sage_intacct__general_ledger_date_spine` model to accommodate for the cases when the compiled `sage_intacct__general_ledger` model has no records. In this case, the model now defaults to a range of one-month from the current date.
-
+- Updated the `int_sage_intacct__general_ledger_date_spine` model to accommodate for the cases when the compiled `sage_intacct__general_ledger` model has no transactions. In this case, the model now defaults to a range of one-month from the current date.
 ## Under The Hood
 - Updated the structure of the `int_sage_intacct__general_ledger_date_spine` model for improved performance and maintainability.
+    - Modified the date spine logic so that the model will take the maximum `entry_date_at` from the `sage_intacct__general_ledger` for the last date of the spine if it is available, rather than the current date. 
 - Added `flags.WHICH in ('run', 'build')` as a condition in `int_sage_intacct__general_ledger_date_spine` to prevent call statements from querying the staging models during a `dbt compile`.
 - Addition of integrity and consistency validation tests within integration tests for the `sage_intacct__general_ledger` and `sage_intacct__general_ledger_by_period` model.
 

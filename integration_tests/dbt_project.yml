@@ -12,11 +12,11 @@ vars:
   sage_intacct_ap_bill_item_identifier: "sage_intacct__ap_bill_item"
   sage_intacct_ar_invoice_identifier: "sage_intacct__ar_invoice"
   sage_intacct_ar_invoice_item_identifier: "sage_intacct__ar_invoice_item"
-  sage_intacct_schema: sage_intacct_integrations_tests_2
+  sage_intacct_schema: sage_intacct_integration_tests_5
 
   # For validation testing. To be commented out before release.
-  # sage_intacct_database: <fill in database>
-  # sage_intacct_schema: <fill in schema>
+  # sage_intacct_database: <insert database>
+  # sage_intacct_schema: <insert schema>
   # fivetran_consistency_ap_ar_enhanced_exclusion_documents: () ## -- Variable for filtering out documents if inconsistency is expected. 
   # fivetran_integrity_ap_ar_enhanced_exclusion_documents: () ## -- Variable for filtering out documents if inconsistency is expected. 
 
