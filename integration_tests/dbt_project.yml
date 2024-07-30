@@ -12,7 +12,7 @@ vars:
   sage_intacct_ap_bill_item_identifier: "sage_intacct__ap_bill_item"
   sage_intacct_ar_invoice_identifier: "sage_intacct__ar_invoice"
   sage_intacct_ar_invoice_item_identifier: "sage_intacct__ar_invoice_item"
-  sage_intacct_schema: sage_intacct_integration_tests_5
+  sage_intacct_schema: sage_intacct_integration_tests_6
 
   # For validation testing. To be commented out before release.
   # sage_intacct_database: <insert database>
