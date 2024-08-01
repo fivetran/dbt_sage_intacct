@@ -4,7 +4,7 @@
 ## 🚨 Breaking Changes: Bug Fixes 🚨
 - Updated the structure of the `int_sage_intacct__general_ledger_date_spine` model for improved performance and maintainability.
     - Modified the date spine logic so that the model will take the maximum `entry_date_at` from the `sage_intacct__general_ledger` for the last date of the spine if it is available, rather than the current date. This will help capture future-dated transactions as well beyond the current date. 
-    - This is a breaking change, as this will change what transaction records of `sage_intacct__general_ledger_by_period` end up in our final models.  
+    - This is a breaking change, as changing the behavior of the date spine which will adjust the transaction records in the  `sage_intacct__general_ledger_by_period` model to be more accurate.
 
 # Bug Fixes
 - Updated the `int_sage_intacct__general_ledger_date_spine` model to accommodate for the cases when the compiled `sage_intacct__general_ledger` model has no transactions. In this case, the model now defaults to a range of one month leading up to the current date.
