@@ -1,10 +1,10 @@
 name: 'sage_intacct_integration_tests'
-version: '0.4.0'
+version: '0.5.0'
 config-version: 2
 
 profile: 'integration_tests'
 
-vars:
+vars:  
   sage_intacct_gl_detail_identifier: "sage_intacct__gl_detail"
   sage_intacct_gl_batch_identifier: "sage_intacct__gl_batch"
   sage_intacct_gl_account_identifier: "sage_intacct__gl_account"
@@ -12,16 +12,16 @@ vars:
   sage_intacct_ap_bill_item_identifier: "sage_intacct__ap_bill_item"
   sage_intacct_ar_invoice_identifier: "sage_intacct__ar_invoice"
   sage_intacct_ar_invoice_item_identifier: "sage_intacct__ar_invoice_item"
-  sage_intacct_schema: sage_intacct_integration_tests_4
+  sage_intacct_schema: sage_intacct_integration_tests_6
 
-  # ## For validation testing. To be commented out before release.
-  # sage_intacct_database: <see_corresponding_height_ticket>
-  # sage_intacct_schema: <see_corresponding_height_ticket>
+  # For validation testing. To be commented out before release.
+  # sage_intacct_database: <insert database>
+  # sage_intacct_schema: <insert schema>
   # fivetran_consistency_ap_ar_enhanced_exclusion_documents: () ## -- Variable for filtering out documents if inconsistency is expected. 
   # fivetran_integrity_ap_ar_enhanced_exclusion_documents: () ## -- Variable for filtering out documents if inconsistency is expected. 
 
 models:
-  +schema: "sage_intacct_{{ var('directed_schema','dev') }}"
+  +schema: "sage_intacct_{{ var('directed_schema','dev') }}" 
 
 seeds:
     +quote_columns: "{{ true if target.type == 'redshift' else false }}"
@@ -90,6 +90,18 @@ seeds:
           vendorname: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
           warehouseid: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
           warehousename: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
+      sage_intacct__gl_account:
+        +column_types:
+          category: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
+          normalbalance: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
+          accounttype: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
+      sage_intacct__gl_batch:
+        +column_types:
+          _fivetran_deleted: boolean
+      sage_intacct__gl_detail:
+        +column_types:
+          entry_date: date
+          accounttitle: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
 
 dispatch:
   - macro_namespace: dbt_utils
