@@ -16,3 +16,11 @@ destination_configurations:
     dispatch:
       - macro_namespace: dbt_utils
         search_order: [ 'spark_utils', 'dbt_utils' ]
+
+public_models: [
+  "sage_intacct__ap_ar_enhanced",
+  "sage_intacct__general_ledger_by_period",
+  "sage_intacct__profit_and_loss",
+  "sage_intacct__balance_sheet",
+  "sage_intacct__general_ledger"
+]
