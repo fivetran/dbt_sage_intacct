@@ -1,3 +1,9 @@
+# dbt_sage_intacct version.version
+
+## Documentation
+- Added Quickstart model counts to README. ([#28](https://github.com/fivetran/dbt_sage_intacct/pull/28))
+- Corrected references to connectors and connections in the README. ([#28](https://github.com/fivetran/dbt_sage_intacct/pull/28))
+
 # dbt_sage_intacct v0.5.0
 [PR #24](https://github.com/fivetran/dbt_sage_intacct/pull/24) includes the following updates.
 
