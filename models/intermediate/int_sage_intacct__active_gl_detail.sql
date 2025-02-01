@@ -15,7 +15,8 @@ with gl_detail as (
     from gl_detail
     left join gl_batch 
         on gl_batch.record_no = gl_detail.batch_key
-    where not coalesce(gl_batch._fivetran_deleted, false) 
+    where not coalesce(gl_batch._fivetran_deleted, false)
+        or not coalesce(gl_detail._fivetran_deleted, false)
 )
 
 select *
