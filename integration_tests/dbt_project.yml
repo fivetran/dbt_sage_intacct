@@ -5,15 +5,19 @@ config-version: 2
 profile: 'integration_tests'
 
 vars:  
-  sage_intacct_gl_detail_identifier: "sage_intacct__gl_detail"
-  sage_intacct_gl_batch_identifier: "sage_intacct__gl_batch"
-  sage_intacct_gl_account_identifier: "sage_intacct__gl_account"
-  sage_intacct_ap_bill_identifier: "sage_intacct__ap_bill"
-  sage_intacct_ap_bill_item_identifier: "sage_intacct__ap_bill_item"
-  sage_intacct_ar_invoice_identifier: "sage_intacct__ar_invoice"
-  sage_intacct_ar_invoice_item_identifier: "sage_intacct__ar_invoice_item"
+  # sage_intacct_gl_detail_identifier: "sage_intacct__gl_detail"
+  # sage_intacct_gl_batch_identifier: "sage_intacct__gl_batch"
+  # sage_intacct_gl_account_identifier: "sage_intacct__gl_account"
+  # sage_intacct_ap_bill_identifier: "sage_intacct__ap_bill"
+  # sage_intacct_ap_bill_item_identifier: "sage_intacct__ap_bill_item"
+  # sage_intacct_ar_invoice_identifier: "sage_intacct__ar_invoice"
+  # sage_intacct_ar_invoice_item_identifier: "sage_intacct__ar_invoice_item"
+  # sage_intacct_schema: sage_intacct_integration_tests_6
 
-  sage_intacct_schema: sage_intacct_integration_tests_6 
+  # sage_intacct_schema: zz_dbt_avinash_dev
+ 
+  sage_intacct_database: singular-vector-135519
+  sage_intacct_schema: testing3fresh
 
   # For validation testing. To be commented out before release.
   # sage_intacct_database: <insert database>
