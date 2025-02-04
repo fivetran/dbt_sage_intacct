@@ -6,6 +6,10 @@
 - Updated `int_sage_intacct__active_gl_detail` model to include a `is_detail_deleted` filter for when a record is filtered out. 
 - Renamed `_fivetran_deleted` from the `gl_batch` source to `is_batch_deleted` to ensure no duplicate columns.
 
+## Documentation
+- Added Quickstart model counts to README. ([#28](https://github.com/fivetran/dbt_sage_intacct/pull/28))
+- Corrected references to connectors and connections in the README. ([#28](https://github.com/fivetran/dbt_sage_intacct/pull/28))
+
 ## Under the Hood
 - Added `fivetran_consistency_gl_period_exclusion_documents` filter for account numbers with irregular behavior to pass the `consistency_general_ledger_by_period` test.
 
