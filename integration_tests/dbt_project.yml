@@ -1,5 +1,5 @@
 name: 'sage_intacct_integration_tests'
-version: '0.5.0'
+version: '0.6.0'
 config-version: 2
 
 profile: 'integration_tests'
@@ -19,6 +19,7 @@ vars:
   # sage_intacct_schema: <insert schema>
   # fivetran_consistency_ap_ar_enhanced_exclusion_documents: () ## -- Variable for filtering out documents if inconsistency is expected. 
   # fivetran_integrity_ap_ar_enhanced_exclusion_documents: () ## -- Variable for filtering out documents if inconsistency is expected. 
+  # fivetran_consistency_gl_period_exclusion_documents: () ## -- Variable for filtering out documents if inconsistency is expected. 
 
 models:
   +schema: "sage_intacct_{{ var('directed_schema','dev') }}" 
