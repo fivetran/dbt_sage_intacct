@@ -2,8 +2,8 @@
 [PR #29](https://github.com/fivetran/dbt_sage_intacct/pull/29) includes the following updates:
  
 ## Breaking Changes (originating within the upstream `dbt_sage_intacct_source` package):
-- Reintroduced `_fivetran_deleted` from the `gl_detail` source table, as the field was not fully deprecated within in the connector. It is null in normal incremental syncs, but can populate true in historical resyncs. For more details please refer to the relevant [dbt_sage_intacct_source v0.4.0 release](https://github.com/fivetran/dbt_sage_intacct_source/releases/tag/v0.4.0).
-- Updated `int_sage_intacct__active_gl_detail` model to include a `is_detail_deleted` filter for when a record is filtered out. 
+- Reintroduced `_fivetran_deleted` from the `gl_detail` source table, as the field was not fully deprecated within in the connector. **It is null in normal incremental syncs, but can populate true or false in historical resyncs.** For more details please refer to the relevant [dbt_sage_intacct_source v0.4.0 release](https://github.com/fivetran/dbt_sage_intacct_source/releases/tag/v0.4.0).
+- Updated `int_sage_intacct__active_gl_detail` model to exclude `gl_detail` records where `_fivetran_deleted` (aliased to `is_detail_deleted`) is true. This may filter out data that was previously included in the general ledger and downstream models.
 - Renamed `_fivetran_deleted` from the `gl_batch` source to `is_batch_deleted` to ensure no duplicate columns.
 
 ## Documentation
