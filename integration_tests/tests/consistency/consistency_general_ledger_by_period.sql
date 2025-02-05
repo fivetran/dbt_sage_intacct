@@ -46,3 +46,4 @@ final as (
 
 select *
 from final
+{{ "where account_no not in " ~ var('fivetran_consistency_gl_period_exclusion_documents',[]) ~ "" if var('fivetran_consistency_gl_period_exclusion_documents',[]) }}

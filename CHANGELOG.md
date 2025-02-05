@@ -1,3 +1,18 @@
+# dbt_sage_intacct v0.6.0
+[PR #29](https://github.com/fivetran/dbt_sage_intacct/pull/29) includes the following updates:
+ 
+## Breaking Changes (originating within the upstream `dbt_sage_intacct_source` package):
+- Reintroduced `_fivetran_deleted` from the `gl_detail` source table, as the field was not fully deprecated within in the connector. **It is null in normal incremental syncs, but can populate true or false in historical resyncs.** For more details please refer to the relevant [dbt_sage_intacct_source v0.4.0 release](https://github.com/fivetran/dbt_sage_intacct_source/releases/tag/v0.4.0).
+- Updated `int_sage_intacct__active_gl_detail` model to exclude `gl_detail` records where `_fivetran_deleted` (aliased to `is_detail_deleted`) is true. This may filter out data that was previously included in the general ledger and downstream models.
+- Renamed `_fivetran_deleted` from the `gl_batch` source to `is_batch_deleted` to ensure no duplicate columns.  This field is present in `int_sage_intacct__active_gl_detail` and `stg_sage_intacct__gl_batch`.
+
+## Documentation
+- Added Quickstart model counts to README. ([#28](https://github.com/fivetran/dbt_sage_intacct/pull/28))
+- Corrected references to connectors and connections in the README. ([#28](https://github.com/fivetran/dbt_sage_intacct/pull/28))
+
+## Under the Hood
+- Added `fivetran_consistency_gl_period_exclusion_documents` filter for account numbers with irregular behavior to pass the `consistency_general_ledger_by_period` test.
+
 # dbt_sage_intacct v0.5.0
 [PR #24](https://github.com/fivetran/dbt_sage_intacct/pull/24) includes the following updates.
 

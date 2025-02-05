@@ -11,11 +11,12 @@ with gl_detail as (
 ), final as (
     select
         gl_detail.*,
-        gl_batch._fivetran_deleted
+        gl_batch.is_batch_deleted
     from gl_detail
     left join gl_batch 
         on gl_batch.record_no = gl_detail.batch_key
-    where not coalesce(gl_batch._fivetran_deleted, false) 
+    where not coalesce(gl_batch.is_batch_deleted, false) 
+        and not coalesce(gl_detail.is_detail_deleted, false) 
 )
 
 select *
