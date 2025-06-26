@@ -17,6 +17,7 @@ echo `pwd`
 cd integration_tests
 dbt deps
 dbt seed --target "$db" --full-refresh
+dbt source freshness --target "$db" || echo "...Only verifying freshness runs…"
 dbt run --target "$db" --full-refresh
 dbt test --target "$db"
 dbt run --vars '{sage_intacct__using_invoices: false, sage_intacct__using_bills: false}' --full-refresh --target "$db"
