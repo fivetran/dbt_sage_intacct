@@ -27,6 +27,8 @@ models:
 seeds:
   +docs:
     show: False
+  +docs:
+    show: False
     +quote_columns: "{{ true if target.type == 'redshift' else false }}"
     sage_intacct_integration_tests:
       sage_intacct__ap_bill_item:
