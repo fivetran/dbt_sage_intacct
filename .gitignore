@@ -1,5 +1,6 @@
 # dbt
 **/package-lock.yml
+package-lock.yml
 .dbt/
 dbt_modules/
 dbt_packages/
