@@ -10,7 +10,12 @@
         <img src="https://img.shields.io/badge/Maintained%3F-yes-green.svg" /></a>
     <a alt="PRs">
         <img src="https://img.shields.io/badge/Contributions-welcome-blueviolet" /></a>
+    <a alt="Fivetran Quickstart Compatible"
+        href="https://fivetran.com/docs/transformations/dbt/quickstart">
+        <img src="https://img.shields.io/badge/Fivetran_Quickstart_Compatible%3F-yes-green.svg" /></a>
 </p>
+
+
 
 ## What does this dbt package do?
 - Produces modeled tables that leverage Sage Intacct data from [Fivetran's connector](https://fivetran.com/docs/applications/sage-intacct) in the format described by [this ERD](https://fivetran.com/docs/applications/sage-intacct#schemainformation) and builds off the output of our [Sage Intacct source package](https://github.com/fivetran/dbt_sage_intacct_source).
