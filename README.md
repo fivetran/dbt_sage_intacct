@@ -1,4 +1,4 @@
-# Sage Intacct Transformation dbt Package ([Docs](https://fivetran.github.io/dbt_sage_intacct/))
+# Sage Intacct dbt Package ([Docs](https://fivetran.github.io/dbt_sage_intacct/))
 
 <p align="left">
     <a alt="License"
@@ -21,9 +21,10 @@
 The main focus of this package is to provide users with insights into their Sage Intacct data that can be used for financial reporting and analysis. This is achieved by the following:
 - Creating the general ledger, balance sheet, and profile & loss statement on a month by month grain
 - Creating an enhanced AR and AP model
+
 ### Compatibility
 
-> Please be aware that the [dbt_sage_intacct](https://github.com/fivetran/dbt_sage_intacct) and [dbt_sage_intacct_source](https://github.com/fivetran/dbt_sage_intacct_source) packages were developed with single-currency company data. As such, the package models will not reflect accurate totals if your account has multi-currency enabled. If multi-currency functionality is desired, we welcome discussion to support this in a future version.
+> Please be aware that the [dbt_sage_intacct](https://github.com/fivetran/dbt_sage_intacct) package was developed with single-currency company data. As such, the package models will not reflect accurate totals if your account has multi-currency enabled. If multi-currency functionality is desired, we welcome discussion to support this in a future version.
 
 <!--section=“sage_intacct_transformation_model"-->
 
@@ -60,7 +61,7 @@ dispatch:
 ### Step 2: Install the package
 Include the following sage_intacct package version in your `packages.yml` file:
 > TIP: Check [dbt Hub](https://hub.getdbt.com/) for the latest installation instructions or [read the dbt docs](https://docs.getdbt.com/docs/package-management) for more information on installing packages.
-```yaml
+```yml
 packages:
   - package: fivetran/sage_intacct
     version: [">=1.0.0", "<1.1.0"] # we recommend using ranges to capture non-breaking changes automatically
@@ -86,7 +87,6 @@ Columns passed through must be present in the upstream source tables. See below 
 ```yml
 # dbt_project.yml
 
-...
 vars:
   sage_account_pass_through_columns: ['new_custom_field', 'custom_field_2']
   sage_gl_pass_through_columns: ['custom_field_3', 'custom_field_4']
@@ -97,7 +97,6 @@ Accounts roll up into different accounting classes based on their category. The 
 ```yml
 # dbt_project.yml
 
-...
 vars:
     sage_intacct_category_asset: ('Inventory','Fixed Assets','Other Current Assets','Cash and Cash Equivalents','Intercompany Receivable','Accounts Receivable','Deposits and Prepayments','Goodwill','Intangible Assets','Short-Term Investments','Inventory','Accumulated Depreciation','Other Assets','Unrealized Currency Gain/Loss','Patents','Investment in Subsidiary','Escrows and Reserves','Long Term Investments')
     sage_intacct_category_equity: ('Partners Equity','Retained Earnings','Dividend Paid')
@@ -121,12 +120,11 @@ vars:
     sage_intacct__using_bills: false                    # default is true
 ```
 #### Changing the Build Schema
-By default this package will build the Sage Intacct staging models within a schema titled (<target_schema> + `_stg_sage_intacct`) and the Sage Intacct final models with a schema titled (<target_schema> + `_sage_intacct`) in your target database. If this is not where you would like your modeled Sage Intacct data to be written to, add the following configuration to your `dbt_project.yml` file:
+By default this package will build the Sage Intacct staging models within a schema titled (<target_schema> + `_sage_intacct_staging`) and the Sage Intacct final models with a schema titled (<target_schema> + `_sage_intacct`) in your target database. If this is not where you would like your modeled Sage Intacct data to be written to, add the following configuration to your `dbt_project.yml` file:
 
 ```yml
 # dbt_project.yml 
 
-...
 models:
     sage_intacct:
       +schema: my_new_schema_name # Leave +schema: blank to use the default target_schema.

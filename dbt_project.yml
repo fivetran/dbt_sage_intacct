@@ -9,8 +9,10 @@ models:
     intermediate:
       +materialized: view
     staging:
-      +schema: sage_intacct_source
-      +materialized: view
+      +schema: sage_intacct_staging
+      +materialized: table
+      tmp:
+        +materialized: view
 vars:
   sage_account_pass_through_columns: []
   sage_gl_pass_through_columns: []
