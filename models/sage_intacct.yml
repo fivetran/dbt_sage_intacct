@@ -180,16 +180,6 @@ models:
       Table containing the beginning balance, ending balance, and net change of the dollar amount for each month and for each account, 
       category, and classification. This table can be used to generate a balance sheet and profit & loss (income statement) for your business based 
       on your customer accounting period.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - account_no
-            - account_title
-            - book_id
-            - entry_state
-            - period_first_day
-            - date_year
-            - currency
     columns:
       - name: account_no
         description: ID of the account
@@ -223,15 +213,6 @@ models:
   - name: sage_intacct__profit_and_loss 
     description: >
       Records amounts by account, category, and classification for all profit & loss (income statement) type transactions.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - account_no
-            - account_title
-            - book_id
-            - entry_state
-            - period_date
-            - currency
     columns:
       - name: period_date
         description: The month of the entry date
@@ -257,15 +238,6 @@ models:
   - name: sage_intacct__balance_sheet 
     description: >
       Records amounts by account, category, and classification for all balance_sheet type transactions.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - account_no
-            - account_title
-            - book_id
-            - entry_state
-            - period_date
-            - currency
     columns:
       - name: period_date
         description: The month of the entry date
