@@ -1,6 +1,6 @@
 config-version: 2
 name: 'sage_intacct'
-version: '0.7.0'
+version: '1.0.0'
 require-dbt-version: [">=1.3.0", "<2.0.0"]
 models:
   sage_intacct:
@@ -8,17 +8,20 @@ models:
     +schema: sage_intacct
     intermediate:
       +materialized: view
+    staging:
+      +schema: sage_intacct_source
+      +materialized: view
 vars:
   sage_account_pass_through_columns: []
   sage_gl_pass_through_columns: []
   sage_intacct:
-    gl_detail: "{{ ref('stg_sage_intacct__gl_detail') }}"
-    gl_batch: "{{ ref('stg_sage_intacct__gl_batch') }}"
-    gl_account: "{{ ref('stg_sage_intacct__gl_account') }}"
-    ap_bill_item: "{{ ref('stg_sage_intacct__ap_bill_item') }}"
-    ap_bill: "{{ ref('stg_sage_intacct__ap_bill') }}"
-    ar_invoice_item: "{{ ref('stg_sage_intacct__ar_invoice_item') }}"
-    ar_invoice: "{{ ref('stg_sage_intacct__ar_invoice') }}"
+    gl_detail: "{{ source('sage_intacct', 'gl_detail') }}"
+    gl_batch: "{{ source('sage_intacct', 'gl_batch') }}"
+    gl_account: "{{ source('sage_intacct', 'gl_account') }}"
+    ap_bill_item: "{{ source('sage_intacct', 'ap_bill_item') }}"
+    ap_bill: "{{ source('sage_intacct', 'ap_bill') }}"
+    ar_invoice_item: "{{ source('sage_intacct', 'ar_invoice_item') }}"
+    ar_invoice: "{{ source('sage_intacct', 'ar_invoice') }}"
     sage_gl_pass_through_columns: []
     sage_account_pass_through_columns: []
     sage_intacct_category_asset: ('Inventory','Fixed Assets','Other Current Assets','Cash and Cash Equivalents','Intercompany Receivable','Accounts Receivable','Deposits and Prepayments','Goodwill','Intangible Assets','Short-Term Investments','Inventory','Accumulated Depreciation','Other Assets','Unrealized Currency Gain/Loss','Patents','Investment in Subsidiary','Escrows and Reserves','Long Term Investments')
