@@ -19,6 +19,10 @@
   - Removed all `accepted_values` tests.
   - Moved `loaded_at_field: _fivetran_synced` under the `config:` block in `src_sage_intacct.yml`.
 
+### Under the Hood
+- Updated conditions in `.github/workflows/auto-release.yml`.
+- Added `.github/workflows/generate-docs.yml`.
+
 # dbt_sage_intacct v0.7.0
 [PR #30](https://github.com/fivetran/dbt_sage_intacct/pull/30) includes the following updates:
 
