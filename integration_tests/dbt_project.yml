@@ -1,18 +1,19 @@
 name: 'sage_intacct_integration_tests'
-version: '0.7.0'
+version: '1.0.0'
 config-version: 2
 
 profile: 'integration_tests'
 
 vars:  
-  sage_intacct_gl_detail_identifier: "sage_intacct__gl_detail"
-  sage_intacct_gl_batch_identifier: "sage_intacct__gl_batch"
-  sage_intacct_gl_account_identifier: "sage_intacct__gl_account"
-  sage_intacct_ap_bill_identifier: "sage_intacct__ap_bill"
-  sage_intacct_ap_bill_item_identifier: "sage_intacct__ap_bill_item"
-  sage_intacct_ar_invoice_identifier: "sage_intacct__ar_invoice"
-  sage_intacct_ar_invoice_item_identifier: "sage_intacct__ar_invoice_item"
-  sage_intacct_schema: sage_intacct_integration_tests_6
+  sage_intacct:
+    sage_intacct_gl_detail_identifier: "sage_intacct__gl_detail"
+    sage_intacct_gl_batch_identifier: "sage_intacct__gl_batch"
+    sage_intacct_gl_account_identifier: "sage_intacct__gl_account"
+    sage_intacct_ap_bill_identifier: "sage_intacct__ap_bill"
+    sage_intacct_ap_bill_item_identifier: "sage_intacct__ap_bill_item"
+    sage_intacct_ar_invoice_identifier: "sage_intacct__ar_invoice"
+    sage_intacct_ar_invoice_item_identifier: "sage_intacct__ar_invoice_item"
+    sage_intacct_schema: sage_intacct_integration_tests_6
 
   # For validation testing. To be commented out before release.
   # sage_intacct_database: <insert database>
@@ -25,84 +26,86 @@ models:
   +schema: "sage_intacct_{{ var('directed_schema','dev') }}" 
 
 seeds:
-    +quote_columns: "{{ true if target.type == 'redshift' else false }}"
-    sage_intacct_integration_tests:
-      sage_intacct__ap_bill_item:
-        +column_types:
-          recordkey: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
-          recordno: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
-          accountkey: "{{ 'int64' if target.name == 'bigquery' else 'bigint' }}"
-          accounttitle: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
-          basecurr: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
-          baselocation: "{{ 'int64' if target.name == 'bigquery' else 'bigint' }}"
-          classid: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
-          classname: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
-          createdby: "{{ 'int64' if target.name == 'bigquery' else 'bigint' }}"
-          currency: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
-          customerid: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
-          customername: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
-          departmentid: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
-          departmentname: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
-          entrydescription: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
-          exchange_rate: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
-          itemid: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
-          itemname: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
-          line_no: "{{ 'int64' if target.name == 'bigquery' else 'bigint' }}"
-          locationid: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
-          locationname: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
-          offsetglaccountno: "{{ 'int64' if target.name == 'bigquery' else 'bigint' }}"
-          offsetglaccounttitle: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
-          recordtype: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
-          state: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
-          totalselected: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
-          vendorid: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
-          vendorname: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
-          projectname: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
-          projectid: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}" 
-      sage_intacct__ar_invoice_item:
-        +column_types:
-          accountkey: "{{ 'int64' if target.name == 'bigquery' else 'bigint' }}"
-          accountno: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
-          accounttitle: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
-          basecurr: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
-          baselocation: "{{ 'int64' if target.name == 'bigquery' else 'bigint' }}"
-          classid: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
-          classname: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
-          currency: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
-          customerid: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
-          customername: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
-          departmentid: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
-          departmentname: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
-          entrydescription: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
-          exchange_rate: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
-          itemid: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
-          itemname: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
-          line_no: "{{ 'int64' if target.name == 'bigquery' else 'bigint' }}"
-          locationid: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
-          locationname: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
-          offsetglaccountno: "{{ 'int64' if target.name == 'bigquery' else 'bigint' }}"
-          offsetglaccounttitle: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
-          recordkey: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
-          recordno: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
-          recordtype: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
-          state: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
-          totalselected: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
-          vendorid: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
-          vendorname: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
-          warehouseid: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
-          warehousename: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
-      sage_intacct__gl_account:
-        +column_types:
-          category: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
-          normalbalance: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
-          accounttype: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
-      sage_intacct__gl_batch:
-        +column_types:
-          _fivetran_deleted: boolean
-      sage_intacct__gl_detail:
-        +column_types:
-          entry_date: date
-          accounttitle: "{{ 'varchar(100)' if target.name in ('redshift', 'postgres') else 'string' }}"
+  +docs:
+    show: False
+  +quote_columns: "{{ true if target.type == 'redshift' else false }}"
+  sage_intacct_integration_tests:
+    sage_intacct__ap_bill_item:
+      +column_types:
+        recordkey: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
+        recordno: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
+        accountkey: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
+        accounttitle: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
+        basecurr: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
+        baselocation: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
+        classid: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
+        classname: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
+        createdby: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
+        currency: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
+        customerid: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
+        customername: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
+        departmentid: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
+        departmentname: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
+        entrydescription: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
+        exchange_rate: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
+        itemid: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
+        itemname: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
+        line_no: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
+        locationid: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
+        locationname: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
+        offsetglaccountno: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
+        offsetglaccounttitle: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
+        recordtype: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
+        state: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
+        totalselected: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
+        vendorid: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
+        vendorname: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
+        projectname: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
+        projectid: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}" 
+    sage_intacct__ar_invoice_item:
+      +column_types:
+        accountkey: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
+        accountno: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
+        accounttitle: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
+        basecurr: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
+        baselocation: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
+        classid: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
+        classname: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
+        currency: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
+        customerid: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
+        customername: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
+        departmentid: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
+        departmentname: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
+        entrydescription: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
+        exchange_rate: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
+        itemid: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
+        itemname: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
+        line_no: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
+        locationid: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
+        locationname: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
+        offsetglaccountno: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
+        offsetglaccounttitle: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
+        recordkey: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
+        recordno: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
+        recordtype: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
+        state: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
+        totalselected: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
+        vendorid: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
+        vendorname: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
+        warehouseid: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
+        warehousename: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
+    sage_intacct__gl_account:
+      +column_types:
+        category: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
+        normalbalance: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
+        accounttype: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
+    sage_intacct__gl_batch:
+      +column_types:
+        _fivetran_deleted: boolean
+    sage_intacct__gl_detail:
+      +column_types:
+        entry_date: date
+        accounttitle: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
 
 dispatch:
   - macro_namespace: dbt_utils
@@ -110,3 +113,4 @@ dispatch:
 
 flags:
   send_anonymous_usage_stats: False
+  use_colors: True

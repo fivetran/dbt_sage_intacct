@@ -2,11 +2,11 @@
 
 with gl_detail as (
     select * 
-    from {{ var('gl_detail') }} 
+    from {{ ref('stg_sage_intacct__gl_detail') }} 
 
 ), gl_batch as (
     select * 
-    from {{ var('gl_batch') }} 
+    from {{ ref('stg_sage_intacct__gl_batch') }} 
 
 ), final as (
     select

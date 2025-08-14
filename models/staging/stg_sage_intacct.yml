@@ -1,0 +1,482 @@
+version: 2
+
+models:
+  - name: stg_sage_intacct__ap_bill_item
+    description: >
+      Record of each bill item with account, customer, department, location, and overall bill information. 
+    columns:
+      - name: bill_item_id
+        description: Unique identifier for a bill item.
+        tests:
+          - unique
+          - not_null
+      - name: bill_id
+        description: Foreign key representing bill ID, mapping to AP_BILL.RECORDNO
+      - name: _fivetran_synced
+        description: The timestamp of when the data was last synced by Fivetran
+      - name: account_key
+        description: Foreign key to GLACCOUNT.RECORDNO
+      - name: account_no
+        description: ID of account
+      - name: account_title
+        description: Name of account 
+      - name: amount
+        description: Value of bill item
+      - name: base_curr
+        description: Base currency
+      - name: base_location
+        description: Base location
+      - name: billable
+        description: Boolean for whether item is billable.
+      - name: billed
+        description: Boolean for whether item has been billed. 
+      - name: class_id
+        description: ID of class
+      - name: class_name
+        description: Name of class
+      - name: created_by
+        description: Entity that created the record
+      - name: currency
+        description: Currency
+      - name: customer_id
+        description: ID of customer
+      - name: customer_name
+        description: Name of customer
+      - name: department_id
+        description: ID of department
+      - name: department_name
+        description: Name of department
+      - name: entry_date_at
+        description: Date that record was entered
+      - name: entry_description
+        description: Description
+      - name: exchange_rate
+        description: Exchange rate
+      - name: item_id
+        description: ID of the item 
+      - name: item_name
+        description: Name of the item
+      - name: line_no
+        description: Line number of the item out of the overall bill 
+      - name: line_item
+        description: Boolean for whether it's a line item. 
+      - name: location_id
+        description: ID of location
+      - name: location_name
+        description: Name of location
+      - name: offset_gl_account_no
+        description: Offsetting account no from GL_ACCOUNT
+      - name: offset_gl_account_title
+        description: Offsetting account title from GL_ACCOUNT 
+      - name: record_type
+        description: Type of record
+      - name: state
+        description: Status
+      - name: total_item_paid
+        description: Amount paid
+      - name: total_selected
+        description: Amount selected
+      - name: vendor_id
+        description: ID of the vendor
+      - name: vendor_name
+        description: Name of the vendor
+      - name: created_at
+        description: Creation date as entered by user
+      - name: modified_at
+        description: Modified date
+      - name: project_name
+        description: Name of the project
+      - name: project_id
+        description: ID of the project
+
+  - name: stg_sage_intacct__ap_bill
+    description: Record of each bill with payment information. 
+    columns:
+      - name: bill_id
+        description: Unique identifier for a bill.
+        tests:
+          - unique
+          - not_null
+      - name: _fivetran_deleted
+        description: Boolean field indicating whether the record was deleted.
+      - name: _fivetran_synced
+        description: The timestamp of when the data was last synced by Fivetran
+      - name: au_created_at
+        description: Timestamp of when user created the record
+      - name: base_curr
+        description: Base currency
+      - name: bill_to_pay_to_contact_name
+        description: Contact name to pay
+      - name: bill_to_pay_to_key
+        description: Foreign key to CONTACT.RECORDNO
+      - name: currency
+        description: Currency
+      - name: description
+        description: Description of bill
+      - name: doc_number
+        description: ID of document
+      - name: due_in_days
+        description: Days until due 
+      - name: record_id
+        description: ID of bill. Maps to GL_DETAIL.RECORDID, which has all the records belonging to that bill.
+      - name: record_type
+        description: Type of document
+      - name: ship_to_return_to_contact_name
+        description: Contact name to return item to 
+      - name: ship_to_return_to_key
+        description: Foreign key to CONTACT.RECORDNO
+      - name: state
+        description: Status of bill
+      - name: total_due
+        description: Amount due
+      - name: total_entered
+        description: Amount entered
+      - name: total_paid
+        description: Amount paid 
+      - name: vendor_id
+        description: ID of the vendor
+      - name: vendor_name
+        description: Name of the vendor
+      - name: created_at
+        description: Bill creation date as entered by user
+      - name: due_at
+        description: Bill due date
+      - name: modified_at
+        description: Bill modified date 
+      - name: paid_at
+        description: Bill paid date
+      - name: posted_at
+        description: Bill posted date
+
+  - name: stg_sage_intacct__ar_invoice_item
+    description: Record of each invoice item with account, customer, department, location, vendor, and overall invoice information. 
+    columns: 
+      - name: invoice_item_id
+        description: Unique identifier for an invoice item.
+        tests:
+          - unique
+          - not_null
+      - name: invoice_id
+        description: Foreign key representing invoice ID, mapping to AR_INVOICE.RECORDNO
+      - name: _fivetran_synced
+        description: The timestamp of when the data was last synced by Fivetran
+      - name: account_key
+        description: Foreign key to GLACCOUNT.RECORDNO
+      - name: account_no
+        description: ID of account
+      - name: account_title
+        description: Title of account
+      - name: amount
+        description: Value of transaction
+      - name: base_curr
+        description: Base currency
+      - name: base_location
+        description: Base location
+      - name: class_id
+        description: ID of class
+      - name: class_name
+        description: Name of class
+      - name: currency
+        description: Currency 
+      - name: customer_id
+        description: ID of customer
+      - name: customer_name
+        description: Name of customer
+      - name: department_id
+        description: ID of department
+      - name: department_name
+        description: Name of department
+      - name: entry_date_at
+        description: Timestamp of entry
+      - name: entry_description
+        description: Description of entry
+      - name: exchange_rate
+        description: Exchange rate
+      - name: item_id
+        description: ID of the item
+      - name: item_name
+        description: Name of the item
+      - name: line_no
+        description: Line number of the item out of the overall invoice
+      - name: line_item
+        description: Boolean for whether it's a line item. 
+      - name: location_id
+        description: ID of location
+      - name: location_name
+        description: Name of location
+      - name: offset_gl_account_no
+        description: Offsetting account no from GL_ACCOUNT
+      - name: offset_gl_account_title
+        description: Offsetting account title from GL_ACCOUNT
+      - name: record_type
+        description: Type of record
+      - name: state
+        description: Status
+      - name: total_item_paid
+        description: Amount paid
+      - name: total_selected
+        description: Amount selected
+      - name: vendor_id
+        description: ID of the vendor
+      - name: vendor_name
+        description: Name of the vendor
+      - name: warehouse_id
+        description: ID of warehouse
+      - name: warehouse_name
+        description: Name of warehouse
+      - name: created_at
+        description: Creation date as entered by user
+      - name: modified_at
+        description: Modified date
+
+  - name: stg_sage_intacct__ar_invoice
+    description: Record of each bill with payment information. 
+    columns: 
+      - name: invoice_id
+        description: Unique identifier for an invoice.
+        tests:
+          - unique
+          - not_null
+      - name: _fivetran_deleted
+        description: Boolean field indicating whether the record was deleted.
+      - name: _fivetran_synced
+        description: The timestamp of when the data was last synced by Fivetran
+      - name: au_created_at
+        description: Timestamp of when user created the record
+      - name: bill_to_pay_to_contact_name
+        description: Name of bill to pay contact
+      - name: bill_to_pay_to_key
+        description: Foreign key to CONTACT.RECORDNO
+      - name: created_by
+        description: Entity that created the record
+      - name: currency
+        description: Currency
+      - name: customer_id
+        description: ID of customer
+      - name: customer_name
+        description: Name of customer
+      - name: description
+        description: Description
+      - name: doc_number
+        description: Document number 
+      - name: due_in_days
+        description: Days until due
+      - name: mega_entity_id
+        description: ID of entity
+      - name: mega_entity_name
+        description: Name of entity
+      - name: record_id
+        description: ID of invoice. Maps to GL_DETAIL.RECORDID, which has all the records belonging to that invoice.
+      - name: record_type
+        description: Type of record
+      - name: ship_to_return_to_contact_name
+        description: Contact name to return item to 
+      - name: ship_to_return_to_key
+        description: Foreign key to CONTACT.RECORDNO
+      - name: state
+        description: Status
+      - name: total_due
+        description: Amount due
+      - name: total_entered
+        description: Amount entered
+      - name: total_paid
+        description: Amount paid
+      - name: created_at
+        description: Creation date as entered by user
+      - name: due_at
+        description: Due date
+      - name: modified_at
+        description: Modified date
+      - name: paid_at
+        description: Paid date
+      - name: posted_at
+        description: Posted date
+
+  - name: stg_sage_intacct__gl_account
+    description: Records each existing account, with their corresponding categories.
+    columns:
+      - name: gl_account_id
+        description: ID of account 
+        tests:
+          - unique 
+          - not_null
+      - name: account_no
+        description: ID of account
+      - name: _fivetran_deleted
+        description: Boolean field indicating whether the record was deleted.
+      - name: _fivetran_synced
+        description: The timestamp of when the data was last synced by Fivetran
+      - name: account_type
+        description: Income statement or balance sheet
+      - name: alternative_account
+        description: Alternative account
+      - name: category
+        description: Accounting category, like Cost of Sales Revenue
+      - name: category_key
+        description: Key of category
+      - name: close_to_acct_key
+        description: Foreign key to the GLACCOUNT to which this GLACCOUNT closes. Refers to GLACCOUNT.RECORDNO
+      - name: closing_account_no
+        description: ID of closing account
+      - name: closing_account_title
+        description: Name of closing account
+      - name: closing_type
+        description: Closing or non-closing account
+      - name: created_by
+        description: Entity that created the record
+      - name: modified_by
+        description: Who modified the record
+      - name: normal_balance
+        description: Debit or credit
+      - name: status
+        description: Active or inactive
+      - name: taxable
+        description: Boolean for whether account is taxable.
+      - name: title
+        description: Title of account
+      - name: created_at
+        description: Creation date as entered by user
+      - name: modified_at
+        description: Modified at timestamp
+        
+  - name: stg_sage_intacct__gl_detail
+    description: Records all company transactions, where each has its offset entry to balance. 
+    columns:
+      - name: gl_detail_id
+        description: Unique identifier of the gl_detail entry.
+        tests:
+          - unique
+          - not_null
+      - name: account_no
+        description: ID of the account
+      - name: account_title
+        description: Name of the account
+      - name: amount
+        description: Value of transaction
+      - name: batch_date
+        description: When transaction was batched
+      - name: batch_no
+        description: What batch the transaction was part of
+      - name: batch_title
+        description: Name of batch
+      - name: batch_key
+        description: The individual batch number of the transaction
+      - name: book_id
+        description: ID of the book 
+      - name: credit_amount
+        description: If credit, the value. Otherwise, 0.
+      - name: debit_amount
+        description: If debit, the value. Otherwise, 0.
+      - name: customer_id
+        description: ID of the customer
+      - name: customer_name
+        description: Name of the customer
+      - name: description
+        description: Description of the transaction
+      - name: doc_number
+        description: Document number
+      - name: entry_date_at
+        description: Timestamp of entry
+      - name: entry_state
+        description: State of entry
+      - name: entry_description
+        description: Description of entry
+      - name: line_no
+        description: The number of each line item of the transaction 
+      - name: record_id
+        description: ID of record, which corresponds to the bill or invoice ID.
+      - name: record_type
+        description: Type of record, for example AP Bill
+      - name: total_due
+        description: Value of amount due
+      - name: total_entered
+        description: Value entered by user
+      - name: total_paid
+        description: Value paid
+      - name: tr_type
+        description: Transaction type
+      - name: trx_amount
+        description: Transaction amount
+      - name: trx_credit_amount
+        description: If credit, transaction amount
+      - name: trx_debit_amount
+        description: If debit, transaction amount
+      - name: vendor_id
+        description: Id of the vendor
+      - name: vendor_name
+        description: Name of the vendor
+      - name: created_at
+        description: Creation date as entered by user
+      - name: due_at
+        description: When transaction is due
+      - name: modified_at
+        description: When transaction is modified
+      - name: paid_at
+        description: When transaction was paid
+      - name: is_detail_deleted
+        description: Boolean field indicating whether the record was deleted. Due to source limitations, this field is currently populated with `nulls` in incremental syncs in Fivetran. In historical resyncs, it may be populated with `true` or `false`.
+
+  - name: stg_sage_intacct__gl_batch
+    description: Records batch updates of records originating from the gl_detail table
+    columns:
+      - name: is_batch_deleted
+        description: Boolean field indicating whether the record was deleted.
+      - name: _fivetran_synced
+        description: The timestamp of when the data was last synced by Fivetran
+      - name: base_location
+        description: Base location of the gl batch
+      - name: base_location_no
+        description: Base location number of the gl batch
+      - name: batch_date
+        description: Date the GL batch took place
+      - name: batch_title
+        description: Title of the GL batch
+      - name: batch_no
+        description: Number of the batch entry
+      - name: created_by
+        description: User who created the GL batch
+      - name: journal
+        description: Journal reference of the GL batch (ie. AR, AP, etc.)
+      - name: mega_entity_id
+        description: The ID of the mega entity which the GL batch is related
+      - name: mega_entity_key
+        description: They key of the mega entity which the GL batch is related
+      - name: mega_entity_name
+        description: The name of the mega entity which the GL batch is related
+      - name: modified
+        description: Date the GL batch was last modified
+      - name: modified_by
+        description: User who last modified the GL batch
+      - name: modified_by_id
+        description: ID of the user who last modified the GL batch
+      - name: module
+        description: Module reference of the GL batch
+      - name: pr_batch_key
+        description: PR batch key related to the GL batch
+      - name: record_no
+        description: Individual record number of the GL batch. This is the lookup key for the GL Detail table
+        tests:
+          - unique
+          - not_null
+      - name: reference_no
+        description: Reference number of the GL batch record
+      - name: reversed
+        description: Boolean indicating if the GL batch record was reversed
+      - name: reversed_from
+        description: Reference to the user who reversed the GL batch (if applicable)
+      - name: reversed_key
+        description: Reference key if the GL batch was reversed
+      - name: state
+        description: State of the GL batch (ie. Posted, Submitted, Draft, etc.)
+      - name: tax_implications
+        description: Reference to any tax implications for the GL batch
+      - name: template_key
+        description: Reference key to the template used for the GL batch
+      - name: user_info_login_id
+        description: User type of the individual who created the GL batch (ie. Admin, Guest, <username>, etc.) 
+      - name: user_key
+        description: Key of the user who created the GL batch
+      - name: when_created
+        description: Date when the GL batch was created
+      - name: when_modified
+        description: Timestamp when the GL batch was modified
