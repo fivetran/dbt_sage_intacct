@@ -3,12 +3,13 @@ version: 2
 models:
   - name: stg_sage_intacct__ap_bill_item
     description: >
-      Record of each bill item with account, customer, department, location, and overall bill information. 
+      Record of each bill item with account, customer, department, location, and overall bill information.
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: bill_item_id
         description: Unique identifier for a bill item.
         tests:
-          - unique
           - not_null
       - name: bill_id
         description: Foreign key representing bill ID, mapping to AP_BILL.RECORDNO
@@ -90,12 +91,13 @@ models:
         description: ID of the project
 
   - name: stg_sage_intacct__ap_bill
-    description: Record of each bill with payment information. 
+    description: Record of each bill with payment information.
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: bill_id
         description: Unique identifier for a bill.
         tests:
-          - unique
           - not_null
       - name: _fivetran_deleted
         description: Boolean field indicating whether the record was deleted.
@@ -149,12 +151,13 @@ models:
         description: Bill posted date
 
   - name: stg_sage_intacct__ar_invoice_item
-    description: Record of each invoice item with account, customer, department, location, vendor, and overall invoice information. 
-    columns: 
+    description: Record of each invoice item with account, customer, department, location, vendor, and overall invoice information.
+    columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: invoice_item_id
         description: Unique identifier for an invoice item.
         tests:
-          - unique
           - not_null
       - name: invoice_id
         description: Foreign key representing invoice ID, mapping to AR_INVOICE.RECORDNO
@@ -230,12 +233,13 @@ models:
         description: Modified date
 
   - name: stg_sage_intacct__ar_invoice
-    description: Record of each bill with payment information. 
-    columns: 
+    description: Record of each bill with payment information.
+    columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: invoice_id
         description: Unique identifier for an invoice.
         tests:
-          - unique
           - not_null
       - name: _fivetran_deleted
         description: Boolean field indicating whether the record was deleted.
@@ -295,10 +299,11 @@ models:
   - name: stg_sage_intacct__gl_account
     description: Records each existing account, with their corresponding categories.
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: gl_account_id
-        description: ID of account 
+        description: ID of account
         tests:
-          - unique 
           - not_null
       - name: account_no
         description: ID of account
@@ -340,12 +345,13 @@ models:
         description: Modified at timestamp
         
   - name: stg_sage_intacct__gl_detail
-    description: Records all company transactions, where each has its offset entry to balance. 
+    description: Records all company transactions, where each has its offset entry to balance.
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: gl_detail_id
         description: Unique identifier of the gl_detail entry.
         tests:
-          - unique
           - not_null
       - name: account_no
         description: ID of the account
@@ -419,6 +425,8 @@ models:
   - name: stg_sage_intacct__gl_batch
     description: Records batch updates of records originating from the gl_detail table
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: is_batch_deleted
         description: Boolean field indicating whether the record was deleted.
       - name: _fivetran_synced
@@ -456,7 +464,6 @@ models:
       - name: record_no
         description: Individual record number of the GL batch. This is the lookup key for the GL Detail table
         tests:
-          - unique
           - not_null
       - name: reference_no
         description: Reference number of the GL batch record

@@ -10,34 +10,8 @@ gl_accounting_periods as (
 
 
 gl_period_balances_is as (
-    select 
-        account_no,
-        account_title,
-        book_id,
-        category,
-        classification,
-        currency, 
-        entry_state,
-        account_type,
-        cast({{ dbt.date_trunc("month", "entry_date_at") }} as date) as date_month, 
-        cast({{ dbt.date_trunc("year", "entry_date_at") }} as date) as date_year
-
-        {% if var('sage_account_pass_through_columns') %} 
-        , 
-        {{ var('sage_account_pass_through_columns') | join (", ")}}
-
-        {% endif %}
-        , 
-        sum(amount) as period_amount
-    from general_ledger
-    where account_type = 'incomestatement'
-    
-    {{ dbt_utils.group_by(10 + var('sage_account_pass_through_columns')|length) }}
-
-), 
-
-gl_period_balances_bs as (
-    select 
+    select
+        source_relation,
         account_no,
         account_title,
         book_id,
@@ -46,11 +20,39 @@ gl_period_balances_bs as (
         currency,
         entry_state,
         account_type,
-        cast({{ dbt.date_trunc("month", "entry_date_at") }} as date) as date_month, 
+        cast({{ dbt.date_trunc("month", "entry_date_at") }} as date) as date_month,
         cast({{ dbt.date_trunc("year", "entry_date_at") }} as date) as date_year
 
-        {% if var('sage_account_pass_through_columns') %} 
-        , 
+        {% if var('sage_account_pass_through_columns') %}
+        ,
+        {{ var('sage_account_pass_through_columns') | join (", ")}}
+
+        {% endif %}
+        ,
+        sum(amount) as period_amount
+    from general_ledger
+    where account_type = 'incomestatement'
+
+    {{ dbt_utils.group_by(11 + var('sage_account_pass_through_columns')|length) }}
+
+), 
+
+gl_period_balances_bs as (
+    select
+        source_relation,
+        account_no,
+        account_title,
+        book_id,
+        category,
+        classification,
+        currency,
+        entry_state,
+        account_type,
+        cast({{ dbt.date_trunc("month", "entry_date_at") }} as date) as date_month,
+        cast({{ dbt.date_trunc("year", "entry_date_at") }} as date) as date_year
+
+        {% if var('sage_account_pass_through_columns') %}
+        ,
         {{ var('sage_account_pass_through_columns') | join (", ")}}
 
         {% endif %}
@@ -58,8 +60,8 @@ gl_period_balances_bs as (
         sum(amount) as period_amount
     from general_ledger
     where account_type = 'balancesheet'
-    
-    {{ dbt_utils.group_by(10 + var('sage_account_pass_through_columns')|length) }}
+
+    {{ dbt_utils.group_by(11 + var('sage_account_pass_through_columns')|length) }}
 
 ), 
 
@@ -75,38 +77,40 @@ gl_period_balances as (
 ),
 
 gl_cumulative_balances as (
-    select 
+    select
         *,
         case
-            when account_type = 'balancesheet' then sum(period_amount) over (partition by account_no, account_title, book_id, entry_state 
-                {% if var('sage_account_pass_through_columns') %} 
-                , 
+            when account_type = 'balancesheet' then sum(period_amount) over (partition by account_no, account_title, book_id, entry_state
+                {% if var('sage_account_pass_through_columns') %}
+                ,
                 {{ var('sage_account_pass_through_columns') | join (", ")}}
 
                 {% endif %}
+                {{ sage_intacct.partition_by_source_relation() }}
 
                 order by date_month, account_no rows unbounded preceding)
-            else 0 
-        end as cumulative_amount   
+            else 0
+        end as cumulative_amount
     from gl_period_balances
 
 ), 
 
 gl_beginning_balance as (
-    select 
+    select
         *,
         case
-            when account_type = 'balancesheet' then (cumulative_amount - period_amount) 
-            else 0 
+            when account_type = 'balancesheet' then (cumulative_amount - period_amount)
+            else 0
         end as period_beg_amount,
-        period_amount as period_net_amount, 
+        period_amount as period_net_amount,
         cumulative_amount as period_ending_amount
     from gl_cumulative_balances
 
 ), 
 
 gl_patch as (
-    select 
+    select
+        coalesce(gl_beginning_balance.source_relation, gl_accounting_periods.source_relation) as source_relation,
         coalesce(gl_beginning_balance.account_no, gl_accounting_periods.account_no) as account_no,
         coalesce(gl_beginning_balance.account_title, gl_accounting_periods.account_title) as account_title,
         coalesce(gl_beginning_balance.book_id, gl_accounting_periods.book_id) as book_id,
@@ -117,8 +121,8 @@ gl_patch as (
         coalesce(gl_beginning_balance.account_type, gl_accounting_periods.account_type) as account_type,
         coalesce(gl_beginning_balance.date_year, gl_accounting_periods.date_year) as date_year
 
-        {% if var('sage_account_pass_through_columns') %} 
-        , 
+        {% if var('sage_account_pass_through_columns') %}
+        ,
         {{ var('sage_account_pass_through_columns') | join (", gl_beginning_balance.")}}
 
         {% endif %}
@@ -129,7 +133,7 @@ gl_patch as (
         gl_beginning_balance.period_net_amount,
         gl_beginning_balance.period_beg_amount,
         gl_beginning_balance.period_ending_amount,
-        case 
+        case
             when gl_beginning_balance.period_beg_amount is null and period_index = 1 then 0
             else gl_beginning_balance.period_beg_amount
         end as period_beg_amount_starter,
@@ -146,19 +150,21 @@ gl_patch as (
             and gl_beginning_balance.book_id = gl_accounting_periods.book_id
             and gl_beginning_balance.entry_state = gl_accounting_periods.entry_state
             and gl_beginning_balance.currency = gl_accounting_periods.currency
+            and gl_beginning_balance.source_relation = gl_accounting_periods.source_relation
 
 ), 
 
 gl_value_partition as (
     select
         *,
-        sum(case when period_ending_amount_starter is null then 0 else 1 end) over (order by account_no, account_title, book_id, entry_state, period_last_day rows unbounded preceding) as gl_partition
+        sum(case when period_ending_amount_starter is null then 0 else 1 end) over ({{ sage_intacct.partition_by_source_relation(has_other_partitions='no') }} order by account_no, account_title, book_id, entry_state, period_last_day rows unbounded preceding) as gl_partition
     from gl_patch
 
 ), 
 
 final as (
     select
+        source_relation,
         account_no,
         account_title,
         book_id,
@@ -166,7 +172,7 @@ final as (
         classification,
         currency,
         account_type,
-        date_year, 
+        date_year,
         entry_state,
         period_first_day,
         period_last_day,
@@ -175,12 +181,12 @@ final as (
             first_value(period_ending_amount_starter) over (partition by gl_partition order by period_last_day rows unbounded preceding)) as period_beg_amount,
         coalesce(period_ending_amount_starter,
             first_value(period_ending_amount_starter) over (partition by gl_partition order by period_last_day rows unbounded preceding)) as period_ending_amount
-        {% if var('sage_account_pass_through_columns') %} 
-        , 
+        {% if var('sage_account_pass_through_columns') %}
+        ,
         {{ var('sage_account_pass_through_columns') | join (", ")}}
 
         {% endif %}
-        
+
     from gl_value_partition
 )
 

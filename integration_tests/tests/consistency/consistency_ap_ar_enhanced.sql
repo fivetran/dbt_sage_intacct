@@ -27,8 +27,8 @@ dev as (
 ),
 
 final as (
-    select 
-        prod.document_id,
+    select
+        coalesce(prod.document_id, dev.document_id) as document_id,
         prod.row_count as prod_row_count,
         dev.row_count as dev_row_count,
         round(prod.initial_amount, 2) as prod_initial_amount,
@@ -38,7 +38,7 @@ final as (
         round(prod.total_amount_due, 2) as prod_total_amount_due,
         round(dev.total_amount_due, 2) as dev_total_amount_due
     from prod
-    full outer join dev 
+    full outer join dev
         on dev.document_id = prod.document_id
 )
 

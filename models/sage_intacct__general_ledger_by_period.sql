@@ -5,7 +5,8 @@ with general_ledger_balances as (
 ), 
 
 final as (
-    select 
+    select
+        source_relation,
         account_no,
         account_title,
         book_id,

@@ -23,17 +23,16 @@ models:
 
   - name: sage_intacct__ap_ar_enhanced
     description: >
-      All transactions for each bill or invoice with their associated accounting period and due dates. 
-      Includes additional detail regarding the customer, location, department, vendor, and account. 
+      All transactions for each bill or invoice with their associated accounting period and due dates.
+      Includes additional detail regarding the customer, location, department, vendor, and account.
       Lastly, contains fields like the line number and total number of items in the overall bill or invoice.
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: document_id
         description: Invoice or bill id
       - name: document_item_id
         description: Unique key identifying the document item id
-        tests:
-          - unique
-          - not_null
       - name: document_type
         description: Whether the document is a bill or invoice
       - name: entry_date_at
@@ -103,11 +102,10 @@ models:
     description: >
       Records all transactions from Sage general ledger. Additionally adds category, classification, and account type.
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: gl_detail_id
         description: Unique identifier of the gl_detail entry.
-        tests:
-          - unique
-          - not_null
       - name: account_no
         description: ID of the account
       - name: account_title
@@ -175,12 +173,14 @@ models:
       - name: account_type
         description: Income statement or balance sheet
 
-  - name: sage_intacct__general_ledger_by_period 
+  - name: sage_intacct__general_ledger_by_period
     description: >
-      Table containing the beginning balance, ending balance, and net change of the dollar amount for each month and for each account, 
-      category, and classification. This table can be used to generate a balance sheet and profit & loss (income statement) for your business based 
+      Table containing the beginning balance, ending balance, and net change of the dollar amount for each month and for each account,
+      category, and classification. This table can be used to generate a balance sheet and profit & loss (income statement) for your business based
       on your customer accounting period.
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: account_no
         description: ID of the account
       - name: account_title
@@ -210,10 +210,12 @@ models:
       - name: period_ending_amount
         description: The cumulative amount at the end of the period
 
-  - name: sage_intacct__profit_and_loss 
+  - name: sage_intacct__profit_and_loss
     description: >
       Records amounts by account, category, and classification for all profit & loss (income statement) type transactions.
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: period_date
         description: The month of the entry date
       - name: account_no
@@ -235,10 +237,12 @@ models:
       - name: amount      
         description: Total amount for that month, for income statement transactions. The period net change
 
-  - name: sage_intacct__balance_sheet 
+  - name: sage_intacct__balance_sheet
     description: >
       Records amounts by account, category, and classification for all balance_sheet type transactions.
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: period_date
         description: The month of the entry date
       - name: account_no

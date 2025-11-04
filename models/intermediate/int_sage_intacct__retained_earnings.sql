@@ -5,6 +5,7 @@ with general_ledger_by_period as (
 
 retained_earnings_prep as (
     select
+        source_relation,
         period_first_day,
         'dbt Package Generated' as account_no,
         'Adj. Net Income' as account_title,
@@ -17,11 +18,12 @@ retained_earnings_prep as (
         sum(period_net_amount) as period_net_amount
     from general_ledger_by_period
     where account_type = 'incomestatement'
-    group by period_first_day, book_id, entry_state, currency
+    group by source_relation, period_first_day, book_id, entry_state, currency
 ),
 
 final as (
     select
+        source_relation,
         period_first_day,
         account_no,
         account_title,
@@ -31,7 +33,7 @@ final as (
         classification,
         currency,
         entry_state,
-        sum(period_net_amount) over (partition by book_id, entry_state, currency
+        sum(period_net_amount) over (partition by book_id, entry_state, currency {{ sage_intacct.partition_by_source_relation() }}
             order by period_first_day rows between unbounded preceding and current row
         ) as amount
     from retained_earnings_prep

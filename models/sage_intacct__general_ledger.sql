@@ -10,8 +10,9 @@ gl_account as (
 
 general_ledger as (
 
-    select 
+    select
 
+    gld.source_relation,
     gld.gl_detail_id,
     gld.account_no,
     gld.account_title,
@@ -62,7 +63,8 @@ general_ledger as (
 
     from gl_detail gld
     left join gl_account gla
-        on gld.account_no = gla.account_no 
+        on gld.account_no = gla.account_no
+        and gld.source_relation = gla.source_relation
 )
 
 select * 

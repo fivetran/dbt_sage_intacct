@@ -5,6 +5,7 @@ with gl_account as (
 
 final as (
     select
+        source_relation,
         account_no,
         account_type,
         category,
