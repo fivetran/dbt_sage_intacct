@@ -33,6 +33,8 @@ models:
         description: Invoice or bill id
       - name: document_item_id
         description: Unique key identifying the document item id
+        tests:
+          - not_null
       - name: document_type
         description: Whether the document is a bill or invoice
       - name: entry_date_at
@@ -106,6 +108,8 @@ models:
         description: "{{ doc('source_relation') }}"
       - name: gl_detail_id
         description: Unique identifier of the gl_detail entry.
+        tests:
+          - not_null
       - name: account_no
         description: ID of the account
       - name: account_title

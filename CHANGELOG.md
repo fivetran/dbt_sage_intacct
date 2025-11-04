@@ -1,5 +1,7 @@
 # dbt_sage_intacct v1.1.0
 
+[PR #38](https://github.com/fivetran/dbt_sage_intacct/pull/38) includes the following updates:
+
 ## Schema/Data Change
 **1 total change • 0 possible breaking changes**
 
