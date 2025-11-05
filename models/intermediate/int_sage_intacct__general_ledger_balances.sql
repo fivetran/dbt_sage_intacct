@@ -80,13 +80,11 @@ gl_cumulative_balances as (
     select
         *,
         case
-            when account_type = 'balancesheet' then sum(period_amount) over (partition by account_no, account_title, book_id, entry_state
-                {% if var('sage_account_pass_through_columns') %}
-                ,
-                {{ var('sage_account_pass_through_columns') | join (", ")}}
-
-                {% endif %}
-                {{ sage_intacct.partition_by_source_relation() }}
+            when account_type = 'balancesheet'
+                then sum(period_amount) over (partition by
+                    account_no, account_title, book_id, entry_state
+                    {{ "," ~ var('sage_account_pass_through_columns') | join (", ") if var('sage_account_pass_through_columns') }}
+                    {{ sage_intacct.partition_by_source_relation() }}
 
                 order by date_month, account_no rows unbounded preceding)
             else 0
@@ -178,9 +176,9 @@ final as (
         period_last_day,
         coalesce(period_net_amount,0) as period_net_amount,
         coalesce(period_beg_amount_starter,
-            first_value(period_ending_amount_starter) over (partition by gl_partition order by period_last_day rows unbounded preceding)) as period_beg_amount,
+            first_value(period_ending_amount_starter) over (partition by gl_partition {{ sage_intacct.partition_by_source_relation() }} order by period_last_day rows unbounded preceding)) as period_beg_amount,
         coalesce(period_ending_amount_starter,
-            first_value(period_ending_amount_starter) over (partition by gl_partition order by period_last_day rows unbounded preceding)) as period_ending_amount
+            first_value(period_ending_amount_starter) over (partition by gl_partition {{ sage_intacct.partition_by_source_relation() }} order by period_last_day rows unbounded preceding)) as period_ending_amount
         {% if var('sage_account_pass_through_columns') %}
         ,
         {{ var('sage_account_pass_through_columns') | join (", ")}}
