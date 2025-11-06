@@ -57,21 +57,36 @@ date_spine as (
     from spine
 ),
 
-final as (
+unique_gl_accounts as (
     select distinct
-        general_ledger.account_no,
-        general_ledger.account_title,
-        general_ledger.account_type,
-        general_ledger.book_id,
-        general_ledger.category,
-        general_ledger.classification,
-        general_ledger.currency,
-        general_ledger.entry_state,
+        source_relation,
+        account_no,
+        account_title,
+        account_type,
+        book_id,
+        category,
+        classification,
+        currency,
+        entry_state
+    from general_ledger
+),
+
+final as (
+    select
+        unique_gl_accounts.source_relation,
+        unique_gl_accounts.account_no,
+        unique_gl_accounts.account_title,
+        unique_gl_accounts.account_type,
+        unique_gl_accounts.book_id,
+        unique_gl_accounts.category,
+        unique_gl_accounts.classification,
+        unique_gl_accounts.currency,
+        unique_gl_accounts.entry_state,
         date_spine.date_year,
         date_spine.period_first_day,
         date_spine.period_last_day,
         date_spine.period_index
-    from general_ledger
+    from unique_gl_accounts
 
     cross join date_spine
 )

@@ -3,15 +3,17 @@
     enabled=var('fivetran_validation_tests_enabled', false)
 ) }}
 
+{% set exclude_cols = ['source_relation'] + var('consistency_test_exclude_metrics', []) %}
+
 -- this test ensures the general ledger end model matches the prior version
 with prod as (
-    select *
+    select {{ dbt_utils.star(from=ref('sage_intacct__general_ledger'), except=exclude_cols) }}
     from {{ target.schema }}_sage_intacct_prod.sage_intacct__general_ledger
     where date(entry_date_at) < date({{ dbt.current_timestamp() }})
 ),
 
 dev as (
-    select * 
+    select {{ dbt_utils.star(from=ref('sage_intacct__general_ledger'), except=exclude_cols) }}
     from {{ target.schema }}_sage_intacct_dev.sage_intacct__general_ledger
     where date(entry_date_at) < date({{ dbt.current_timestamp() }})
 ),

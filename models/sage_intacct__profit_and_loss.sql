@@ -6,6 +6,7 @@ with general_ledger_by_period as (
 
 final as (
     select
+        source_relation,
         cast ({{ dbt.date_trunc("month", "period_first_day") }} as date) as period_date,
         account_no,
         account_title,

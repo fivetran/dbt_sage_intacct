@@ -15,19 +15,21 @@ fields as (
                 staging_columns=get_gl_detail_columns()
             )
         }}
+        {{ sage_intacct.apply_source_relation() }}
         --The below script allows for pass through columns.
-        {% if var('sage_gl_pass_through_columns') %} 
+        {% if var('sage_gl_pass_through_columns') %}
         ,
         {{ var('sage_gl_pass_through_columns') | join (", ")}}
 
         {% endif %}
-        
+
     from base
 ),
 
 final as (
-    
-    select 
+
+    select
+        source_relation,
         recordno as gl_detail_id,
         cast(accountno as {{ dbt.type_string() }}) as account_no,
         accounttitle as account_title,

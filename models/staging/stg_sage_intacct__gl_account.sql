@@ -15,8 +15,9 @@ fields as (
                 staging_columns=get_gl_account_columns()
             )
         }}
+        {{ sage_intacct.apply_source_relation() }}
         --The below script allows for pass through columns.
-        {% if var('sage_account_pass_through_columns') %} 
+        {% if var('sage_account_pass_through_columns') %}
         ,
         {{ var('sage_account_pass_through_columns') | join (", ")}}
 
@@ -26,8 +27,9 @@ fields as (
 ),
 
 final as (
-    
-    select 
+
+    select
+        source_relation,
         cast(accountno as {{ dbt.type_string() }}) as account_no,
         _fivetran_deleted,	
         _fivetran_synced,	

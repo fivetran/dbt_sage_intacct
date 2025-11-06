@@ -10,8 +10,9 @@ retained_earnings as (
 ),
 
 combine_retained_earnings as (
-    select 
-        period_first_day, 
+    select
+        source_relation,
+        period_first_day,
         account_no,
         account_title,
         account_type,
@@ -23,15 +24,16 @@ combine_retained_earnings as (
         period_ending_amount as amount
     from general_ledger_by_period
 
-    union all 
+    union all
 
     select *
     from retained_earnings
 ),
 
 final as (
-    select 
-        cast ({{ dbt.date_trunc("month", "period_first_day") }} as date) as period_date, 
+    select
+        source_relation,
+        cast ({{ dbt.date_trunc("month", "period_first_day") }} as date) as period_date,
         account_no,
         account_title,
         account_type,

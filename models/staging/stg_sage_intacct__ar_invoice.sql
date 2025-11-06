@@ -16,13 +16,15 @@ fields as (
                 staging_columns=get_ar_invoice_columns()
             )
         }}
-        
+        {{ sage_intacct.apply_source_relation() }}
+
     from base
 ),
 
 final as (
-    
-    select 
+
+    select
+        source_relation,
         cast(recordno as {{ dbt.type_string() }}) as invoice_id,
         _fivetran_deleted,
         _fivetran_synced,

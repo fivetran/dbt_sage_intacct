@@ -14,12 +14,14 @@ fields as (
                 staging_columns=get_gl_batch_columns()
             )
         }}
+        {{ sage_intacct.apply_source_relation() }}
     from base
 ),
 
 final as (
-    
-    select 
+
+    select
+        source_relation,
         _fivetran_deleted as is_batch_deleted,
         _fivetran_synced,
         baselocation as base_location,

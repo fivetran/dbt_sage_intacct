@@ -31,6 +31,7 @@ ar_invoice_item as (
 {% if var('sage_intacct__using_bills', True) %}
 ap_bill_enhanced as (
     select
+        ap_bill_item.source_relation,
         ap_bill_item.bill_id,
         ap_bill_item.bill_item_id,
         cast(null as {{ dbt.type_string() }}) as invoice_id,
@@ -65,17 +66,19 @@ ap_bill_enhanced as (
         ap_bill.total_entered,
         ap_bill.total_paid,
         ap_bill.record_id,
-        count(*) over (partition by ap_bill_item.bill_id) as number_of_items
+        count(*) over (partition by ap_bill_item.bill_id {{ sage_intacct.partition_by_source_relation(alias='ap_bill_item') }}) as number_of_items
     from ap_bill_item
-    
+
     left join ap_bill
         on ap_bill_item.bill_id = ap_bill.bill_id
+        and ap_bill_item.source_relation = ap_bill.source_relation
 ), 
 {% endif %}
 
 {% if var('sage_intacct__using_invoices', True) %}
     ar_invoice_enhanced as (
-    select 
+    select
+        ar_invoice_item.source_relation,
         cast(null as {{ dbt.type_string() }}) as bill_id,
         cast(null as {{ dbt.type_string() }}) as bill_item_id,
         ar_invoice_item.invoice_id,
@@ -110,11 +113,12 @@ ap_bill_enhanced as (
         ar_invoice.total_entered,
         ar_invoice.total_paid,
         ar_invoice.record_id,
-        count(*) over (partition by ar_invoice_item.invoice_id) as number_of_items
+        count(*) over (partition by ar_invoice_item.invoice_id {{ sage_intacct.partition_by_source_relation(alias='ar_invoice_item') }}) as number_of_items
 
         from ar_invoice_item
         left join ar_invoice
             on ar_invoice_item.invoice_id = ar_invoice.invoice_id
+            and ar_invoice_item.source_relation = ar_invoice.source_relation
     ),
 {% endif %}
 
@@ -139,7 +143,8 @@ ap_ar_enhanced as (
 
 
 final as (
-    select 
+    select
+        source_relation,
         coalesce(
                 {% if var('sage_intacct__using_bills', True) %} bill_id {% endif %}
                 

@@ -16,13 +16,15 @@ fields as (
                 staging_columns=get_ap_bill_item_columns()
             )
         }}
-        
+        {{ sage_intacct.apply_source_relation() }}
+
     from base
 ),
 
 final as (
-    
-    select 
+
+    select
+        source_relation,
         cast(recordkey as {{ dbt.type_string() }}) as bill_id,
         cast(recordno as {{dbt.type_string() }}) as bill_item_id,
         _fivetran_synced,
