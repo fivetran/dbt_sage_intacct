@@ -24,3 +24,15 @@ public_models: [
   "sage_intacct__balance_sheet",
   "sage_intacct__general_ledger"
 ]
+
+supported_vars:
+  sage_account_pass_through_columns:
+    type: list
+    description: "Addtional `GL_ACCOUNT` columns to include in `sage_intacct__general_ledger` and `sage_intacct__general_ledger_by_period`"
+    display_name: "Additional GL Account Columns"
+
+  sage_gl_pass_through_columns:
+    type: list
+    description: "Addtional `GL_DETAIL` columns to include in `sage_intacct__general_ledger`"
+    display_name: "Additional GL Detail Columns"
+
