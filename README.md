@@ -162,6 +162,8 @@ vars:
 
 ### (Optional) Additional configurations
 
+<details open><summary>Expand/Collapse configurations</summary>
+
 #### Passthrough Columns
 This package allows users to add additional columns to the `stg_sage_intacct__gl_account` and `stg_sage_intacct__gl_detail` table.
 Columns passed through must be present in the upstream source tables. See below for an example of how the passthrough columns should be configured within your `dbt_project.yml` file.
@@ -222,6 +224,8 @@ If an individual source table has a different name than the package expects, add
 vars:
     sage_intacct_<default_source_table_name>_identifier: your_table_name 
 ```
+
+</details>
 
 ### (Optional) Orchestrate your models with Fivetran Transformations for dbt Core™
 <details><summary>Expand for more details</summary>
