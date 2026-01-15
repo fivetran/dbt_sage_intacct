@@ -1,4 +1,5 @@
-# Sage Intacct dbt Package ([Docs](https://fivetran.github.io/dbt_sage_intacct/))
+<!--section="sage-intacct_transformation_model"-->
+# Sage Intacct dbt Package
 
 <p align="left">
     <a alt="License"
@@ -11,44 +12,76 @@
     <a alt="PRs">
         <img src="https://img.shields.io/badge/Contributions-welcome-blueviolet" /></a>
     <a alt="Fivetran Quickstart Compatible"
-        href="https://fivetran.com/docs/transformations/dbt/quickstart">
+        href="https://fivetran.com/docs/transformations/data-models/quickstart-management#quickstartmanagement">
         <img src="https://img.shields.io/badge/Fivetran_Quickstart_Compatible%3F-yes-green.svg" /></a>
 </p>
 
+This dbt package transforms data from Fivetran's Sage Intacct connector into analytics-ready tables.
+
+## Resources
+
+- Number of materialized models¹: 23
+- Connector documentation
+  - [Sage Intacct connector documentation](https://fivetran.com/docs/connectors/applications/sage-intacct)
+  - [Sage Intacct ERD](https://fivetran.com/docs/connectors/applications/sage-intacct#schemainformation)
+- dbt package documentation
+  - [GitHub repository](https://github.com/fivetran/dbt_sage_intacct)
+  - [dbt Docs](https://fivetran.github.io/dbt_sage_intacct/#!/overview)
+  - [DAG](https://fivetran.github.io/dbt_sage_intacct/#!/overview?g_v=1)
+  - [Changelog](https://github.com/fivetran/dbt_sage_intacct/blob/main/CHANGELOG.md)
+
 ## What does this dbt package do?
-- Produces modeled tables that leverage Sage Intacct data from [Fivetran's connector](https://fivetran.com/docs/applications/sage-intacct) in the format described by [this ERD](https://fivetran.com/docs/applications/sage-intacct#schemainformation).
-
-The main focus of this package is to provide users with insights into their Sage Intacct data that can be used for financial reporting and analysis. This is achieved by the following:
-- Creating the general ledger, balance sheet, and profile & loss statement on a month by month grain
-- Creating an enhanced AR and AP model
-
-### Compatibility
+This package enables you to create general ledger, balance sheet, and profit & loss statements by period and enhance AR and AP models. It creates enriched models with metrics focused on financial reporting and analysis.
 
 > Please be aware that the [dbt_sage_intacct](https://github.com/fivetran/dbt_sage_intacct) package was developed with single-currency company data. As such, the package models will not reflect accurate totals if your account has multi-currency enabled. If multi-currency functionality is desired, we welcome discussion to support this in a future version.
 
-<!--section=“sage_intacct_transformation_model"-->
+### Output schema
+Final output tables are generated in the following target schema:
 
-The following table provides a detailed list of all tables materialized within this package by default.
+```
+<your_database>.<connector/schema_name>_sage_intacct
+```
 
-| **Table**                | **Description**                                                                                                                                                                                                   |
-| ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| [sage_intacct__general_ledger](https://github.com/fivetran/dbt_sage_intacct/blob/master/models/sage_intacct__general_ledger.sql) | Table containing all transactions with offsetting debit and credit entries for each account, category, and classification. |
-| [sage_intacct__general_ledger_by_period](https://github.com/fivetran/dbt_sage_intacct/blob/master/models/sage_intacct__general_ledger_by_period.sql) | Table containing the beginning balance, ending balance, and net change of the dollar amount for each month and for each account, category, and classification. This table can be used to generate different financial statements for your business based on your customer accounting period. Examples include the balance sheet and income statement models. |
-| [sage_intacct__balance_sheet](https://github.com/fivetran/dbt_sage_intacct/blob/master/models/sage_intacct__balance_sheet.sql)             | Total amounts by period per account, category, and classification for all balance sheet transactions.
-| [sage_intacct__profit_and_loss](https://github.com/fivetran/dbt_sage_intacct/blob/master/models/sage_intacct__profit_and_loss.sql)       | Total amounts by period per account, category, and classification for all profit & loss transactions.
-| [sage_intacct__ap_ar_enhanced](https://github.com/fivetran/dbt_sage_intacct/blob/master/models/sage_intacct__ap_ar_enhanced.sql) | All transactions for each bill or invoice with their associated accounting period and due dates. Includes additional detail regarding the customer, location, department, vendor, and account. Lastly, contains fields like the line number and total number of items in the overall bill or invoice.
+### Final output tables
 
-### Materialized Models
-Each Quickstart transformation job run materializes 23 models if all components of this data model are enabled. This count includes all staging, intermediate, and final models materialized as `view`, `table`, or `incremental`.
-<!--section-end-->
+By default, this package materializes the following final tables:
 
-## How do I use the dbt package?
+| Table | Description |
+| :---- | :---- |
+| [sage_intacct__general_ledger](https://github.com/fivetran/dbt_sage_intacct/blob/master/models/sage_intacct__general_ledger.sql) | Tracks all financial transactions with offsetting debit and credit entries by account, category, and classification to provide a complete audit trail and transaction history. <br></br>**Example Analytics Questions:**<ul><li>What is the total debit and credit activity by account and classification?</li><li>Which accounts have the highest transaction volumes or largest balance changes?</li><li>How do debits and credits balance across different categories and time periods?</li></ul>|
+| [sage_intacct__general_ledger_by_period](https://github.com/fivetran/dbt_sage_intacct/blob/master/models/sage_intacct__general_ledger_by_period.sql) | Summarizes account activity by period with beginning balances, ending balances, and net changes to track financial position over time and support financial statement preparation. <br></br>**Example Analytics Questions:**<ul><li>What are the beginning and ending balances for each account by period?</li><li>Which accounts show the largest net changes period-over-period?</li><li>How do period-over-period balances trend by account category and classification?</li></ul>|
+| [sage_intacct__balance_sheet](https://github.com/fivetran/dbt_sage_intacct/blob/master/models/sage_intacct__balance_sheet.sql) | Aggregates balance sheet transactions by period, account, category, and classification to track assets, liabilities, and equity over time. <br></br>**Example Analytics Questions:**<ul><li>What is the total asset value versus total liability value for each reporting period?</li><li>How have account balances changed across different balance sheet categories?</li><li>What is the equity position by classification and time period?</li></ul>|
+| [sage_intacct__profit_and_loss](https://github.com/fivetran/dbt_sage_intacct/blob/master/models/sage_intacct__profit_and_loss.sql) | Summarizes revenue and expense transactions by period, account, category, and classification to analyze profitability and income statement performance. <br></br>**Example Analytics Questions:**<ul><li>What are total revenues versus total expenses for each accounting period?</li><li>Which expense accounts or categories are growing fastest?</li><li>What is the net profit or loss by classification and time period?</li></ul>|
+| [sage_intacct__ap_ar_enhanced](https://github.com/fivetran/dbt_sage_intacct/blob/master/models/sage_intacct__ap_ar_enhanced.sql) | Provides detailed accounts payable and receivable transaction data with bill/invoice information, due dates, customer and vendor details, and line item breakdowns. <br></br>**Example Analytics Questions:**<ul><li>Which customers or vendors have the highest outstanding balances?</li><li>Which bills and invoices are approaching their due dates?</li><li>How do transaction volumes vary by department, location, or account?</li></ul>|
 
-### Step 1: Prerequisites
+¹ Each Quickstart transformation job run materializes these models if all components of this data model are enabled. This count includes all staging, intermediate, and final models materialized as `view`, `table`, or `incremental`.
+
+---
+
+## Prerequisites
 To use this dbt package, you must have the following:
 
 - At least one Fivetran Sage Intacct connection syncing data into your destination.
 - A **BigQuery**, **Snowflake**, **Redshift**, **PostgreSQL**, or **Databricks** destination.
+
+## How do I use the dbt package?
+You can either add this dbt package in the Fivetran dashboard or import it into your dbt project:
+
+- To add the package in the Fivetran dashboard, follow our [Quickstart guide](https://fivetran.com/docs/transformations/data-models/quickstart-management).
+- To add the package to your dbt project, follow the setup instructions in the dbt package's [README file](https://github.com/fivetran/dbt_sage_intacct/blob/main/README.md#how-do-i-use-the-dbt-package) to use this package.
+
+<!--section-end-->
+
+### Install the package
+Include the following sage_intacct package version in your `packages.yml` file:
+> TIP: Check [dbt Hub](https://hub.getdbt.com/) for the latest installation instructions or [read the dbt docs](https://docs.getdbt.com/docs/package-management) for more information on installing packages.
+```yml
+packages:
+  - package: fivetran/sage_intacct
+    version: [">=1.3.0", "<1.4.0"] # we recommend using ranges to capture non-breaking changes automatically
+```
+
+> All required sources and staging models are now bundled into this transformation package. Do not include `fivetran/sage_intacct_source` in your `packages.yml` since this package has been deprecated.
 
 #### Databricks Dispatch Configuration
 If you are using a Databricks destination with this package you will need to add the below (or a variation of the below) dispatch configuration within your `dbt_project.yml`. This is required in order for the package to accurately search for macros within the `dbt-labs/spark_utils` then the `dbt-labs/dbt_utils` packages respectively.
@@ -58,18 +91,7 @@ dispatch:
     search_order: ['spark_utils', 'dbt_utils']
 ```
 
-### Step 2: Install the package
-Include the following sage_intacct package version in your `packages.yml` file:
-> TIP: Check [dbt Hub](https://hub.getdbt.com/) for the latest installation instructions or [read the dbt docs](https://docs.getdbt.com/docs/package-management) for more information on installing packages.
-```yml
-packages:
-  - package: fivetran/sage_intacct
-    version: [">=1.2.0", "<1.3.0"] # we recommend using ranges to capture non-breaking changes automatically
-```
-
-> All required sources and staging models are now bundled into this transformation package. Do not include `fivetran/sage_intacct_source` in your `packages.yml` since this package has been deprecated.
-
-### Step 3: Define database and schema variables
+### Define database and schema variables
 
 #### Option A: Single connection
 By default, this package runs using your destination and the `sage_intacct` schema. If this is not where your Sage Intacct data is (for example, if your Sage Intacct schema is named `sage_intacct_fivetran`), add the following configuration to your root `dbt_project.yml` file:
@@ -128,7 +150,7 @@ sources:
     tables: # copy and paste from sage_intacct/models/staging/src_sage_intacct.yml - see https://support.atlassian.com/bitbucket-cloud/docs/yaml-anchors/ for how to use anchors to only do so once
 ```
 
-> **Note**: If there are source tables you do not have (see [Step 4](#optional-step-4-additional-configurations)), you may still include them, as long as you have set the right variables to `False`.
+> **Note**: If there are source tables you do not have (see [Additional configurations](#optional-additional-configurations)), you may still include them, as long as you have set the right variables to `False`.
 
 2. Set the `has_defined_sources` variable (scoped to the `sage_intacct` package) to `True`, like such:
 ```yml
@@ -138,7 +160,9 @@ vars:
     has_defined_sources: true
 ```
 
-### (Optional) Step 4: Additional configurations
+### (Optional) Additional configurations
+
+<details open><summary>Expand/Collapse configurations</summary>
 
 #### Passthrough Columns
 This package allows users to add additional columns to the `stg_sage_intacct__gl_account` and `stg_sage_intacct__gl_detail` table.
@@ -201,10 +225,12 @@ vars:
     sage_intacct_<default_source_table_name>_identifier: your_table_name 
 ```
 
-### (Optional) Step 5: Orchestrate your models with Fivetran Transformations for dbt Core™
+</details>
+
+### (Optional) Orchestrate your models with Fivetran Transformations for dbt Core™
 <details><summary>Expand for more details</summary>
 
-Fivetran offers the ability for you to orchestrate your dbt project through [Fivetran Transformations for dbt Core™](https://fivetran.com/docs/transformations/dbt). Learn how to set up your project for orchestration through Fivetran in our [Transformations for dbt Core setup guides](https://fivetran.com/docs/transformations/dbt#setupguide).
+Fivetran offers the ability for you to orchestrate your dbt project through [Fivetran Transformations for dbt Core™](https://fivetran.com/docs/transformations/dbt#transformationsfordbtcore). Learn how to set up your project for orchestration through Fivetran in our [Transformations for dbt Core setup guides](https://fivetran.com/docs/transformations/dbt/setup-guide#transformationsfordbtcoresetupguide).
 
 </details>
 
@@ -223,14 +249,19 @@ packages:
     - package: dbt-labs/spark_utils
       version: [">=0.3.0", "<0.4.0"]
 ```
+
+<!--section="sage-intacct_maintenance"-->
 ## How is this package maintained and can I contribute?
+
 ### Package Maintenance
-The Fivetran team maintaining this package _only_ maintains the latest version of the package. We highly recommend you stay consistent with the [latest version](https://hub.getdbt.com/fivetran/sage_intacct/latest/) of the package and refer to the [CHANGELOG](https://github.com/fivetran/dbt_sage_intacct/blob/main/CHANGELOG.md) and release notes for more information on changes across versions.
+The Fivetran team maintaining this package only maintains the [latest version](https://hub.getdbt.com/fivetran/sage_intacct/latest/) of the package. We highly recommend you stay consistent with the latest version of the package and refer to the [CHANGELOG](https://github.com/fivetran/dbt_sage_intacct/blob/main/CHANGELOG.md) and release notes for more information on changes across versions.
 
 ### Contributions
 A small team of analytics engineers at Fivetran develops these dbt packages. However, the packages are made better by community contributions.
 
-We highly encourage and welcome contributions to this package. Check out [this dbt Discourse article](https://discourse.getdbt.com/t/contributing-to-a-dbt-package/657) on the best workflow for contributing to a package.
+We highly encourage and welcome contributions to this package. Learn how to contribute to a package in dbt's [Contributing to an external dbt package article](https://discourse.getdbt.com/t/contributing-to-a-dbt-package/657).
+
+<!--section-end-->
 
 ## Are there any resources available?
 - If you have questions or want to reach out for help, see the [GitHub Issue](https://github.com/fivetran/dbt_sage_intacct/issues/new/choose) section to find the right avenue of support for you.
