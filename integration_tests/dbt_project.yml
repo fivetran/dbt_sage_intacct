@@ -21,6 +21,9 @@ vars:
   # fivetran_consistency_gl_period_exclusion_documents: () ## -- Variable for filtering out documents if inconsistency is expected. 
 
 models:
+  +persist_docs:
+    relation: true
+    columns: "{{ false if target.type in ('databricks') else true }}"
   +schema: "sage_intacct_{{ var('directed_schema','dev') }}" 
 
 seeds:
