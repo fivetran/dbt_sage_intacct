@@ -16,7 +16,7 @@ fields as (
                 staging_columns=get_ap_bill_item_columns()
             )
         }}
-        {{ sage_intacct.apply_source_relation() }}
+        {{ fivetran_utils.apply_source_relation(package_name='sage_intacct') }}
 
     from base
 ),

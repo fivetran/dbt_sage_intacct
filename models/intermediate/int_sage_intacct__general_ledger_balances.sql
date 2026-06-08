@@ -84,7 +84,7 @@ gl_cumulative_balances as (
                 then sum(period_amount) over (partition by
                     account_no, account_title, book_id, entry_state
                     {{ "," ~ var('sage_account_pass_through_columns') | join (", ") if var('sage_account_pass_through_columns') }}
-                    {{ sage_intacct.partition_by_source_relation() }}
+                    {{ fivetran_utils.partition_by_source_relation(package_name='sage_intacct') }}
 
                 order by date_month, account_no rows unbounded preceding)
             else 0
@@ -155,7 +155,7 @@ gl_patch as (
 gl_value_partition as (
     select
         *,
-        sum(case when period_ending_amount_starter is null then 0 else 1 end) over ({{ sage_intacct.partition_by_source_relation(has_other_partitions='no') }} order by account_no, account_title, book_id, entry_state, period_last_day rows unbounded preceding) as gl_partition
+        sum(case when period_ending_amount_starter is null then 0 else 1 end) over ({{ fivetran_utils.partition_by_source_relation(package_name='sage_intacct', has_other_partitions='no') }} order by account_no, account_title, book_id, entry_state, period_last_day rows unbounded preceding) as gl_partition
     from gl_patch
 
 ), 
@@ -176,9 +176,9 @@ final as (
         period_last_day,
         coalesce(period_net_amount,0) as period_net_amount,
         coalesce(period_beg_amount_starter,
-            first_value(period_ending_amount_starter) over (partition by gl_partition {{ sage_intacct.partition_by_source_relation() }} order by period_last_day rows unbounded preceding)) as period_beg_amount,
+            first_value(period_ending_amount_starter) over (partition by gl_partition {{ fivetran_utils.partition_by_source_relation(package_name='sage_intacct') }} order by period_last_day rows unbounded preceding)) as period_beg_amount,
         coalesce(period_ending_amount_starter,
-            first_value(period_ending_amount_starter) over (partition by gl_partition {{ sage_intacct.partition_by_source_relation() }} order by period_last_day rows unbounded preceding)) as period_ending_amount
+            first_value(period_ending_amount_starter) over (partition by gl_partition {{ fivetran_utils.partition_by_source_relation(package_name='sage_intacct') }} order by period_last_day rows unbounded preceding)) as period_ending_amount
         {% if var('sage_account_pass_through_columns') %}
         ,
         {{ var('sage_account_pass_through_columns') | join (", ")}}

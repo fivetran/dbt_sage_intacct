@@ -1,5 +1,3 @@
-
-
 {{ config(enabled=fivetran_utils.enabled_vars_one_true(vars=["sage_intacct__using_bills", "sage_intacct__using_invoices"])) }}
 
 with
@@ -66,7 +64,7 @@ ap_bill_enhanced as (
         ap_bill.total_entered,
         ap_bill.total_paid,
         ap_bill.record_id,
-        count(*) over (partition by ap_bill_item.bill_id {{ sage_intacct.partition_by_source_relation(alias='ap_bill_item') }}) as number_of_items
+        count(*) over (partition by ap_bill_item.bill_id {{ fivetran_utils.partition_by_source_relation(package_name='sage_intacct', alias='ap_bill_item') }}) as number_of_items
     from ap_bill_item
 
     left join ap_bill
@@ -113,7 +111,7 @@ ap_bill_enhanced as (
         ar_invoice.total_entered,
         ar_invoice.total_paid,
         ar_invoice.record_id,
-        count(*) over (partition by ar_invoice_item.invoice_id {{ sage_intacct.partition_by_source_relation(alias='ar_invoice_item') }}) as number_of_items
+        count(*) over (partition by ar_invoice_item.invoice_id {{ fivetran_utils.partition_by_source_relation(package_name='sage_intacct', alias='ar_invoice_item') }}) as number_of_items
 
         from ar_invoice_item
         left join ar_invoice
@@ -203,4 +201,3 @@ final as (
 
 select *
 from final
-
