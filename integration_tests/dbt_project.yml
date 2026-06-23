@@ -1,5 +1,5 @@
 name: 'sage_intacct_integration_tests'
-version: '1.3.0'
+version: '1.4.0'
 config-version: 2
 
 profile: 'integration_tests'
@@ -29,7 +29,7 @@ models:
 seeds:
   +docs:
     show: False
-  +quote_columns: "{{ true if target.type == 'redshift' else false }}"
+  +quote_columns: "{{ target.type == 'redshift' or var('fivetran_using_source_casing', false) }}"
   sage_intacct_integration_tests:
     sage_intacct__ap_bill_item:
       +column_types:

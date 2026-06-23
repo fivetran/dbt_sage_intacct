@@ -1,3 +1,11 @@
+# dbt_sage_intacct v1.4.0
+
+[PR #43](https://github.com/fivetran/dbt_sage_intacct/pull/43) includes the following updates:
+
+## Under the Hood
+- Migrates the `union_connections`, `apply_source_relation`, and `partition_by_source_relation` macros to the `dbt_fivetran_utils` package.
+- Adds the `fivetran_using_source_casing` variable for case-sensitive destination support. When enabled, downstream transformations respect source casing to ensure consistent results. See the [Additional Configurations](https://github.com/fivetran/dbt_sage_intacct/#source-casing-for-case-sensitive-destinations) section of the README for details.
+
 # dbt_sage_intacct v1.3.0
 
 [PR #40](https://github.com/fivetran/dbt_sage_intacct/pull/40) includes the following updates:

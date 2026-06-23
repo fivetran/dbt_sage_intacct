@@ -15,7 +15,7 @@ fields as (
                 staging_columns=get_gl_detail_columns()
             )
         }}
-        {{ sage_intacct.apply_source_relation() }}
+        {{ fivetran_utils.apply_source_relation(package_name='sage_intacct') }}
         --The below script allows for pass through columns.
         {% if var('sage_gl_pass_through_columns') %}
         ,

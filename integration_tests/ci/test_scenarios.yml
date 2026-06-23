@@ -34,3 +34,9 @@ test_scenarios:
       sage_intacct__using_invoices: true
       sage_intacct__using_bills: false
     include_incremental: false
+
+  - name: "MDLS"
+    vars:
+      fivetran_using_source_casing: true
+    include_incremental: false
+    include_dbt_seed: true

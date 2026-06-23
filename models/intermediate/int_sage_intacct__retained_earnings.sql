@@ -33,7 +33,7 @@ final as (
         classification,
         currency,
         entry_state,
-        sum(period_net_amount) over (partition by book_id, entry_state, currency {{ sage_intacct.partition_by_source_relation() }}
+        sum(period_net_amount) over (partition by book_id, entry_state, currency {{ fivetran_utils.partition_by_source_relation(package_name='sage_intacct') }}
             order by period_first_day rows between unbounded preceding and current row
         ) as amount
     from retained_earnings_prep
