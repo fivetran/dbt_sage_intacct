@@ -34,7 +34,7 @@ final as (
         currency,
         description,
         docnumber as doc_number,
-        due_in_days as due_in_days,
+        cast(nullif(cast(due_in_days as {{ dbt.type_string() }}), '') as {{ dbt.type_int() }}) as due_in_days,
         recordid as record_id,
         recordtype as record_type,
         shiptoreturntocontactname as ship_to_return_to_contact_name,
