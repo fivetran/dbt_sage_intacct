@@ -37,7 +37,7 @@ final as (
         customername as customer_name,
         description,
         docnumber as doc_number,
-        due_in_days as due_in_days,
+        cast(nullif(cast(due_in_days as {{ dbt.type_string() }}), '') as {{ dbt.type_int() }}) as due_in_days,
         megaentityid as mega_entity_id,
         megaentityname as mega_entity_name,
         recordid as record_id,
