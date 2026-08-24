@@ -1,5 +1,5 @@
 name: 'sage_intacct_integration_tests'
-version: '1.4.1'
+version: '1.4.2'
 config-version: 2
 
 profile: 'integration_tests'
@@ -62,7 +62,7 @@ seeds:
         vendorid: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
         vendorname: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
         projectname: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
-        projectid: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}" 
+        projectid: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
     sage_intacct__ar_invoice_item:
       +column_types:
         accountkey: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"

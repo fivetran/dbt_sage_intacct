@@ -1,10 +1,19 @@
+# dbt_sage_intacct v1.4.2
+
+[PR #46](https://github.com/fivetran/dbt_sage_intacct/pull/46) includes the following updates:
+
+## Bug Fix
+- Fixes a union type mismatch error in `sage_intacct__ap_ar_enhanced` by explicitly casting: 
+  - `customer_id` to a string in `stg_sage_intacct__ap_bill_item` and `stg_sage_intacct__ar_invoice_item`.
+  - `due_in_days` to an integer in `stg_sage_intacct__ap_bill` and `stg_sage_intacct__ar_invoice`. 
+- Previously, these columns could be inferred as different data types, causing the model to fail. 
+
 # dbt_sage_intacct v1.4.1
 
 [PR #45](https://github.com/fivetran/dbt_sage_intacct/pull/45) includes the following updates:
 
 ## Feature Updates
 - Adds DuckDB as a supported destination.
-
 
 # dbt_sage_intacct v1.4.0
 
