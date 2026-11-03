@@ -18,7 +18,7 @@ final as (
             when category in {{ var('sage_intacct_category_revenue') }} then 'Revenue'
             when (normal_balance = 'debit' and account_type = 'balancesheet') and category not in {{ var('sage_intacct_category_asset') }} then 'Asset'
             when (normal_balance = 'debit' and account_type = 'incomestatement') and category not in {{ var('sage_intacct_category_expense') }} then 'Expense'
-            when (normal_balance = 'credit' and account_type = 'balancesheet' and category not in {{ var('sage_intacct_category_liability') }} or category not in ('Partners Equity','Retained Earnings','Dividend Paid')) then 'Liability'
+            when (normal_balance = 'credit' and account_type = 'balancesheet' and category not in {{ var('sage_intacct_category_liability') }} and category not in ('Partners Equity','Retained Earnings','Dividend Paid')) then 'Liability'
             when (normal_balance = 'credit' and account_type = 'incomestatement') and category not in {{ var('sage_intacct_category_revenue') }} then 'Revenue'
         end as classification,
         normal_balance, 
