@@ -26,6 +26,13 @@ models:
       All transactions for each bill or invoice with their associated accounting period and due dates.
       Includes additional detail regarding the customer, location, department, vendor, and account.
       Lastly, contains fields like the line number and total number of items in the overall bill or invoice.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - document_type
+              - document_item_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -103,6 +110,12 @@ models:
   - name: sage_intacct__general_ledger
     description: >
       Records all transactions from Sage general ledger. Additionally adds category, classification, and account type.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - gl_detail_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -182,6 +195,17 @@ models:
       Table containing the beginning balance, ending balance, and net change of the dollar amount for each month and for each account,
       category, and classification. This table can be used to generate a balance sheet and profit & loss (income statement) for your business based
       on your customer accounting period.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - account_no
+              - account_title
+              - book_id
+              - entry_state
+              - currency
+              - period_first_day
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -217,6 +241,17 @@ models:
   - name: sage_intacct__profit_and_loss
     description: >
       Records amounts by account, category, and classification for all profit & loss (income statement) type transactions.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - account_no
+              - account_title
+              - book_id
+              - entry_state
+              - currency
+              - period_date
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -244,6 +279,17 @@ models:
   - name: sage_intacct__balance_sheet
     description: >
       Records amounts by account, category, and classification for all balance_sheet type transactions.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - account_no
+              - account_title
+              - book_id
+              - entry_state
+              - currency
+              - period_date
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
