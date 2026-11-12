@@ -1,4 +1,4 @@
-{{ config(enabled=fivetran_utils.enabled_vars_one_true(vars=["sage_intacct__using_bills", "sage_intacct__using_invoices"])) }}
+{{ config(enabled=(var('sage_intacct__using_bills', false) or var('sage_intacct__using_invoices', false))) }}
 
 with
 
@@ -128,7 +128,7 @@ ap_ar_enhanced as (
     {% endif %}
 
     
-    {% if fivetran_utils.enabled_vars(vars=["sage_intacct__using_bills", "sage_intacct__using_invoices"]) %}
+    {% if (var('sage_intacct__using_bills', true) and var('sage_intacct__using_invoices', true)) %}
     union all
     {% endif %}
 
@@ -146,7 +146,7 @@ final as (
         coalesce(
                 {% if var('sage_intacct__using_bills', True) %} bill_id {% endif %}
                 
-                {% if fivetran_utils.enabled_vars(vars=["sage_intacct__using_bills", "sage_intacct__using_invoices"]) %}
+                {% if (var('sage_intacct__using_bills', true) and var('sage_intacct__using_invoices', true)) %}
                 ,
                 {% endif %}
                 
@@ -155,7 +155,7 @@ final as (
         coalesce(
                 {% if var('sage_intacct__using_bills', True) %} bill_item_id {% endif %}
                 
-                {% if fivetran_utils.enabled_vars(vars=["sage_intacct__using_bills", "sage_intacct__using_invoices"]) %}
+                {% if (var('sage_intacct__using_bills', true) and var('sage_intacct__using_invoices', true)) %}
                 , 
                 {% endif %}
 
