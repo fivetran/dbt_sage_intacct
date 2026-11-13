@@ -367,14 +367,24 @@ models:
         description: The individual batch number of the transaction
       - name: book_id
         description: ID of the book 
+      - name: class_id
+        description: ID of class
+      - name: class_name
+        description: Name of class
       - name: credit_amount
         description: If credit, the value. Otherwise, 0.
       - name: debit_amount
         description: If debit, the value. Otherwise, 0.
+      - name: currency
+        description: Currency
       - name: customer_id
         description: ID of the customer
       - name: customer_name
         description: Name of the customer
+      - name: department_id
+        description: ID of department
+      - name: department_title
+        description: Name of department
       - name: description
         description: Description of the transaction
       - name: doc_number
@@ -387,6 +397,12 @@ models:
         description: Description of entry
       - name: line_no
         description: The number of each line item of the transaction 
+      - name: location_id
+        description: ID of location
+      - name: location_name
+        description: Name of location
+      - name: pr_description
+        description: Additional description associated with the transaction line
       - name: record_id
         description: ID of record, which corresponds to the bill or invoice ID.
       - name: record_type
