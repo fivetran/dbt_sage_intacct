@@ -4,6 +4,12 @@ models:
   - name: stg_sage_intacct__ap_bill_item
     description: >
       Record of each bill item with account, customer, department, location, and overall bill information.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - bill_item_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -92,6 +98,12 @@ models:
 
   - name: stg_sage_intacct__ap_bill
     description: Record of each bill with payment information.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - bill_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -150,6 +162,12 @@ models:
 
   - name: stg_sage_intacct__ar_invoice_item
     description: Record of each invoice item with account, customer, department, location, vendor, and overall invoice information.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - invoice_item_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -232,6 +250,12 @@ models:
 
   - name: stg_sage_intacct__ar_invoice
     description: Record of each bill with payment information.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - invoice_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -296,6 +320,12 @@ models:
 
   - name: stg_sage_intacct__gl_account
     description: Records each existing account, with their corresponding categories.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - gl_account_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -344,6 +374,12 @@ models:
         
   - name: stg_sage_intacct__gl_detail
     description: Records all company transactions, where each has its offset entry to balance.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - gl_detail_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -422,6 +458,12 @@ models:
 
   - name: stg_sage_intacct__gl_batch
     description: Records batch updates of records originating from the gl_detail table
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - record_no
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
