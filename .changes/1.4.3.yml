@@ -1,0 +1,11 @@
+version: 1.4.3
+pr_number: 52
+under_the_hood:
+- description: Documents eight fields in the `stg_sage_intacct__gl_detail` model that
+    the model already outputs but the yml did not describe.
+  details:
+  - Adds descriptions for `class_id`, `class_name`, `currency`, `department_id`, `department_title`,
+    `location_id`, `location_name`, and `pr_description`.
+  - These fields are unchanged in the model output. Only the documentation was missing,
+    so your dbt docs now describe the full set of columns the model returns.
+date: '2026-11-13'

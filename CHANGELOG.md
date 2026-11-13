@@ -1,3 +1,12 @@
+# dbt_sage_intacct v1.4.3
+
+[PR #52](https://github.com/fivetran/dbt_sage_intacct/pull/52) includes the following updates:
+
+## Under the Hood
+- Documents eight fields in the `stg_sage_intacct__gl_detail` model that the model already outputs but the yml did not describe.
+  - Adds descriptions for `class_id`, `class_name`, `currency`, `department_id`, `department_title`, `location_id`, `location_name`, and `pr_description`.
+  - These fields are unchanged in the model output. Only the documentation was missing, so your dbt docs now describe the full set of columns the model returns.
+
 # dbt_sage_intacct v1.4.2
 
 [PR #46](https://github.com/fivetran/dbt_sage_intacct/pull/46) includes the following updates:
