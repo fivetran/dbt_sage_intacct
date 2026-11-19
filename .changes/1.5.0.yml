@@ -5,6 +5,7 @@ new_features:
 - description: Adds `dbt_utils.unique_combination_of_columns` tests to staging and
     end models. If a test fails, please [open an issue](https://github.com/fivetran/dbt_sage_intacct/issues/new/choose).
 under_the_hood:
-- description: Adds descriptions for `class_id`, `class_name`, `currency`, `department_id`, `department_title`,
-    `location_id`, `location_name`, and `pr_description` in the `stg_sage_intacct.yml`.
+- description: Adds descriptions for `class_id`, `class_name`, `currency`, `department_id`,
+    `department_title`, `location_id`, `location_name`, and `pr_description` in the
+    `stg_sage_intacct.yml`.
 date: '2026-11-18'
