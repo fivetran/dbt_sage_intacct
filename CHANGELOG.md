@@ -7,7 +7,7 @@
 - Adds `dbt_utils.unique_combination_of_columns` tests to staging and end models. If a test fails, please [open an issue](https://github.com/fivetran/dbt_sage_intacct/issues/new/choose).
 
 ## Under the Hood
-- Adds descriptions for `class_id`, `class_name`, `currency`, `department_id`, `department_title`, `location_id`, `location_name`, and `pr_description` in the `stg_sage_intacct.yml`.
+- Updates yml column documentation to match model output.
 
 # dbt_sage_intacct v1.4.2
 
