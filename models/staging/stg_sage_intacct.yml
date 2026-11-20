@@ -15,7 +15,7 @@ models:
         description: "{{ doc('source_relation') }}"
       - name: bill_item_id
         description: Unique identifier for a bill item.
-        tests:
+        data_tests:
           - not_null
       - name: bill_id
         description: Foreign key representing bill ID, mapping to AP_BILL.RECORDNO
@@ -109,7 +109,7 @@ models:
         description: "{{ doc('source_relation') }}"
       - name: bill_id
         description: Unique identifier for a bill.
-        tests:
+        data_tests:
           - not_null
       - name: _fivetran_deleted
         description: Boolean field indicating whether the record was deleted.
@@ -173,7 +173,7 @@ models:
         description: "{{ doc('source_relation') }}"
       - name: invoice_item_id
         description: Unique identifier for an invoice item.
-        tests:
+        data_tests:
           - not_null
       - name: invoice_id
         description: Foreign key representing invoice ID, mapping to AR_INVOICE.RECORDNO
@@ -261,7 +261,7 @@ models:
         description: "{{ doc('source_relation') }}"
       - name: invoice_id
         description: Unique identifier for an invoice.
-        tests:
+        data_tests:
           - not_null
       - name: _fivetran_deleted
         description: Boolean field indicating whether the record was deleted.
@@ -331,7 +331,7 @@ models:
         description: "{{ doc('source_relation') }}"
       - name: gl_account_id
         description: ID of account
-        tests:
+        data_tests:
           - not_null
       - name: account_no
         description: ID of account
@@ -385,7 +385,7 @@ models:
         description: "{{ doc('source_relation') }}"
       - name: gl_detail_id
         description: Unique identifier of the gl_detail entry.
-        tests:
+        data_tests:
           - not_null
       - name: account_no
         description: ID of the account
@@ -519,7 +519,7 @@ models:
         description: PR batch key related to the GL batch
       - name: record_no
         description: Individual record number of the GL batch. This is the lookup key for the GL Detail table
-        tests:
+        data_tests:
           - not_null
       - name: reference_no
         description: Reference number of the GL batch record
